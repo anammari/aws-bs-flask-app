@@ -4,6 +4,12 @@ from gensim import models
 import spacy
 from flair.models import TARSClassifier
 from flair.data import Sentence
+from qdrant_client import QdrantClient
+from qdrant_client.http.models import Distance, VectorParams, Batch, Filter, FieldCondition, Range, MatchValue
+import nltk
+from sklearn.feature_extraction import text
+import re
+from sentence_transformers import SentenceTransformer, util
 
 # utility dependencies
 import os
@@ -24,7 +30,10 @@ pipe_file = 'models/sklearn_models.joblib'
 trent_pipe_file = 'models/trent_sklearn_models.joblib'
 bert_model_path = 'models/bert'
 doc_top_dist_df = None
-
+onto_path = 'data/'
+collection_name = "my_collection"
+vector_dim = 384
+sim_threshold = 0.5
 
 # Load the SpaCy model
 nlp = spacy.load(os.path.abspath('en_core_web_sm-3.3.0'))
@@ -45,6 +54,12 @@ f_count_vect, f_tfidf_transformer, f_text_clf3 = f_modlist[0], f_modlist[1], f_m
 # Load the TARS model
 tagger = TARSClassifier.load('tars-base')
 
+# Load the Sentence Transformer model
+st_model = SentenceTransformer('multi-qa-MiniLM-L6-cos-v1')
+
+# Connect to Qdrant
+client = QdrantClient(host="localhost", port=6333)
+
 # The flask app for serving predictions
 application = flask.Flask(__name__)
 @application.route('/ping', methods=['GET'])
@@ -58,6 +73,11 @@ def ping():
         tfidf_transformer
         text_clf3
         gender_tokens
+        f_count_vect
+        f_tfidf_transformer
+        f_text_clf3
+        tagger
+        st_model
         status = 200
         result = json.dumps({'status': 'OK'})
     except:
@@ -297,6 +317,185 @@ def get_topics_p2_q2():
         pass
     predictions = pd.DataFrame({'score': str_p_scores, 'topic': p_classes})
     
+    # Transform predictions to JSON
+    result = {'output': []}
+    list_out = predictions.to_dict(orient="records")
+    result['output'] = list_out
+    result = json.dumps(result)
+    return flask.Response(response=result, status=200, mimetype='application/json')
+
+@application.route('/topics_p3', methods=['POST'])
+def get_topics_p3():
+    # Get input JSON data and convert it to a DF
+    input_json = flask.request.get_json()
+    input_json = json.dumps(input_json['input'])
+    input_df = pd.read_json(input_json,orient='list')
+
+    # Get the query parameter value corresponsing to the question number
+    q_no = flask.request.args.get("qno")
+
+    # Question - Ontology mapping
+    q_onto_dict = {'q1': "behaviours", 
+                   'q2': "functional_hypothesis",
+                   'q3': "replacement_behaviour"
+                  }
+
+    # Detect topics in the text
+    documents = input_df['text'].tolist()
+    document = documents[0]    # Currently this endpoint expects a single text input
+
+    # Read ontology
+    bhvr_onto_df = pd.read_csv(onto_path+f"p3_{q_no}.csv", header=None, encoding="utf-8")
+    bhvr_onto_df.columns = ['onto']
+    bhvr_onto_lst = bhvr_onto_df['onto'].tolist()
+    
+    # Text preprocessing
+    sw_lst = text.ENGLISH_STOP_WORDS
+    def preprocess(onto_lst):
+        cleaned_onto_lst = []
+        pattern = re.compile(r'^[a-z ]*$')
+        for document in onto_lst:
+            text = []
+            doc = nlp(document)
+            person_tokens = []
+            for w in doc:
+                if w.ent_type_ == 'PERSON':
+                    person_tokens.append(w.lemma_)
+            for w in doc:
+                if not w.is_stop and not w.is_punct and not w.like_num and not len(w.text.strip()) == 0 and not w.lemma_ in person_tokens:
+                    text.append(w.lemma_.lower())
+            texts = [t for t in text if len(t) > 1 and pattern.search(t) is not None and t not in sw_lst]
+            cleaned_onto_lst.append(" ".join(texts))
+        return cleaned_onto_lst
+
+    # Compute document embeddings
+    def sentence_embeddings(cl_onto_lst):
+        emb_onto_lst_temp = st_model.encode(cl_onto_lst)
+        emb_onto_lst = [x.tolist() for x in emb_onto_lst_temp]
+        return emb_onto_lst
+
+    # Add to qdrant collection
+    def add_to_collection(cl_bhvr_onto_lst, emb_bhvr_onto_lst):
+        client.recreate_collection(
+            collection_name=collection_name,
+            vectors_config=VectorParams(size=vector_dim, distance=Distance.COSINE),
+        )
+        doc_count = len(emb_bhvr_onto_lst)
+        ids = list(range(1, doc_count+1))
+        payloads = [{"ontology": q_onto_dict[q_no], "phrase": x} for x in cl_bhvr_onto_lst]
+        vectors = emb_bhvr_onto_lst
+        client.upsert(
+            collection_name=f"{collection_name}",
+            points=Batch(
+                ids=ids,
+                payloads=payloads,
+                vectors=vectors
+            ),
+        )
+
+    # Count collection
+    def count_collection():
+        return len(client.scroll(
+                collection_name=f"{collection_name}"
+            )[0])
+
+    # Verb phrase extraction
+    def extract_vbs(data_chunked):
+        for tup in data_chunked:
+            if len(tup) > 2:
+                yield(str(" ".join(str(x[0]) for x in tup)))
+
+    def get_verb_phrases(nltk_query):
+        data_tok = nltk.word_tokenize(nltk_query) #tokenisation
+        data_pos = nltk.pos_tag(data_tok) #POS tagging
+        cfgs = ["CUSTOMCHUNK: {<VB><.*>{0,3}<NN>}",
+                "CUSTOMCHUNK: {<VB><.*>{0,3}<NNP>}",
+                "CUSTOMCHUNK: {<VBG><.*>{0,3}<NNP>}",
+                "CUSTOMCHUNK: {<VBG><.*>{0,3}<NN>}",
+                "CUSTOMCHUNK: {<VBG><.*>{0,3}<PRP><NN>}",
+                "CUSTOMCHUNK: {<VB><.*>{0,3}<PRP><NN>}",
+                "CUSTOMCHUNK: {<VB><.*>{0,3}<NNPS>}",
+                "CUSTOMCHUNK: {<VBG><.*>{0,3}<NNPS>}",
+                "CUSTOMCHUNK: {<VBG><.*>{0,3}<NNS>}",
+                "CUSTOMCHUNK: {<VBG><.*>{0,3}<PRP><NNS>}",
+                "CUSTOMCHUNK: {<VB><.*>{0,3}<PRP><NNS>}",
+                "CUSTOMCHUNK: {<VBZ><.*>{0,3}<NNP>}",
+                "CUSTOMCHUNK: {<VBZ><.*>{0,3}<NN>}",
+                "CUSTOMCHUNK: {<VBZ><.*>{0,3}<PRP><NN>}",
+                "CUSTOMCHUNK: {<VBZ><.*>{0,3}<NNPS>}",
+                "CUSTOMCHUNK: {<VBZ><.*>{0,3}<NNS>}",
+                "CUSTOMCHUNK: {<VBZ><.*>{0,3}<PRP><NNS>}",
+                "CUSTOMCHUNK: {<VBZ><.*>{0,3}<PRP><NNP>}",
+                "CUSTOMCHUNK: {<VBZ><.*>{0,3}<PRP><NNPS>}"
+            ]
+        vbs = []
+        for cfg_1 in cfgs: 
+            chunker = nltk.RegexpParser(cfg_1)
+            data_chunked = chunker.parse(data_pos)
+            vbs += extract_vbs(data_chunked)
+        return vbs
+
+    # Query qdrant and get score
+    def sentence_get_query_vector(query):
+        query_vector = st_model.encode(query)
+        return query_vector
+
+    def search_collection(ontology, query_vector, point_count):
+        query_filter=Filter(
+            must=[  
+                FieldCondition(
+                    key='ontology',
+                    match=MatchValue(value=ontology)
+                )
+            ]
+        )
+        
+        hits = client.search(
+            collection_name=f"{collection_name}",
+            query_vector=query_vector,
+            query_filter=query_filter, 
+            append_payload=True,  
+            limit=point_count 
+        )
+        return hits
+
+    # Compute the semantic similarity
+    cl_bhvr_onto_lst = preprocess(bhvr_onto_lst)
+    orig_cl_dict = {x:y for x,y in zip(cl_bhvr_onto_lst, bhvr_onto_lst)}
+    emb_bhvr_onto_lst = sentence_embeddings(cl_bhvr_onto_lst)
+    add_to_collection(cl_bhvr_onto_lst, emb_bhvr_onto_lst)
+    point_count = count_collection()
+    query = document
+    vbs = get_verb_phrases(query)
+    cl_vbs = preprocess(vbs)
+    emb_vbs = sentence_embeddings(cl_vbs)
+    vb_ind = -1
+    highlights = []
+    highlight_scores = []
+    result_dfs = []
+    for query_vector in emb_vbs:
+        vb_ind += 1
+        hist = search_collection(q_onto_dict[q_no], query_vector, point_count)
+        hist_dict = [dict(x) for x in hist]
+        scores = [x['score'] for x in hist_dict]
+        payloads = [orig_cl_dict[x['payload']['phrase']] for x in hist_dict]
+        result_df = pd.DataFrame({'score': scores, 'glossary': payloads})
+        result_df = result_df[result_df['score'] >= sim_threshold]
+        if len(result_df) > 0:
+            highlights.append(vbs[vb_ind])
+            highlight_scores.append(result_df.score.max())
+            result_df['phrase'] = [vbs[vb_ind]] * len(result_df)
+            result_df = result_df.sort_values(by='score', ascending=False).reset_index(drop=True)
+            result_dfs.append(result_df)
+        else:
+            continue
+    if len(highlights) > 0:
+        result_df = pd.concat(result_dfs).reset_index(drop = True)
+        result_df = result_df.sort_values(by='score', ascending=False).reset_index(drop=True)
+        predictions = result_df[['phrase', 'glossary', 'score']]
+    else:
+        predictions = pd.DataFrame({'phrase': [], 'glossary': [], 'score': []})
+ 
     # Transform predictions to JSON
     result = {'output': []}
     list_out = predictions.to_dict(orient="records")
