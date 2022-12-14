@@ -7,9 +7,11 @@ from flair.data import Sentence
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import Distance, VectorParams, Batch, Filter, FieldCondition, Range, MatchValue
 import nltk
+from nltk import sent_tokenize
 from sklearn.feature_extraction import text
 import re
 from sentence_transformers import SentenceTransformer, util
+from setfit import SetFitModel
 
 # utility dependencies
 import os
@@ -41,7 +43,7 @@ nlp = spacy.load(os.path.abspath('en_core_web_sm-3.3.0'))
 # Load the topic model
 model = models.ldamodel.LdaModel.load(temp_file)
 with open(dict_file, 'rb') as f:
-        topic_names = pickle.load(f)
+    topic_names = pickle.load(f)
 
 # Load the gender model
 modlist = joblib.load(pipe_file)
@@ -56,6 +58,16 @@ tagger = TARSClassifier.load('tars-base')
 
 # Load the Sentence Transformer model
 st_model = SentenceTransformer('multi-qa-MiniLM-L6-cos-v1')
+
+# Load the SetFit models for PBSP Page 3 (Behaviours, Frequency, Duration, Severity)
+sf_bhvr_model_name = "setfit-zero-shot-classification-pbsp-p3-bhvr"
+sf_bhvr_model = SetFitModel.from_pretrained(f"aammari/{sf_bhvr_model_name}")
+sf_freq_model_name = "setfit-zero-shot-classification-pbsp-p3-freq"
+sf_freq_model = SetFitModel.from_pretrained(f"aammari/{sf_freq_model_name}")
+sf_dur_model_name = "setfit-zero-shot-classification-pbsp-p3-dur"
+sf_dur_model = SetFitModel.from_pretrained(f"aammari/{sf_dur_model_name}")
+sf_sev_model_name = "setfit-zero-shot-classification-pbsp-p3-sev"
+sf_sev_model = SetFitModel.from_pretrained(f"aammari/{sf_sev_model_name}")
 
 # Connect to Qdrant
 client = QdrantClient(host="localhost", port=6333)
@@ -501,7 +513,7 @@ def get_topics_p3():
         hist_dict = [dict(x) for x in hist]
         scores = [x['score'] for x in hist_dict]
         payloads = [orig_cl_dict[x['payload']['phrase']] for x in hist_dict]
-        result_df = pd.DataFrame({'score': scores, 'glossary': payloads})
+        result_df = pd.DataFrame({'score': scores, 'topic': ['GLOSSARY'] * len(payloads), 'subtopic': payloads})
         result_df = result_df[result_df['score'] >= sim_threshold]
         if len(result_df) > 0:
             highlights.append(vbs[vb_ind])
@@ -514,10 +526,114 @@ def get_topics_p3():
     if len(highlights) > 0:
         result_df = pd.concat(result_dfs).reset_index(drop = True)
         result_df = result_df.sort_values(by='score', ascending=False).reset_index(drop=True)
-        predictions = result_df[['phrase', 'glossary', 'score']]
+        predictions = result_df[['phrase', 'topic', 'subtopic', 'score']]
     else:
-        predictions = pd.DataFrame({'phrase': [], 'glossary': [], 'score': []})
+        predictions = pd.DataFrame({'phrase': [], 'topic': [], 'subtopic': [], 'score': []})
  
+    # Compute the SetFit models (Behaviours, Frequency, Duration, Severity)
+    #setfit sentence extraction
+    def extract_sentences(nltk_query):
+        sentences = sent_tokenize(nltk_query)
+        return sentences
+    
+    #setfit bhvr query and get predicted topic
+    def get_sf_bhvr_topic(sentences):
+        preds = list(sf_bhvr_model(sentences))
+        return preds
+    def get_sf_bhvr_topic_scores(sentences):
+        preds = sf_bhvr_model.predict_proba(sentences)
+        preds = [max(list(x)) for x in preds]
+        return preds
+
+    # setfit bhvr format output
+    ind_bhvr_topic_dict = {
+            0: 'NO BEHAVIOUR',
+            1: 'BEHAVIOUR',
+        }
+
+   #setfit freq query and get predicted topic
+    def get_sf_freq_topic(sentences):
+        preds = list(sf_freq_model(sentences))
+        return preds
+    def get_sf_freq_topic_scores(sentences):
+        preds = sf_freq_model.predict_proba(sentences)
+        preds = [max(list(x)) for x in preds]
+        return preds
+
+    # setfit freq format output
+    ind_freq_topic_dict = {
+            0: 'NO FREQUENCY',
+            1: 'FREQUENCY',
+        }
+
+    #setfit dur query and get predicted topic
+    def get_sf_dur_topic(sentences):
+        preds = list(sf_dur_model(sentences))
+        return preds
+    def get_sf_dur_topic_scores(sentences):
+        preds = sf_dur_model.predict_proba(sentences)
+        preds = [max(list(x)) for x in preds]
+        return preds
+
+    # setfit dur format output
+    ind_dur_topic_dict = {
+            0: 'NO DURATION',
+            1: 'DURATION',
+        }
+    
+    #setfit sev query and get predicted topic
+    def get_sf_sev_topic(sentences):
+        preds = list(sf_sev_model(sentences))
+        return preds
+    def get_sf_sev_topic_scores(sentences):
+        preds = sf_sev_model.predict_proba(sentences)
+        preds = [max(list(x)) for x in preds]
+        return preds
+
+    # setfit sev format output
+    ind_sev_topic_dict = {
+            0: 'NO SEVERITY',
+            1: 'SEVERITY',
+        }
+    
+    #setfit behaviour
+    sentences = extract_sentences(query)
+    cl_sentences = preprocess(sentences)
+    topic_inds = get_sf_bhvr_topic(cl_sentences)
+    topics = [ind_bhvr_topic_dict[i] for i in topic_inds]
+    scores = get_sf_bhvr_topic_scores(cl_sentences)
+    sf_bhvr_result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'subtopic': [''] * len(scores), 'score': scores})
+    sf_bhvr_sub_result_df = sf_bhvr_result_df[sf_bhvr_result_df['topic'] == 'BEHAVIOUR']
+    if len(sf_bhvr_sub_result_df) > 0:
+        predictions = pd.concat([predictions, sf_bhvr_sub_result_df])
+
+    #setfit frequency
+    topic_inds = get_sf_freq_topic(cl_sentences)
+    topics = [ind_freq_topic_dict[i] for i in topic_inds]
+    scores = get_sf_freq_topic_scores(cl_sentences)
+    sf_freq_result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'subtopic': [''] * len(scores), 'score': scores})
+    sf_freq_sub_result_df = sf_freq_result_df[sf_freq_result_df['topic'] == 'FREQUENCY']
+    if len(sf_freq_sub_result_df) > 0:
+        predictions = pd.concat([predictions, sf_freq_sub_result_df])
+
+    #setfit duration
+    topic_inds = get_sf_dur_topic(cl_sentences)
+    topics = [ind_dur_topic_dict[i] for i in topic_inds]
+    scores = get_sf_dur_topic_scores(cl_sentences)
+    sf_dur_result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'subtopic': [''] * len(scores), 'score': scores})
+    sf_dur_sub_result_df = sf_dur_result_df[sf_dur_result_df['topic'] == 'DURATION']
+    if len(sf_dur_sub_result_df) > 0:
+        predictions = pd.concat([predictions, sf_dur_sub_result_df])
+
+    #setfit severity
+    topic_inds = get_sf_sev_topic(cl_sentences)
+    topics = [ind_sev_topic_dict[i] for i in topic_inds]
+    scores = get_sf_sev_topic_scores(cl_sentences)
+    sf_sev_result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'subtopic': [''] * len(scores), 'score': scores})
+    sf_sev_sub_result_df = sf_sev_result_df[sf_sev_result_df['topic'] == 'SEVERITY']
+    if len(sf_sev_sub_result_df) > 0:
+        predictions = pd.concat([predictions, sf_sev_sub_result_df])
+
     # Transform predictions to JSON
     result = {'output': []}
     list_out = predictions.to_dict(orient="records")
