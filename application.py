@@ -53,8 +53,12 @@ count_vect, tfidf_transformer, text_clf3, gender_tokens = modlist[0], modlist[1]
 f_modlist = joblib.load(trent_pipe_file)
 f_count_vect, f_tfidf_transformer, f_text_clf3 = f_modlist[0], f_modlist[1], f_modlist[2]
 
-# Load the TARS model
+# Load the TARS model (Zero-shot)
 tagger = TARSClassifier.load('tars-base')
+
+# Load the TARS model (Few-shot)
+tars_model_path = 'few-shot-model-1'
+tars = TARSClassifier().load(tars_model_path+'/best-model.pt')
 
 # Load the Sentence Transformer model
 st_model = SentenceTransformer('multi-qa-MiniLM-L6-cos-v1')
@@ -93,6 +97,7 @@ def ping():
         f_tfidf_transformer
         f_text_clf3
         tagger
+        tars
         st_model
         sf_bhvr_model
         sf_freq_model
@@ -253,45 +258,123 @@ def get_frequency():
 @application.route('/topics_p2_q1', methods=['POST'])
 def get_topics_p2_q1():
     # Initialize variables
-    classes = ['speaking',
-                'interview',
-                'medical',
-                'observation',
-                'information'
-                ]
-    classes_dict = {'speaking': 'Speaking with Family',
-                    'interview': 'Interview with Stakeholders',
-                    'medical': 'File Reviews',
-                    'observation': 'Observing the Person with Disability',
-                   }
-    
+    p_classes = {'speak_to_family': 0,
+                'stakeholder_interview': 1,
+                'case_file_review': 2,
+                'observation': 3,
+                'no_information_collection': 4}
+    ind_topic_dict = {
+                    0: 'SPEAK-TO-FAMILY',
+                    1: 'STAKEHOLDER-INTERVIEW',
+                    2: 'FILE-REVIEW',
+                    3: 'OBSERVATION/COMMUNICATION',
+                    4: 'NO-COLLECTED-INFO'
+                }
+    valid_topics = [ind_topic_dict[i] for i in range(0, 4)]
+    passing_score = 0.25
+    final_passing = 0.0
+
     # Get input JSON data and convert it to a DF
     input_json = flask.request.get_json()
     input_json = json.dumps(input_json['input'])
     input_df = pd.read_json(input_json,orient='list')
 
+    # Get the query parameter value corresponsing to the output type: phrase | topic_agg | topic_scores
+    resp_output = flask.request.args.get("output")
+
+    #sentence extraction
+    def extract_sentences(query):
+        # Compile the regular expression pattern
+        pattern = re.compile(r'[.,;!?]')
+        # Split the sentences on the punctuation characters
+        sentences = [query]
+        split_sentences = [pattern.split(sentence) for sentence in sentences]
+        # Flatten the list of split sentences
+        flat_list = [item for sublist in split_sentences for item in sublist]
+        # Remove empty strings from the list
+        filtered_sentences = [sentence.strip() for sentence in flat_list if sentence.strip()]
+        return filtered_sentences
+
+    #Text Preprocessing
+    sw_lst = text.ENGLISH_STOP_WORDS
+    def preprocess(onto_lst):
+        cleaned_onto_lst = []
+        pattern = re.compile(r'^[a-z ]*$')
+        for document in onto_lst:
+            text = []
+            doc = nlp(document)
+            person_tokens = []
+            for w in doc:
+                if w.ent_type_ == 'PERSON':
+                    person_tokens.append(w.lemma_)
+            for w in doc:
+                if not w.is_stop and not w.is_punct and not w.like_num and not len(w.text.strip()) == 0 and not w.lemma_ in person_tokens:
+                    text.append(w.lemma_.lower())
+            texts = [t for t in text if len(t) > 1 and pattern.search(t) is not None and t not in sw_lst]
+            cleaned_onto_lst.append(" ".join(texts))
+        return cleaned_onto_lst
+    
+    #query and get predicted topic
+    def get_topic(sentences):
+        preds = []
+        for t in sentences:
+            sentence = Sentence(t)
+            tars.predict(sentence)
+            try:
+                pred = p_classes[sentence.tag]
+            except:
+                pred = 4
+            preds.append(pred)
+        return preds
+    def get_topic_scores(sentences):
+        preds = []
+        for t in sentences:
+            sentence = Sentence(t)
+            tars.predict(sentence)
+            try:
+                pred = sentence.score
+            except:
+                pred = 0.75
+            preds.append(pred)
+        return preds
+    
     # Detect topics in the text
     documents = input_df['text'].tolist()
     document = documents[0]    # Currently this endpoint expects a single text input
-    s = Sentence(document)
-    tagger.predict_zero_shot(s, classes)
-    err_msg = 'No Topic Found'
-    err_score = '0%'
-    p_classes = []
-    score_dict = s.to_dict()
-    all_labels = score_dict['all labels']
-    p_classes = [x['value'] for x in all_labels]
-    if len(all_labels) == 0 or 'information' in p_classes:
-        p_classes = [err_msg]
-        str_p_scores = [err_score]
-    elif len(all_labels) > 0:
-        p_classes = [classes_dict[x['value']] for x in all_labels]
-        p_scorees = [round(x['confidence']*100.0, 2) for x in all_labels]
-        str_p_scores = [str(p_scorees[i])+'%' for i in range(0, len(p_scorees))]
+    sentences = extract_sentences(document)
+    cl_sentences = preprocess(sentences)
+    topic_inds = get_topic(cl_sentences)
+    topics = [ind_topic_dict[i] for i in topic_inds]
+    scores = get_topic_scores(cl_sentences)
+    result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'score': scores})
+    predictions = result_df[(result_df['score'] >= passing_score) & (result_df['topic'] != 'NO-COLLECTED-INFO')]
+    
+    # required if resp_output is either 'topic_agg' or 'topic_scores'
+    def topic_output(predictions, resp_output):
+        agg_df = predictions.groupby('topic')['score'].sum()
+        agg_df = agg_df.to_frame()
+        agg_df.columns = ['Total Score']
+        agg_df = agg_df.assign(
+            score=lambda x: x['Total Score'] / x['Total Score'].sum()
+        )
+        agg_df = agg_df.sort_values(by='score', ascending=False)
+        agg_df['topic'] = agg_df.index
+        rem_topics = [vt for vt in valid_topics if not vt in agg_df.topic.tolist()]
+        if len(rem_topics) > 0:
+            rem_agg_df = pd.DataFrame({'topic': rem_topics, 'score': 0.0, 'Total Score': 0.0})
+            agg_df = pd.concat([agg_df, rem_agg_df])
+        # Set the score column to 0 or 1 based on final_passing
+        if resp_output == 'topic_scores':
+            agg_df['score'] = [1 if score > final_passing else 0 for score in agg_df['score']]
+
+        predictions = agg_df[['topic', 'score']]
+        return predictions
+
+    if len(predictions) > 0 and resp_output != 'phrase':
+        predictions = topic_output(predictions, resp_output)
     else:
         pass
-    predictions = pd.DataFrame({'score': str_p_scores, 'topic': p_classes})
-    
+
     # Transform predictions to JSON
     result = {'output': []}
     list_out = predictions.to_dict(orient="records")
@@ -657,7 +740,7 @@ def get_topics_p1():
     input_json = json.dumps(input_json['input'])
     input_df = pd.read_json(input_json,orient='list')
 
-    # Get the query parameter value corresponsing to the question number
+    # Get the query parameter value corresponsing to the output type: phrase | topic_agg | topic_scores
     resp_output = flask.request.args.get("output")
 
     # Text preprocessing
@@ -757,6 +840,7 @@ def get_topics_p1():
 
 # run the application.
 if __name__ == "__main__":
+    os.environ['SOCKET_TIMEOUT'] = '120'
     # Setting debug to True enables debug output. This line should be removed before deploying a production application.
     application.debug = True
     application.run()

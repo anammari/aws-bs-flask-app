@@ -1,0 +1,241 @@
+systematic interviews with the key players in the matter
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+formalized interviews with the major players who are integral to the issue at hand
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+spoke to the person providers
+ - Gold: speak_to_family
+ - Pred: speak_to_family
+
+looked over the person's entire medication history
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+structured interviews with those with a say who have a role in the decision-making process
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+spoke with the people who are there for the person
+ - Gold: speak_to_family
+ - Pred: speak_to_family
+
+spoke with the person at their home
+ - Gold: observation
+ - Pred: observation
+
+observed the person during their therapy sessions with a licensed therapist
+ - Gold: observation
+ - Pred: observation
+
+the information has not been obtained through obtaining
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+saw the person at their personal dwelling
+ - Gold: observation
+ - Pred: observation
+
+spoke with the person's mentors
+ - Gold: speak_to_family
+ - Pred: speak_to_family
+
+structured interviews with those with a say
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+the information has not been acquired from any source
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+reviewed the person prognostic records
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+spoke with the person's role models or role model figures
+ - Gold: speak_to_family
+ - Pred: speak_to_family
+
+data was not collected
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+observed the person in an indoor setting
+ - Gold: observation
+ - Pred: observation
+
+had a conversation with the person in an outdoor location
+ - Gold: observation
+ - Pred: observation
+
+spoke to the person guardians
+ - Gold: speak_to_family
+ - Pred: speak_to_family, observation
+ -> MISMATCH!
+
+we have not obtained any data through receiving
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+analyzed the person's nursing documentation
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+communicated with the people who guide the person's life
+ - Gold: speak_to_family
+ - Pred: speak_to_family
+
+formalized interviews with relevant stakeholders who have a stake in the matter
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+structured interviews with the major players
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+engaged with the person inside
+ - Gold: observation
+ - Pred: observation
+
+chatted with the people who are important to the person
+ - Gold: speak_to_family
+ - Pred: speak_to_family
+
+no information received
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+we did not acquire any information
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+we have not captured any information
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+examined the person's physicians' documentation
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+observed the person during their therapy sessions with a therapist
+ - Gold: observation
+ - Pred: observation
+
+we have not obtained any information through obtaining
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+talked to the person's educators or educators of knowledge
+ - Gold: speak_to_family
+ - Pred: speak_to_family
+
+examined the person in an outdoor setting
+ - Gold: observation
+ - Pred: observation
+
+examined the person during treatment sessions with a qualified and licensed healthcare provider
+ - Gold: observation
+ - Pred: observation
+
+formalized interviews with people with a vested interest
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+we have not gathered any data from any source
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+the information has not been collected
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+analyzed the person's medical data
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+had a discussion with the person while they were indoors
+ - Gold: observation
+ - Pred: observation
+
+analyzed the person's nursing history and records
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+examined the person during therapy sessions
+ - Gold: observation
+ - Pred: observation
+
+the data has not been obtained through acquiring
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+discussed with the person's providers or providers of resources
+ - Gold: speak_to_family
+ - Pred: speak_to_family
+
+examined the person's patient documentation
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+formal interviews with relevant stakeholders
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+organized interviews with individuals who have a vested interest
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+systematic interviews with the key players who have a significant impact on the outcome
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+no data collected
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+examined the person's prognostic information
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+systematic interviews with interested parties who are invested in the outcome
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+conversed with the person's caregivers
+ - Gold: speak_to_family
+ - Pred: speak_to_family
+
+methodical interviews with people who have knowledge of the situation
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+interviews with the key players in the matter that are structured
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+communicated with the person during their therapy sessions with a trained therapist
+ - Gold: observation
+ - Pred: observation
+
+observed the person at their job site
+ - Gold: observation
+ - Pred: observation
+
+examined the person's treatment documentation
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+spoke to the person parents
+ - Gold: speak_to_family
+ - Pred: speak_to_family
+
+methodical interviews with interested parties
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+we have not received any information
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+

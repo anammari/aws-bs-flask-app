@@ -1,0 +1,244 @@
+contacted the person's people or community
+ - Gold: speak_to_family
+ - Pred: speak_to_family
+
+talked with the person's mentors
+ - Gold: speak_to_family
+ - Pred: speak_to_family
+
+observed the person at work
+ - Gold: observation
+ - Pred: observation
+
+examined the person's entire treatment documentation
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+spoke with the person at their home location
+ - Gold: observation
+ - Pred: observation
+
+no information obtained through obtaining
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+talked to the person's friends and loved ones
+ - Gold: speak_to_family
+ - Pred: speak_to_family
+
+the information has not been acquired
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+structured interviews with individuals who are invested in the outcome
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+deliberate interviews with those who are impacted by the situation
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+talked to the person outdoors
+ - Gold: observation
+ - Pred: observation
+
+communicated with the people who are there to educate the person
+ - Gold: speak_to_family
+ - Pred: speak_to_family
+
+talked with the people who are there to nurture the person
+ - Gold: speak_to_family
+ - Pred: speak_to_family
+
+scheduled interviews with the major players who are involved in the issue
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+did not acquire information
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+chatted with the person's caretakers
+ - Gold: speak_to_family
+ - Pred: speak_to_family
+
+had a conversation with the person outside of a building
+ - Gold: observation
+ - Pred: observation
+
+no information collected from any source
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+had a conversation with the person in an open air environment
+ - Gold: observation
+ - Pred: observation
+
+had a discussion with the person within a man-made space
+ - Gold: observation
+ - Pred: observation
+
+talked with the people who stand by the person
+ - Gold: speak_to_family
+ - Pred: speak_to_family
+
+had a discussion with the person within a building
+ - Gold: observation
+ - Pred: observation
+
+structured interviews with the perceptive individuals about the situation
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+examined the person's complete treatment records
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+we have not obtained any data
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+reviewed the person health records
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+monitored the person outside
+ - Gold: observation
+ - Pred: observation
+
+examined the person in a natural or man-made setting and talked to or communicated with them in various locations and environments
+ - Gold: observation
+ - Pred: observation
+
+structured interviews with those affected
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+formalized interviews with those who are affected by the issue
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+examined the person's patient information
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+data was not acquired
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+discussed with the people who are there to be role models for the person
+ - Gold: speak_to_family
+ - Pred: speak_to_family
+
+reviewed the person's clinical history
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+scheduled interviews with concerned individuals who are impacted by the situation
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+the information has not been captured
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+communicated with the person's nurturers
+ - Gold: speak_to_family
+ - Pred: speak_to_family
+
+information was not acquired from any source
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+the information has not been received
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+talked to the person at their place of work
+ - Gold: observation
+ - Pred: observation
+
+observed the person at their place of employment
+ - Gold: observation
+ - Pred: observation
+
+had a conversation with the person in a natural environment
+ - Gold: observation
+ - Pred: observation
+
+planned interviews with those affected
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+watched the person during behavior therapy sessions with a trained professional
+ - Gold: observation
+ - Pred: observation
+
+analyzed the person's diagnostic documentation
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+analyzed the person's health documents
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+systematic interviews with the perceptive
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+observed the person at their office
+ - Gold: observation
+ - Pred: observation
+
+reviewed the person's clinical history and records
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+we have not obtained any information
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+saw the person at their living quarters
+ - Gold: observation
+ - Pred: observation
+
+examined the person's treatment information
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+analyzed the person's entire health documents
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+organized interviews with people who have knowledge of the situation
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+reviewed the person medication records
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+looked over the person's surgeon information
+ - Gold: case_file_review
+ - Pred: case_file_review
+
+information was not obtained through collecting
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+organized interviews with the major players in the issue
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
+has not acquired information
+ - Gold: no_information_collection
+ - Pred: no_information_collection
+
+saw the person at their home environment
+ - Gold: observation
+ - Pred: observation
+
+formal interviews with those affected by the issue
+ - Gold: stakeholder_interview
+ - Pred: stakeholder_interview
+
