@@ -73,6 +73,12 @@ sf_dur_model = SetFitModel.from_pretrained(f"aammari/{sf_dur_model_name}")
 sf_sev_model_name = "setfit-zero-shot-classification-pbsp-p3-sev"
 sf_sev_model = SetFitModel.from_pretrained(f"aammari/{sf_sev_model_name}")
 
+# Load the SetFit models for PBSP Page 3 (Trigger, Consequence)
+sf_trig_model_name = "setfit-zero-shot-classification-pbsp-p3-trig"
+sf_trig_model = SetFitModel.from_pretrained(f"aammari/{sf_trig_model_name}")
+sf_cons_model_name = "setfit-zero-shot-classification-pbsp-p3-cons"
+sf_cons_model = SetFitModel.from_pretrained(f"aammari/{sf_cons_model_name}")
+
 # Load the SetFit models for PBSP Page 1
 sf_p1_model_name = "setfit-zero-shot-classification-pbsp-p1"
 sf_p1_model = SetFitModel.from_pretrained(f"aammari/{sf_p1_model_name}")
@@ -103,6 +109,8 @@ def ping():
         sf_freq_model
         sf_dur_model
         sf_sev_model
+        sf_trig_model
+        sf_cons_model
         sf_p1_model
         status = 200
         result = json.dumps({'status': 'OK'})
@@ -562,10 +570,6 @@ def get_topics_p3():
         return vbs
 
     # Query qdrant and get score
-    def sentence_get_query_vector(query):
-        query_vector = st_model.encode(query)
-        return query_vector
-
     def search_collection(ontology, query_vector, point_count):
         query_filter=Filter(
             must=[  
@@ -607,6 +611,7 @@ def get_topics_p3():
         payloads = [orig_cl_dict[x['payload']['phrase']] for x in hist_dict]
         result_df = pd.DataFrame({'score': scores, 'topic': ['GLOSSARY'] * len(payloads), 'subtopic': payloads})
         result_df = result_df[result_df['score'] >= sim_threshold]
+        result_df = result_df.sort_values(by='score', ascending=False).reset_index(drop=True).head(1)
         if len(result_df) > 0:
             highlights.append(vbs[vb_ind])
             highlight_scores.append(result_df.score.max())
@@ -834,8 +839,315 @@ def get_topics_p1():
     result['output'] = list_out
     result = json.dumps(result)
     return flask.Response(response=result, status=200, mimetype='application/json')
-    
 
+@application.route('/topics_p3_abc', methods=['POST'])
+def topics_p3_abc():
+    # Get input JSON data and convert it to a DF
+    input_json = flask.request.get_json()
+    input_json = json.dumps(input_json['input'])
+    input_df = pd.read_json(input_json,orient='list')
+
+    # Get the query parameter value corresponsing to the A-B-C chain item (event, trigger, behaviour, consequence)
+    item = flask.request.args.get("item")
+
+    # Item - Ontology mapping
+    q_onto_dict = {'behaviour': "behaviours", 
+                   'event': "setting_events"
+                  }
+
+    # Detect topics in the text
+    documents = input_df['text'].tolist()
+    document = documents[0]    # Currently this endpoint expects a single text input
+    query = document
+
+    # Read ontology
+    if item == 'behaviour':
+        onto_df = pd.read_csv(onto_path+"ontology_page3_bhvr.csv", header=None, encoding="utf-8").dropna()
+        onto_df.columns = ['text']
+        onto_lst = onto_df['text'].tolist()
+    elif item == 'event':
+        onto_df = pd.read_csv(onto_path+"ontology_page3_event.csv", header=None, encoding="utf-8").dropna()
+        onto_df.columns = ['text']
+        onto_lst = onto_df['text'].tolist()
+    else:
+        onto_lst = []
+
+    #Text Preprocessing
+    sw_lst = text.ENGLISH_STOP_WORDS
+    def preprocess(onto_lst):
+        cleaned_onto_lst = []
+        pattern = re.compile(r'^[a-z ]*$')
+        for document in onto_lst:
+            text = []
+            doc = nlp(document)
+            person_tokens = []
+            for w in doc:
+                if w.ent_type_ == 'PERSON':
+                    person_tokens.append(w.lemma_)
+            for w in doc:
+                if not w.is_stop and not w.is_punct and not w.like_num and not len(w.text.strip()) == 0 and not w.lemma_ in person_tokens:
+                    text.append(w.lemma_.lower())
+            texts = [t for t in text if len(t) > 1 and pattern.search(t) is not None and t not in sw_lst]
+            cleaned_onto_lst.append(" ".join(texts))
+        return cleaned_onto_lst
+
+    # Compute document embeddings
+    def sentence_embeddings(cl_onto_lst):
+        emb_onto_lst_temp = st_model.encode(cl_onto_lst)
+        emb_onto_lst = [x.tolist() for x in emb_onto_lst_temp]
+        return emb_onto_lst
+
+    # Add to qdrant collection
+    def add_to_collection(cl_onto_lst, emb_onto_lst):
+        client.recreate_collection(
+            collection_name=collection_name,
+            vectors_config=VectorParams(size=vector_dim, distance=Distance.COSINE),
+        )
+        doc_count = len(emb_onto_lst)
+        ids = list(range(1, doc_count+1))
+        payloads = [{"ontology": q_onto_dict[item], "phrase": x} for x in cl_onto_lst]
+        vectors = emb_onto_lst
+        client.upsert(
+            collection_name=f"{collection_name}",
+            points=Batch(
+                ids=ids,
+                payloads=payloads,
+                vectors=vectors
+            ),
+        )
+
+    # Count collection
+    def count_collection():
+        return len(client.scroll(
+                collection_name=f"{collection_name}"
+            )[0])
+
+    #noun phrase extraction
+    def extract_noun_phrases(text):
+        # Tokenize the text
+        tokens = nltk.word_tokenize(text)
+
+        # Part-of-speech tag the tokens
+        tagged_tokens = nltk.pos_tag(tokens)
+
+        # Define the noun phrase grammar
+        grammar = r"""
+        NP: {<DT|PP\$>?<JJ>*<NN|NNS|NNP|NNPS>+}  # noun phrase with optional determiner and adjectives
+            {<NNP>+}                              # proper noun phrase
+            {<PRP\$>?<NN|NNS|NNP|NNPS>+}          # noun phrase with optional possessive pronoun
+        """
+
+        # Extract the noun phrases
+        parser = nltk.RegexpParser(grammar)
+        tree = parser.parse(tagged_tokens)
+
+        # Extract the phrase text from the tree
+        phrases = []
+        for subtree in tree.subtrees():
+            if subtree.label() == "NP":
+                phrase = " ".join([token[0] for token in subtree.leaves()])
+                phrases.append(phrase)
+        return phrases
+
+    #verb phrase extraction
+    def extract_vbs(data_chunked):
+        for tup in data_chunked:
+            if len(tup) > 2:
+                yield(str(" ".join(str(x[0]) for x in tup)))
+
+    def get_verb_phrases(nltk_query):
+        data_tok = nltk.word_tokenize(nltk_query) #tokenisation
+        data_pos = nltk.pos_tag(data_tok) #POS tagging
+        cfgs = [
+            "CUSTOMCHUNK: {<VB><.*>{0,3}<NN>}",
+            "CUSTOMCHUNK: {<VB><.*>{0,3}<NNP>}",
+            "CUSTOMCHUNK: {<VB><.*>{0,3}<PRP><NN>}",
+            "CUSTOMCHUNK: {<VB><.*>{0,3}<PRP><NNS>}",
+            "CUSTOMCHUNK: {<VB><.*>{0,3}<NNPS>}",
+            "CUSTOMCHUNK: {<VB><.*>{0,3}<NNS>}",
+            "CUSTOMCHUNK: {<VB><.*>{0,3}<PRP><NNP>}",
+            "CUSTOMCHUNK: {<VB><.*>{0,3}<PRP><NNPS>}",
+            "CUSTOMCHUNK: {<VBN><.*>{0,3}<NN>}",
+            "CUSTOMCHUNK: {<VBN><.*>{0,3}<NNP>}",
+            "CUSTOMCHUNK: {<VBN><.*>{0,3}<PRP><NN>}",
+            "CUSTOMCHUNK: {<VBN><.*>{0,3}<PRP><NNS>}",
+            "CUSTOMCHUNK: {<VBN><.*>{0,3}<NNPS>}",
+            "CUSTOMCHUNK: {<VBN><.*>{0,3}<NNS>}",
+            "CUSTOMCHUNK: {<VBN><.*>{0,3}<PRP><NNP>}",
+            "CUSTOMCHUNK: {<VBN><.*>{0,3}<PRP><NNPS>}",
+            "CUSTOMCHUNK: {<VBG><.*>{0,3}<NN>}",
+            "CUSTOMCHUNK: {<VBG><.*>{0,3}<NNP>}",
+            "CUSTOMCHUNK: {<VBG><.*>{0,3}<PRP><NN>}",
+            "CUSTOMCHUNK: {<VBG><.*>{0,3}<PRP><NNS>}",
+            "CUSTOMCHUNK: {<VBG><.*>{0,3}<NNPS>}",
+            "CUSTOMCHUNK: {<VBG><.*>{0,3}<NNS>}",
+            "CUSTOMCHUNK: {<VBG><.*>{0,3}<PRP><NNP>}",
+            "CUSTOMCHUNK: {<VBG><.*>{0,3}<PRP><NNPS>}",
+            "CUSTOMCHUNK: {<VBP><.*>{0,3}<NN>}",
+            "CUSTOMCHUNK: {<VBP><.*>{0,3}<NNP>}",
+            "CUSTOMCHUNK: {<VBP><.*>{0,3}<PRP><NN>}",
+            "CUSTOMCHUNK: {<VBP><.*>{0,3}<PRP><NNS>}",
+            "CUSTOMCHUNK: {<VBP><.*>{0,3}<NNPS>}",
+            "CUSTOMCHUNK: {<VBP><.*>{0,3}<NNS>}",
+            "CUSTOMCHUNK: {<VBP><.*>{0,3}<PRP><NNP>}",
+            "CUSTOMCHUNK: {<VBP><.*>{0,3}<PRP><NNPS>}",
+            "CUSTOMCHUNK: {<VBZ><.*>{0,3}<NN>}",
+            "CUSTOMCHUNK: {<VBZ><.*>{0,3}<NNP>}",
+            "CUSTOMCHUNK: {<VBZ><.*>{0,3}<PRP><NN>}",
+            "CUSTOMCHUNK: {<VBZ><.*>{0,3}<PRP><NNS>}",
+            "CUSTOMCHUNK: {<VBZ><.*>{0,3}<NNPS>}",
+            "CUSTOMCHUNK: {<VBZ><.*>{0,3}<NNS>}",
+            "CUSTOMCHUNK: {<VBZ><.*>{0,3}<PRP><NNP>}",
+            "CUSTOMCHUNK: {<VBZ><.*>{0,3}<PRP><NNPS>}"
+        ]
+        vbs = []
+        for cfg_1 in cfgs: 
+            chunker = nltk.RegexpParser(cfg_1)
+            data_chunked = chunker.parse(data_pos)
+            vbs += extract_vbs(data_chunked)
+        return vbs
+
+    # Query qdrant and get score
+    def search_collection(ontology, query_vector, point_count):
+        query_filter=Filter(
+            must=[  
+                FieldCondition(
+                    key='ontology',
+                    match=MatchValue(value=ontology)
+                )
+            ]
+        )
+        
+        hits = client.search(
+            collection_name=f"{collection_name}",
+            query_vector=query_vector,
+            query_filter=query_filter, 
+            append_payload=True,  
+            limit=point_count 
+        )
+        return hits
+
+    # Compute the SetFit models (trigger, consequence)
+    #setfit sentence extraction
+    def extract_sentences(nltk_query):
+        sentences = sent_tokenize(nltk_query)
+        return sentences
+    
+    #setfit trig query and get predicted topic
+    def get_sf_trig_topic(sentences):
+        preds = list(sf_trig_model(sentences))
+        return preds
+    def get_sf_trig_topic_scores(sentences):
+        preds = sf_trig_model.predict_proba(sentences)
+        preds = [max(list(x)) for x in preds]
+        return preds
+
+    # setfit trig format output
+    ind_trig_topic_dict = {
+            0: 'NO TRIGGER',
+            1: 'TRIGGER',
+        }
+
+    #setfit cons query and get predicted topic
+    def get_sf_cons_topic(sentences):
+        preds = list(sf_cons_model(sentences))
+        return preds
+    def get_sf_cons_topic_scores(sentences):
+        preds = sf_cons_model.predict_proba(sentences)
+        preds = [max(list(x)) for x in preds]
+        return preds
+
+    # setfit cons format output
+    ind_cons_topic_dict = {
+            0: 'NO CONSEQUENCE',
+            1: 'CONSEQUENCE',
+        }
+
+    # Compute the semantic similarity (for item = event or item = bahaviour)
+    if item in ['behaviour', 'event']:
+        cl_onto_lst = preprocess(onto_lst)
+        orig_cl_dict = {x:y for x,y in zip(cl_onto_lst, onto_lst)}
+        emb_onto_lst = sentence_embeddings(cl_onto_lst)
+        add_to_collection(cl_onto_lst, emb_onto_lst)
+        point_count = count_collection()
+        vbs = get_verb_phrases(query)
+        cl_vbs = preprocess(vbs)
+        sents = vbs
+        cl_sents = cl_vbs
+        if item == 'event':
+            nouns = extract_noun_phrases(query)
+            cl_nouns = preprocess(nouns)
+            sents = vbs+nouns
+            cl_sents = cl_vbs+cl_nouns
+        emb_sents = sentence_embeddings(cl_sents)
+        vb_ind = -1
+        highlights = []
+        highlight_scores = []
+        result_dfs = []
+        for query_vector in emb_sents:
+            vb_ind += 1
+            if len(sents[vb_ind].split()) <= 1:
+                continue
+            hist = search_collection(q_onto_dict[item], query_vector, point_count)
+            hist_dict = [dict(x) for x in hist]
+            scores = [x['score'] for x in hist_dict]
+            payloads = [orig_cl_dict[x['payload']['phrase']] for x in hist_dict]
+            result_df = pd.DataFrame({'score': scores, 'topic': ['GLOSSARY'] * len(payloads), 'subtopic': payloads})
+            result_df = result_df[result_df['score'] >= sim_threshold]
+            result_df = result_df.sort_values(by='score', ascending=False).reset_index(drop=True).head(1)
+            if len(result_df) > 0:
+                highlights.append(sents[vb_ind])
+                highlight_scores.append(result_df.score.max())
+                result_df['phrase'] = [sents[vb_ind]] * len(result_df)
+                result_df = result_df.sort_values(by='score', ascending=False).reset_index(drop=True)
+                result_dfs.append(result_df)
+            else:
+                continue
+        if len(highlights) > 0:
+            result_df = pd.concat(result_dfs).reset_index(drop = True)
+            result_df = result_df.sort_values(by='score', ascending=False).reset_index(drop=True)
+            predictions = result_df[['phrase', 'topic', 'subtopic', 'score']]
+        else:
+            predictions = pd.DataFrame({'phrase': [], 'topic': [], 'subtopic': [], 'score': []})
+
+    #setfit trigger
+    elif item == 'trigger':
+        sentences = extract_sentences(query)
+        cl_sentences = preprocess(sentences)
+        topic_inds = get_sf_trig_topic(cl_sentences)
+        topics = [ind_trig_topic_dict[i] for i in topic_inds]
+        scores = get_sf_trig_topic_scores(cl_sentences)
+        sf_trig_result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'subtopic': [''] * len(scores), 'score': scores})
+        sf_trig_sub_result_df = sf_trig_result_df[sf_trig_result_df['topic'] == 'TRIGGER']
+        if len(sf_trig_sub_result_df) > 0:
+            predictions = sf_trig_sub_result_df[['phrase', 'topic', 'subtopic', 'score']]
+        else:
+            predictions = pd.DataFrame({'phrase': [], 'topic': [], 'subtopic': [], 'score': []})
+
+    #setfit consequence
+    elif item == 'consequence':
+        sentences = extract_sentences(query)
+        cl_sentences = preprocess(sentences)
+        topic_inds = get_sf_cons_topic(cl_sentences)
+        topics = [ind_cons_topic_dict[i] for i in topic_inds]
+        scores = get_sf_cons_topic_scores(cl_sentences)
+        sf_cons_result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'subtopic': [''] * len(scores), 'score': scores})
+        sf_cons_sub_result_df = sf_cons_result_df[sf_cons_result_df['topic'] == 'CONSEQUENCE']
+        if len(sf_cons_sub_result_df) > 0:
+            predictions = sf_cons_sub_result_df[['phrase', 'topic', 'subtopic', 'score']]
+        else:
+            predictions = pd.DataFrame({'phrase': [], 'topic': [], 'subtopic': [], 'score': []})
+
+    #case when item is invalid
+    else:
+        predictions = pd.DataFrame({'phrase': [], 'topic': [], 'subtopic': [], 'score': []})
+
+    # Transform predictions to JSON
+    result = {'output': []}
+    list_out = predictions.to_dict(orient="records")
+    result['output'] = list_out
+    result = json.dumps(result)
+    return flask.Response(response=result, status=200, mimetype='application/json')
 
 
 # run the application.
