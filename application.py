@@ -1092,7 +1092,7 @@ def topics_p3_abc():
             hist_dict = [dict(x) for x in hist]
             scores = [x['score'] for x in hist_dict]
             payloads = [orig_cl_dict[x['payload']['phrase']] for x in hist_dict]
-            result_df = pd.DataFrame({'score': scores, 'topic': ['GLOSSARY'] * len(payloads), 'subtopic': payloads})
+            result_df = pd.DataFrame({'score': scores, 'topic': [q_onto_dict[item].upper()] * len(payloads), 'subtopic': payloads})
             result_df = result_df[result_df['score'] >= sim_threshold]
             result_df = result_df.sort_values(by='score', ascending=False).reset_index(drop=True).head(1)
             if len(result_df) > 0:
