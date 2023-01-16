@@ -79,6 +79,10 @@ sf_trig_model = SetFitModel.from_pretrained(f"aammari/{sf_trig_model_name}")
 sf_cons_model_name = "setfit-zero-shot-classification-pbsp-p3-cons"
 sf_cons_model = SetFitModel.from_pretrained(f"aammari/{sf_cons_model_name}")
 
+# Load the SetFit models for PBSP Page 3 (Function)
+sf_func_model_name = "setfit-zero-shot-classification-pbsp-p3-func"
+sf_func_model = SetFitModel.from_pretrained(f"aammari/{sf_func_model_name}")
+
 # Load the SetFit models for PBSP Page 1
 sf_p1_model_name = "setfit-zero-shot-classification-pbsp-p1"
 sf_p1_model = SetFitModel.from_pretrained(f"aammari/{sf_p1_model_name}")
@@ -111,6 +115,7 @@ def ping():
         sf_sev_model
         sf_trig_model
         sf_cons_model
+        sf_func_model
         sf_p1_model
         status = 200
         result = json.dumps({'status': 'OK'})
@@ -1149,6 +1154,75 @@ def topics_p3_abc():
     result = json.dumps(result)
     return flask.Response(response=result, status=200, mimetype='application/json')
 
+@application.route('/topics_p3_function', methods=['POST'])
+def topics_p3_function():
+    # Get input JSON data and convert it to a DF
+    input_json = flask.request.get_json()
+    input_json = json.dumps(input_json['input'])
+    input_df = pd.read_json(input_json,orient='list')
+
+    # Detect topics in the text
+    documents = input_df['text'].tolist()
+    document = documents[0]    # Currently this endpoint expects a single text input
+    query = document
+    
+    # Text preprocessing
+    sw_lst = text.ENGLISH_STOP_WORDS
+    def preprocess(onto_lst):
+        cleaned_onto_lst = []
+        pattern = re.compile(r'^[a-z ]*$')
+        for document in onto_lst:
+            text = []
+            doc = nlp(document)
+            person_tokens = []
+            for w in doc:
+                if w.ent_type_ == 'PERSON':
+                    person_tokens.append(w.lemma_)
+            for w in doc:
+                if not w.is_stop and not w.is_punct and not w.like_num and not len(w.text.strip()) == 0 and not w.lemma_ in person_tokens:
+                    text.append(w.lemma_.lower())
+            texts = [t for t in text if len(t) > 1 and pattern.search(t) is not None and t not in sw_lst]
+            cleaned_onto_lst.append(" ".join(texts))
+        return cleaned_onto_lst
+ 
+    # Compute the SetFit model (Function)
+    #setfit sentence extraction
+    def extract_sentences(nltk_query):
+        sentences = sent_tokenize(nltk_query)
+        return sentences
+    
+    def get_sf_func_topic(sentences):
+        preds = list(sf_func_model(sentences))
+        return preds
+    def get_sf_func_topic_scores(sentences):
+        preds = sf_func_model.predict_proba(sentences)
+        preds = [max(list(x)) for x in preds]
+        return preds
+
+    # setfit sev format output
+    ind_func_topic_dict = {
+        0: 'NO FUNCTION',
+        1: 'FUNCTION',
+    }
+
+    sentences = extract_sentences(query)
+    cl_sentences = preprocess(sentences)
+    topic_inds = get_sf_func_topic(cl_sentences)
+    topics = [ind_func_topic_dict[i] for i in topic_inds]
+    scores = get_sf_func_topic_scores(cl_sentences)
+    sf_func_result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'subtopic': [''] * len(scores), 'score': scores})
+    sf_func_sub_result_df = sf_func_result_df[sf_func_result_df['topic'] == 'FUNCTION']
+    if len(sf_func_sub_result_df) > 0:
+        predictions = sf_func_sub_result_df[['phrase', 'topic', 'subtopic', 'score']]
+    else:
+        predictions = pd.DataFrame({'phrase': [], 'topic': [], 'subtopic': [], 'score': []})
+    
+    # Transform predictions to JSON
+    result = {'output': []}
+    list_out = predictions.to_dict(orient="records")
+    result['output'] = list_out
+    result = json.dumps(result)
+    return flask.Response(response=result, status=200, mimetype='application/json')
 
 # run the application.
 if __name__ == "__main__":
