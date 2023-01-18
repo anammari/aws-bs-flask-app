@@ -1,0 +1,80 @@
+when eddie wants to avoid the attention of his friends he becomes wily
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+eddie uses being reticent to escape the attention of his teacher
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+when eddie wants to avoid the attention of his teacher he becomes shrewd
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+being passive-aggressive is one of the ways eddie uses to gain the attention of his teacher
+ - Gold: gain_attention
+ - Pred: gain_attention
+
+eddie uses cunning to escape the attention of his teacher
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+eddie uses being aloof to escape the attention of his parents
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+eddie uses invisibility to escape the attention of his teacher
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+being confrontational is one of the ways eddie uses to catch the attention of his teacher
+ - Gold: gain_attention
+ - Pred: gain_attention
+
+being vain is one of the ways eddie uses to catch the attention of his teacher
+ - Gold: gain_attention
+ - Pred: gain_attention
+
+when eddie wants to avoid the attention of his teacher he becomes clever
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+eddie uses smartness to escape the attention of his parents
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+screaming is one of the ways eddie uses to attract the attention of his teacher
+ - Gold: gain_attention
+ - Pred: gain_attention
+
+lashing out is one of the ways eddie uses to catch the attention of his teacher
+ - Gold: gain_attention
+ - Pred: gain_attention
+
+pulling hair is one of the ways eddie uses to demand the attention of his teacher
+ - Gold: gain_attention
+ - Pred: gain_attention
+
+eddie uses smartness to escape the attention of his teacher
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+eddie uses being antisocial to escape the attention of his teacher
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+eddie uses being isolated to escape the attention of his teacher
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+being manipulative is one of the ways eddie uses to seek the attention of his teacher
+ - Gold: gain_attention
+ - Pred: gain_attention
+
+being showy is one of the ways eddie uses to capture the attention of his teacher
+ - Gold: gain_attention
+ - Pred: gain_attention
+
+eddie uses cleverness to escape the attention of his teacher
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+

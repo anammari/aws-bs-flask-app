@@ -1,0 +1,81 @@
+being stealthy is one of the ways eddie uses to escape the attention of his teacher
+ - Gold: avoid_attention
+ - Pred: gain_attention
+ -> MISMATCH!
+
+being chirpy is one of the ways eddie uses to grab the attention of his friends
+ - Gold: gain_attention
+ - Pred: gain_attention
+
+eddie uses discretion to escape the attention of his teacher
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+when eddie wants to avoid the attention of his friends he becomes introverted
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+eddie uses being reserved to escape the attention of his parents
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+eddie uses trickery to escape the attention of his friends
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+being hostile is one of the ways eddie uses to demand the attention of his teacher
+ - Gold: gain_attention
+ - Pred: gain_attention
+
+eddie uses being shy to escape the attention of his teacher
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+being spritely is one of the ways eddie uses to catch the attention of his parents
+ - Gold: gain_attention
+ - Pred: gain_attention
+
+being haughty is one of the ways eddie uses to draw the attention of his teacher
+ - Gold: gain_attention
+ - Pred: gain_attention
+
+when eddie wants to avoid the attention of his friends he becomes duplicitous
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+eddie uses wiliness to escape the attention of his teacher
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+being arrogant is one of the ways eddie uses to grab the attention of his teacher
+ - Gold: gain_attention
+ - Pred: gain_attention
+
+eddie uses artfulness to escape the attention of his friends
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+when eddie wants to avoid the attention of his friends he becomes reserved
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+eddie uses sneakiness to escape the attention of his classmates
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+when eddie wants to avoid the attention of his teacher he becomes smart
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+being uncooperative is one of the ways eddie uses to attract the attention of his teacher
+ - Gold: gain_attention
+ - Pred: gain_attention
+
+when eddie wants to avoid the attention of his parents he becomes cunning
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
+eddie uses subterfuge to escape the attention of his teacher
+ - Gold: avoid_attention
+ - Pred: avoid_attention
+
