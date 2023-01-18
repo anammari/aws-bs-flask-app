@@ -6,3 +6,4 @@
 
 # Large model files
 few-shot-model-1/best-model.pt
+few-shot-model-gain-avoid/best-model.pt
