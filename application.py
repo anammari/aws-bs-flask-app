@@ -56,9 +56,13 @@ f_count_vect, f_tfidf_transformer, f_text_clf3 = f_modlist[0], f_modlist[1], f_m
 # Load the TARS model (Zero-shot)
 tagger = TARSClassifier.load('tars-base')
 
-# Load the TARS model (Few-shot)
+# Load the TARS model (Few-shot) used in /topics_p2_q1
 tars_model_path = 'few-shot-model-1'
 tars = TARSClassifier().load(tars_model_path+'/best-model.pt')
+
+# Load the TARS model (Few-shot) used in /topics_p3_function
+tars_gain_avoid_model_path = 'few-shot-model-gain-avoid'
+tars_gain_avoid = TARSClassifier().load(tars_gain_avoid_model_path+'/best-model.pt')
 
 # Load the Sentence Transformer model
 st_model = SentenceTransformer('multi-qa-MiniLM-L6-cos-v1')
@@ -108,6 +112,7 @@ def ping():
         f_text_clf3
         tagger
         tars
+        tars_gain_avoid
         st_model
         sf_bhvr_model
         sf_freq_model
@@ -1156,10 +1161,27 @@ def topics_p3_abc():
 
 @application.route('/topics_p3_function', methods=['POST'])
 def topics_p3_function():
+    # Initialize variables
+    p_classes = {'gain_attention': 0,
+                'avoid_attention': 1,
+                'unknown': 2
+                }
+    ind_topic_dict = {
+            0: 'GAIN-ATTENTION',
+            1: 'AVOID-ATTENTION',
+            2: 'UNKNOWN'
+        }
+    valid_topics = [ind_topic_dict[i] for i in range(0, 2)]
+    passing_score = 0.25
+    final_passing = 0.0
+
     # Get input JSON data and convert it to a DF
     input_json = flask.request.get_json()
     input_json = json.dumps(input_json['input'])
     input_df = pd.read_json(input_json,orient='list')
+
+    # Get the query parameter value corresponsing to the function output type (detect, attention, attention_agg, attention_scores)
+    resp_output = flask.request.args.get("output")
 
     # Detect topics in the text
     documents = input_df['text'].tolist()
@@ -1205,18 +1227,78 @@ def topics_p3_function():
         1: 'FUNCTION',
     }
 
-    sentences = extract_sentences(query)
-    cl_sentences = preprocess(sentences)
-    topic_inds = get_sf_func_topic(cl_sentences)
-    topics = [ind_func_topic_dict[i] for i in topic_inds]
-    scores = get_sf_func_topic_scores(cl_sentences)
-    sf_func_result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'subtopic': [''] * len(scores), 'score': scores})
-    sf_func_sub_result_df = sf_func_result_df[sf_func_result_df['topic'] == 'FUNCTION']
-    if len(sf_func_sub_result_df) > 0:
-        predictions = sf_func_sub_result_df[['phrase', 'topic', 'subtopic', 'score']]
-    else:
-        predictions = pd.DataFrame({'phrase': [], 'topic': [], 'subtopic': [], 'score': []})
+    #Compute the TARS  model (Gain / Avoid Attention)
+    def get_topic(sentences):
+        preds = []
+        for t in sentences:
+            sentence = Sentence(t)
+            tars_gain_avoid.predict(sentence)
+            try:
+                pred = p_classes[sentence.tag]
+            except:
+                pred = 2
+            preds.append(pred)
+        return preds
+    def get_topic_scores(sentences):
+        preds = []
+        for t in sentences:
+            sentence = Sentence(t)
+            tars_gain_avoid.predict(sentence)
+            try:
+                pred = sentence.score
+            except:
+                pred = 0.75
+            preds.append(pred)
+        return preds
+
+    if resp_output == 'detect':
+        sentences = extract_sentences(query)
+        cl_sentences = preprocess(sentences)
+        topic_inds = get_sf_func_topic(cl_sentences)
+        topics = [ind_func_topic_dict[i] for i in topic_inds]
+        scores = get_sf_func_topic_scores(cl_sentences)
+        sf_func_result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'subtopic': [''] * len(scores), 'score': scores})
+        sf_func_sub_result_df = sf_func_result_df[sf_func_result_df['topic'] == 'FUNCTION']
+        if len(sf_func_sub_result_df) > 0:
+            predictions = sf_func_sub_result_df[['phrase', 'topic', 'subtopic', 'score']]
+        else:
+            predictions = pd.DataFrame({'phrase': [], 'topic': [], 'subtopic': [], 'score': []})
     
+    else:
+        sentences = extract_sentences(document)
+        cl_sentences = preprocess(sentences)
+        topic_inds = get_topic(cl_sentences)
+        topics = [ind_topic_dict[i] for i in topic_inds]
+        scores = get_topic_scores(cl_sentences)
+        result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'score': scores})
+        predictions = result_df[(result_df['score'] >= passing_score) & (result_df['topic'] != 'UNKNOWN')]
+        
+        # required if resp_output is either 'attention_agg' or 'attention_scores'
+        def topic_output(predictions, resp_output):
+            agg_df = predictions.groupby('topic')['score'].sum()
+            agg_df = agg_df.to_frame()
+            agg_df.columns = ['Total Score']
+            agg_df = agg_df.assign(
+                score=lambda x: x['Total Score'] / x['Total Score'].sum()
+            )
+            agg_df = agg_df.sort_values(by='score', ascending=False)
+            agg_df['topic'] = agg_df.index
+            rem_topics = [vt for vt in valid_topics if not vt in agg_df.topic.tolist()]
+            if len(rem_topics) > 0:
+                rem_agg_df = pd.DataFrame({'topic': rem_topics, 'score': 0.0, 'Total Score': 0.0})
+                agg_df = pd.concat([agg_df, rem_agg_df])
+            # Set the score column to 0 or 1 based on final_passing
+            if resp_output == 'attention_scores':
+                agg_df['score'] = [1 if score > final_passing else 0 for score in agg_df['score']]
+
+            predictions = agg_df[['topic', 'score']]
+            return predictions
+
+        if len(predictions) > 0 and resp_output != 'attention':
+            predictions = topic_output(predictions, resp_output)
+        else:
+            pass
+        
     # Transform predictions to JSON
     result = {'output': []}
     list_out = predictions.to_dict(orient="records")
