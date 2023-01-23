@@ -90,6 +90,8 @@ sf_func_model = SetFitModel.from_pretrained(f"aammari/{sf_func_model_name}")
 # Load the SetFit models for PBSP Page 1
 sf_p1_model_name = "setfit-zero-shot-classification-pbsp-p1"
 sf_p1_model = SetFitModel.from_pretrained(f"aammari/{sf_p1_model_name}")
+sf_p1_comm_model_name = "setfit-zero-shot-classification-pbsp-p1-comm"
+sf_p1_comm_model = SetFitModel.from_pretrained(f"aammari/{sf_p1_comm_model_name}")
 
 # Connect to Qdrant
 client = QdrantClient(host="localhost", port=6333)
@@ -122,6 +124,7 @@ def ping():
         sf_cons_model
         sf_func_model
         sf_p1_model
+        sf_p1_comm_model
         status = 200
         result = json.dumps({'status': 'OK'})
     except:
@@ -1299,6 +1302,105 @@ def topics_p3_function():
         else:
             pass
         
+    # Transform predictions to JSON
+    result = {'output': []}
+    list_out = predictions.to_dict(orient="records")
+    result['output'] = list_out
+    result = json.dumps(result)
+    return flask.Response(response=result, status=200, mimetype='application/json')
+
+@application.route('/topics_p1_comm', methods=['POST'])
+def get_topics_p1_comm():
+    # Get input JSON data and convert it to a DF
+    input_json = flask.request.get_json()
+    input_json = json.dumps(input_json['input'])
+    input_df = pd.read_json(input_json,orient='list')
+
+    # Get the query parameter value corresponsing to the output type: phrase | topic_agg | topic_scores
+    resp_output = flask.request.args.get("output")
+
+    # Text preprocessing
+    sw_lst = text.ENGLISH_STOP_WORDS
+    def preprocess(onto_lst):
+        cleaned_onto_lst = []
+        pattern = re.compile(r'^[a-z ]*$')
+        for document in onto_lst:
+            text = []
+            doc = nlp(document)
+            person_tokens = []
+            for w in doc:
+                if w.ent_type_ == 'PERSON':
+                    person_tokens.append(w.lemma_)
+            for w in doc:
+                if not w.is_stop and not w.is_punct and not w.like_num and not len(w.text.strip()) == 0 and not w.lemma_ in person_tokens:
+                    text.append(w.lemma_.lower())
+            texts = [t for t in text if len(t) > 1 and pattern.search(t) is not None and t not in sw_lst]
+            cleaned_onto_lst.append(" ".join(texts))
+        return cleaned_onto_lst
+
+    #sentence extraction
+    def extract_sentences(nltk_query):
+        sentences = sent_tokenize(nltk_query)
+        return sentences
+
+    #query and get predicted topic
+    def get_topic(sentences):
+        preds = list(sf_p1_comm_model(sentences))
+        return preds
+    def get_topic_scores(sentences):
+        preds = sf_p1_comm_model.predict_proba(sentences)
+        preds = [max(list(x)) for x in preds]
+        return preds
+
+    # format output
+    ind_topic_dict = {
+                    0: 'VERBAL COMMUNICATION',
+                    1: 'NONVERBAL COMMUNICATION',
+                    2: 'AUGMENTATIVE AND ALTERNATIVE COMMUNICATION',
+                    3: 'WRITTEN COMMUNICATION',
+                    4: 'ASSISTIVE TECHNOLOGY'
+        }
+
+    passing_score = 0.25
+
+    # Detect topics in the text
+    documents = input_df['text'].tolist()
+    document = documents[0]    # Currently this endpoint expects a single text input
+
+    # required if resp_output == 'phrase'
+    sentences = extract_sentences(document)
+    cl_sentences = preprocess(sentences)
+    topic_inds = get_topic(cl_sentences)
+    topics = [ind_topic_dict[i] for i in topic_inds]
+    scores = get_topic_scores(cl_sentences)
+    result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'score': scores})
+    predictions = result_df[result_df['score'] >= passing_score]
+
+    # required if resp_output is either 'topic_agg' or 'topic_scores'
+    final_passing = 0.0
+    def topic_output(predictions, resp_output):
+        agg_df = predictions.groupby('topic')['score'].sum()
+        agg_df = agg_df.to_frame()
+        agg_df.columns = ['Total Score']
+        agg_df = agg_df.assign(
+            score=lambda x: x['Total Score'] / x['Total Score'].sum()
+        )
+        agg_df = agg_df.sort_values(by='score', ascending=False)
+        agg_df['topic'] = agg_df.index
+        rem_topics = [ind_topic_dict[i] for i in range(0, 5) if not ind_topic_dict[i] in agg_df.topic.tolist()]
+        if len(rem_topics) > 0:
+            rem_agg_df = pd.DataFrame({'topic': rem_topics, 'score': 0.0, 'Total Score': 0.0})
+            agg_df = pd.concat([agg_df, rem_agg_df])
+        # Set the score column to 0 or 1 based on final_passing
+        if resp_output == 'topic_scores':
+            agg_df['score'] = [1 if score > final_passing else 0 for score in agg_df['score']]
+
+        predictions = agg_df[['topic', 'score']]
+        return predictions
+
+    if resp_output != 'phrase':
+        predictions = topic_output(predictions, resp_output)
+    
     # Transform predictions to JSON
     result = {'output': []}
     list_out = predictions.to_dict(orient="records")
