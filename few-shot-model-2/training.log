@@ -1,0 +1,458 @@
+2023-01-25 13:23:05,361 ----------------------------------------------------------------------------------------------------
+2023-01-25 13:23:05,365 Model: "TARSClassifier(
+  (tars_model): TextClassifier(
+    (decoder): Linear(in_features=768, out_features=2, bias=True)
+    (dropout): Dropout(p=0.0, inplace=False)
+    (locked_dropout): LockedDropout(p=0.0)
+    (word_dropout): WordDropout(p=0.0)
+    (loss_function): CrossEntropyLoss()
+    (document_embeddings): TransformerDocumentEmbeddings(
+      (model): BertModel(
+        (embeddings): BertEmbeddings(
+          (word_embeddings): Embedding(30522, 768, padding_idx=0)
+          (position_embeddings): Embedding(512, 768)
+          (token_type_embeddings): Embedding(2, 768)
+          (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+        (encoder): BertEncoder(
+          (layer): ModuleList(
+            (0): BertLayer(
+              (attention): BertAttention(
+                (self): BertSelfAttention(
+                  (query): Linear(in_features=768, out_features=768, bias=True)
+                  (key): Linear(in_features=768, out_features=768, bias=True)
+                  (value): Linear(in_features=768, out_features=768, bias=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+                (output): BertSelfOutput(
+                  (dense): Linear(in_features=768, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (intermediate): BertIntermediate(
+                (dense): Linear(in_features=768, out_features=3072, bias=True)
+                (intermediate_act_fn): GELUActivation()
+              )
+              (output): BertOutput(
+                (dense): Linear(in_features=3072, out_features=768, bias=True)
+                (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+            (1): BertLayer(
+              (attention): BertAttention(
+                (self): BertSelfAttention(
+                  (query): Linear(in_features=768, out_features=768, bias=True)
+                  (key): Linear(in_features=768, out_features=768, bias=True)
+                  (value): Linear(in_features=768, out_features=768, bias=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+                (output): BertSelfOutput(
+                  (dense): Linear(in_features=768, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (intermediate): BertIntermediate(
+                (dense): Linear(in_features=768, out_features=3072, bias=True)
+                (intermediate_act_fn): GELUActivation()
+              )
+              (output): BertOutput(
+                (dense): Linear(in_features=3072, out_features=768, bias=True)
+                (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+            (2): BertLayer(
+              (attention): BertAttention(
+                (self): BertSelfAttention(
+                  (query): Linear(in_features=768, out_features=768, bias=True)
+                  (key): Linear(in_features=768, out_features=768, bias=True)
+                  (value): Linear(in_features=768, out_features=768, bias=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+                (output): BertSelfOutput(
+                  (dense): Linear(in_features=768, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (intermediate): BertIntermediate(
+                (dense): Linear(in_features=768, out_features=3072, bias=True)
+                (intermediate_act_fn): GELUActivation()
+              )
+              (output): BertOutput(
+                (dense): Linear(in_features=3072, out_features=768, bias=True)
+                (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+            (3): BertLayer(
+              (attention): BertAttention(
+                (self): BertSelfAttention(
+                  (query): Linear(in_features=768, out_features=768, bias=True)
+                  (key): Linear(in_features=768, out_features=768, bias=True)
+                  (value): Linear(in_features=768, out_features=768, bias=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+                (output): BertSelfOutput(
+                  (dense): Linear(in_features=768, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (intermediate): BertIntermediate(
+                (dense): Linear(in_features=768, out_features=3072, bias=True)
+                (intermediate_act_fn): GELUActivation()
+              )
+              (output): BertOutput(
+                (dense): Linear(in_features=3072, out_features=768, bias=True)
+                (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+            (4): BertLayer(
+              (attention): BertAttention(
+                (self): BertSelfAttention(
+                  (query): Linear(in_features=768, out_features=768, bias=True)
+                  (key): Linear(in_features=768, out_features=768, bias=True)
+                  (value): Linear(in_features=768, out_features=768, bias=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+                (output): BertSelfOutput(
+                  (dense): Linear(in_features=768, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (intermediate): BertIntermediate(
+                (dense): Linear(in_features=768, out_features=3072, bias=True)
+                (intermediate_act_fn): GELUActivation()
+              )
+              (output): BertOutput(
+                (dense): Linear(in_features=3072, out_features=768, bias=True)
+                (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+            (5): BertLayer(
+              (attention): BertAttention(
+                (self): BertSelfAttention(
+                  (query): Linear(in_features=768, out_features=768, bias=True)
+                  (key): Linear(in_features=768, out_features=768, bias=True)
+                  (value): Linear(in_features=768, out_features=768, bias=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+                (output): BertSelfOutput(
+                  (dense): Linear(in_features=768, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (intermediate): BertIntermediate(
+                (dense): Linear(in_features=768, out_features=3072, bias=True)
+                (intermediate_act_fn): GELUActivation()
+              )
+              (output): BertOutput(
+                (dense): Linear(in_features=3072, out_features=768, bias=True)
+                (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+            (6): BertLayer(
+              (attention): BertAttention(
+                (self): BertSelfAttention(
+                  (query): Linear(in_features=768, out_features=768, bias=True)
+                  (key): Linear(in_features=768, out_features=768, bias=True)
+                  (value): Linear(in_features=768, out_features=768, bias=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+                (output): BertSelfOutput(
+                  (dense): Linear(in_features=768, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (intermediate): BertIntermediate(
+                (dense): Linear(in_features=768, out_features=3072, bias=True)
+                (intermediate_act_fn): GELUActivation()
+              )
+              (output): BertOutput(
+                (dense): Linear(in_features=3072, out_features=768, bias=True)
+                (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+            (7): BertLayer(
+              (attention): BertAttention(
+                (self): BertSelfAttention(
+                  (query): Linear(in_features=768, out_features=768, bias=True)
+                  (key): Linear(in_features=768, out_features=768, bias=True)
+                  (value): Linear(in_features=768, out_features=768, bias=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+                (output): BertSelfOutput(
+                  (dense): Linear(in_features=768, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (intermediate): BertIntermediate(
+                (dense): Linear(in_features=768, out_features=3072, bias=True)
+                (intermediate_act_fn): GELUActivation()
+              )
+              (output): BertOutput(
+                (dense): Linear(in_features=3072, out_features=768, bias=True)
+                (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+            (8): BertLayer(
+              (attention): BertAttention(
+                (self): BertSelfAttention(
+                  (query): Linear(in_features=768, out_features=768, bias=True)
+                  (key): Linear(in_features=768, out_features=768, bias=True)
+                  (value): Linear(in_features=768, out_features=768, bias=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+                (output): BertSelfOutput(
+                  (dense): Linear(in_features=768, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (intermediate): BertIntermediate(
+                (dense): Linear(in_features=768, out_features=3072, bias=True)
+                (intermediate_act_fn): GELUActivation()
+              )
+              (output): BertOutput(
+                (dense): Linear(in_features=3072, out_features=768, bias=True)
+                (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+            (9): BertLayer(
+              (attention): BertAttention(
+                (self): BertSelfAttention(
+                  (query): Linear(in_features=768, out_features=768, bias=True)
+                  (key): Linear(in_features=768, out_features=768, bias=True)
+                  (value): Linear(in_features=768, out_features=768, bias=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+                (output): BertSelfOutput(
+                  (dense): Linear(in_features=768, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (intermediate): BertIntermediate(
+                (dense): Linear(in_features=768, out_features=3072, bias=True)
+                (intermediate_act_fn): GELUActivation()
+              )
+              (output): BertOutput(
+                (dense): Linear(in_features=3072, out_features=768, bias=True)
+                (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+            (10): BertLayer(
+              (attention): BertAttention(
+                (self): BertSelfAttention(
+                  (query): Linear(in_features=768, out_features=768, bias=True)
+                  (key): Linear(in_features=768, out_features=768, bias=True)
+                  (value): Linear(in_features=768, out_features=768, bias=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+                (output): BertSelfOutput(
+                  (dense): Linear(in_features=768, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (intermediate): BertIntermediate(
+                (dense): Linear(in_features=768, out_features=3072, bias=True)
+                (intermediate_act_fn): GELUActivation()
+              )
+              (output): BertOutput(
+                (dense): Linear(in_features=3072, out_features=768, bias=True)
+                (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+            (11): BertLayer(
+              (attention): BertAttention(
+                (self): BertSelfAttention(
+                  (query): Linear(in_features=768, out_features=768, bias=True)
+                  (key): Linear(in_features=768, out_features=768, bias=True)
+                  (value): Linear(in_features=768, out_features=768, bias=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+                (output): BertSelfOutput(
+                  (dense): Linear(in_features=768, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (intermediate): BertIntermediate(
+                (dense): Linear(in_features=768, out_features=3072, bias=True)
+                (intermediate_act_fn): GELUActivation()
+              )
+              (output): BertOutput(
+                (dense): Linear(in_features=3072, out_features=768, bias=True)
+                (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+          )
+        )
+        (pooler): BertPooler(
+          (dense): Linear(in_features=768, out_features=768, bias=True)
+          (activation): Tanh()
+        )
+      )
+    )
+  )
+)"
+2023-01-25 13:23:05,368 ----------------------------------------------------------------------------------------------------
+2023-01-25 13:23:05,370 Corpus: "Corpus: 320 train + 40 dev + 40 test sentences"
+2023-01-25 13:23:05,373 ----------------------------------------------------------------------------------------------------
+2023-01-25 13:23:05,376 Parameters:
+2023-01-25 13:23:05,379  - learning_rate: "0.020000"
+2023-01-25 13:23:05,381  - mini_batch_size: "16"
+2023-01-25 13:23:05,382  - patience: "3"
+2023-01-25 13:23:05,383  - anneal_factor: "0.5"
+2023-01-25 13:23:05,385  - max_epochs: "6"
+2023-01-25 13:23:05,386  - shuffle: "True"
+2023-01-25 13:23:05,388  - train_with_dev: "False"
+2023-01-25 13:23:05,389  - batch_growth_annealing: "False"
+2023-01-25 13:23:05,390 ----------------------------------------------------------------------------------------------------
+2023-01-25 13:23:05,391 Model training base path: "few-shot-model-2"
+2023-01-25 13:23:05,393 ----------------------------------------------------------------------------------------------------
+2023-01-25 13:23:05,394 Device: cpu
+2023-01-25 13:23:05,395 ----------------------------------------------------------------------------------------------------
+2023-01-25 13:23:05,397 Embeddings storage mode: cpu
+2023-01-25 13:23:05,398 ----------------------------------------------------------------------------------------------------
+2023-01-25 13:23:21,590 epoch 1 - iter 2/20 - loss 0.08276602 - samples/sec: 2.17 - lr: 0.020000
+2023-01-25 13:23:39,155 epoch 1 - iter 4/20 - loss 0.07264822 - samples/sec: 1.82 - lr: 0.020000
+2023-01-25 13:23:54,301 epoch 1 - iter 6/20 - loss 0.06747658 - samples/sec: 2.12 - lr: 0.020000
+2023-01-25 13:24:11,279 epoch 1 - iter 8/20 - loss 0.06041256 - samples/sec: 1.89 - lr: 0.020000
+2023-01-25 13:24:26,268 epoch 1 - iter 10/20 - loss 0.05563444 - samples/sec: 2.14 - lr: 0.020000
+2023-01-25 13:24:41,278 epoch 1 - iter 12/20 - loss 0.05103834 - samples/sec: 2.13 - lr: 0.020000
+2023-01-25 13:24:54,975 epoch 1 - iter 14/20 - loss 0.04617891 - samples/sec: 2.34 - lr: 0.020000
+2023-01-25 13:25:08,576 epoch 1 - iter 16/20 - loss 0.04392081 - samples/sec: 2.35 - lr: 0.020000
+2023-01-25 13:25:22,642 epoch 1 - iter 18/20 - loss 0.04074482 - samples/sec: 2.28 - lr: 0.020000
+2023-01-25 13:25:37,406 epoch 1 - iter 20/20 - loss 0.03956204 - samples/sec: 2.17 - lr: 0.020000
+2023-01-25 13:25:37,413 ----------------------------------------------------------------------------------------------------
+2023-01-25 13:25:37,416 EPOCH 1 done: loss 0.0396 - lr 0.020000
+2023-01-25 13:25:49,735 Evaluating as a multi-label problem: True
+2023-01-25 13:25:49,823 DEV : loss 0.17122356593608856 - f1-score (micro avg)  0.8636
+2023-01-25 13:25:49,838 BAD EPOCHS (no improvement): 0
+2023-01-25 13:25:49,843 saving best model
+2023-01-25 13:25:50,554 ----------------------------------------------------------------------------------------------------
+2023-01-25 13:26:05,678 epoch 2 - iter 2/20 - loss 0.01433620 - samples/sec: 2.15 - lr: 0.020000
+2023-01-25 13:26:21,022 epoch 2 - iter 4/20 - loss 0.01709193 - samples/sec: 2.09 - lr: 0.020000
+2023-01-25 13:26:37,860 epoch 2 - iter 6/20 - loss 0.01896672 - samples/sec: 1.90 - lr: 0.020000
+2023-01-25 13:26:52,085 epoch 2 - iter 8/20 - loss 0.01845159 - samples/sec: 2.25 - lr: 0.020000
+2023-01-25 13:27:05,535 epoch 2 - iter 10/20 - loss 0.01664545 - samples/sec: 2.38 - lr: 0.020000
+2023-01-25 13:27:20,000 epoch 2 - iter 12/20 - loss 0.01564247 - samples/sec: 2.21 - lr: 0.020000
+2023-01-25 13:27:35,572 epoch 2 - iter 14/20 - loss 0.01549222 - samples/sec: 2.06 - lr: 0.020000
+2023-01-25 13:27:49,981 epoch 2 - iter 16/20 - loss 0.01626900 - samples/sec: 2.22 - lr: 0.020000
+2023-01-25 13:28:07,454 epoch 2 - iter 18/20 - loss 0.01508150 - samples/sec: 1.83 - lr: 0.020000
+2023-01-25 13:28:21,729 epoch 2 - iter 20/20 - loss 0.01412210 - samples/sec: 2.24 - lr: 0.020000
+2023-01-25 13:28:21,735 ----------------------------------------------------------------------------------------------------
+2023-01-25 13:28:21,737 EPOCH 2 done: loss 0.0141 - lr 0.020000
+2023-01-25 13:28:35,175 Evaluating as a multi-label problem: False
+2023-01-25 13:28:35,184 DEV : loss 0.06641874462366104 - f1-score (micro avg)  0.9873
+2023-01-25 13:28:35,199 BAD EPOCHS (no improvement): 0
+2023-01-25 13:28:35,203 saving best model
+2023-01-25 13:28:35,924 ----------------------------------------------------------------------------------------------------
+2023-01-25 13:28:51,778 epoch 3 - iter 2/20 - loss 0.01249070 - samples/sec: 2.04 - lr: 0.020000
+2023-01-25 13:29:07,606 epoch 3 - iter 4/20 - loss 0.01008239 - samples/sec: 2.02 - lr: 0.020000
+2023-01-25 13:29:24,105 epoch 3 - iter 6/20 - loss 0.01132757 - samples/sec: 1.94 - lr: 0.020000
+2023-01-25 13:29:39,810 epoch 3 - iter 8/20 - loss 0.01038869 - samples/sec: 2.04 - lr: 0.020000
+2023-01-25 13:29:54,045 epoch 3 - iter 10/20 - loss 0.00890665 - samples/sec: 2.25 - lr: 0.020000
+2023-01-25 13:30:10,260 epoch 3 - iter 12/20 - loss 0.00782104 - samples/sec: 1.97 - lr: 0.020000
+2023-01-25 13:30:24,773 epoch 3 - iter 14/20 - loss 0.00680116 - samples/sec: 2.21 - lr: 0.020000
+2023-01-25 13:30:40,997 epoch 3 - iter 16/20 - loss 0.00698241 - samples/sec: 1.97 - lr: 0.020000
+2023-01-25 13:30:57,243 epoch 3 - iter 18/20 - loss 0.00663845 - samples/sec: 1.97 - lr: 0.020000
+2023-01-25 13:31:10,711 epoch 3 - iter 20/20 - loss 0.00772582 - samples/sec: 2.38 - lr: 0.020000
+2023-01-25 13:31:10,718 ----------------------------------------------------------------------------------------------------
+2023-01-25 13:31:10,721 EPOCH 3 done: loss 0.0077 - lr 0.020000
+2023-01-25 13:31:24,470 Evaluating as a multi-label problem: True
+2023-01-25 13:31:24,488 DEV : loss 0.06807556748390198 - f1-score (micro avg)  0.963
+2023-01-25 13:31:24,502 BAD EPOCHS (no improvement): 1
+2023-01-25 13:31:24,508 ----------------------------------------------------------------------------------------------------
+2023-01-25 13:31:38,152 epoch 4 - iter 2/20 - loss 0.00145609 - samples/sec: 2.37 - lr: 0.020000
+2023-01-25 13:31:51,887 epoch 4 - iter 4/20 - loss 0.00169069 - samples/sec: 2.33 - lr: 0.020000
+2023-01-25 13:32:06,742 epoch 4 - iter 6/20 - loss 0.00148637 - samples/sec: 2.16 - lr: 0.020000
+2023-01-25 13:32:18,844 epoch 4 - iter 8/20 - loss 0.00328450 - samples/sec: 2.65 - lr: 0.020000
+2023-01-25 13:32:33,338 epoch 4 - iter 10/20 - loss 0.00400799 - samples/sec: 2.21 - lr: 0.020000
+2023-01-25 13:32:47,266 epoch 4 - iter 12/20 - loss 0.00391923 - samples/sec: 2.30 - lr: 0.020000
+2023-01-25 13:33:01,621 epoch 4 - iter 14/20 - loss 0.00351234 - samples/sec: 2.23 - lr: 0.020000
+2023-01-25 13:33:16,571 epoch 4 - iter 16/20 - loss 0.00340990 - samples/sec: 2.14 - lr: 0.020000
+2023-01-25 13:33:32,511 epoch 4 - iter 18/20 - loss 0.00317798 - samples/sec: 2.01 - lr: 0.020000
+2023-01-25 13:33:49,993 epoch 4 - iter 20/20 - loss 0.00289094 - samples/sec: 1.83 - lr: 0.020000
+2023-01-25 13:33:49,999 ----------------------------------------------------------------------------------------------------
+2023-01-25 13:33:50,002 EPOCH 4 done: loss 0.0029 - lr 0.020000
+2023-01-25 13:34:03,951 Evaluating as a multi-label problem: False
+2023-01-25 13:34:03,961 DEV : loss 0.09446799010038376 - f1-score (micro avg)  0.962
+2023-01-25 13:34:03,974 BAD EPOCHS (no improvement): 2
+2023-01-25 13:34:03,979 ----------------------------------------------------------------------------------------------------
+2023-01-25 13:34:18,149 epoch 5 - iter 2/20 - loss 0.00357754 - samples/sec: 2.28 - lr: 0.020000
+2023-01-25 13:34:32,272 epoch 5 - iter 4/20 - loss 0.00199074 - samples/sec: 2.27 - lr: 0.020000
+2023-01-25 13:34:45,910 epoch 5 - iter 6/20 - loss 0.00356573 - samples/sec: 2.35 - lr: 0.020000
+2023-01-25 13:35:00,140 epoch 5 - iter 8/20 - loss 0.00502376 - samples/sec: 2.25 - lr: 0.020000
+2023-01-25 13:35:15,934 epoch 5 - iter 10/20 - loss 0.00465398 - samples/sec: 2.03 - lr: 0.020000
+2023-01-25 13:35:33,434 epoch 5 - iter 12/20 - loss 0.00444090 - samples/sec: 1.83 - lr: 0.020000
+2023-01-25 13:35:48,163 epoch 5 - iter 14/20 - loss 0.00383274 - samples/sec: 2.17 - lr: 0.020000
+2023-01-25 13:36:01,293 epoch 5 - iter 16/20 - loss 0.00374364 - samples/sec: 2.44 - lr: 0.020000
+2023-01-25 13:36:13,026 epoch 5 - iter 18/20 - loss 0.00340155 - samples/sec: 2.73 - lr: 0.020000
+2023-01-25 13:36:24,698 epoch 5 - iter 20/20 - loss 0.00308617 - samples/sec: 2.74 - lr: 0.020000
+2023-01-25 13:36:24,703 ----------------------------------------------------------------------------------------------------
+2023-01-25 13:36:24,706 EPOCH 5 done: loss 0.0031 - lr 0.020000
+2023-01-25 13:36:34,948 Evaluating as a multi-label problem: False
+2023-01-25 13:36:34,957 DEV : loss 0.15051743388175964 - f1-score (micro avg)  0.961
+2023-01-25 13:36:34,970 BAD EPOCHS (no improvement): 3
+2023-01-25 13:36:34,974 ----------------------------------------------------------------------------------------------------
+2023-01-25 13:36:49,730 epoch 6 - iter 2/20 - loss 0.00595328 - samples/sec: 2.18 - lr: 0.020000
+2023-01-25 13:37:02,782 epoch 6 - iter 4/20 - loss 0.00359549 - samples/sec: 2.45 - lr: 0.020000
+2023-01-25 13:37:16,460 epoch 6 - iter 6/20 - loss 0.00247219 - samples/sec: 2.34 - lr: 0.020000
+2023-01-25 13:37:31,021 epoch 6 - iter 8/20 - loss 0.00199553 - samples/sec: 2.20 - lr: 0.020000
+2023-01-25 13:37:45,170 epoch 6 - iter 10/20 - loss 0.00193196 - samples/sec: 2.26 - lr: 0.020000
+2023-01-25 13:37:59,791 epoch 6 - iter 12/20 - loss 0.00162555 - samples/sec: 2.19 - lr: 0.020000
+2023-01-25 13:38:15,073 epoch 6 - iter 14/20 - loss 0.00141283 - samples/sec: 2.10 - lr: 0.020000
+2023-01-25 13:38:29,209 epoch 6 - iter 16/20 - loss 0.00161749 - samples/sec: 2.27 - lr: 0.020000
+2023-01-25 13:38:42,896 epoch 6 - iter 18/20 - loss 0.00145494 - samples/sec: 2.34 - lr: 0.020000
+2023-01-25 13:38:55,397 epoch 6 - iter 20/20 - loss 0.00131650 - samples/sec: 2.56 - lr: 0.020000
+2023-01-25 13:38:55,401 ----------------------------------------------------------------------------------------------------
+2023-01-25 13:38:55,403 EPOCH 6 done: loss 0.0013 - lr 0.020000
+2023-01-25 13:39:05,276 Evaluating as a multi-label problem: False
+2023-01-25 13:39:05,285 DEV : loss 0.11236891895532608 - f1-score (micro avg)  0.962
+2023-01-25 13:39:05,297 Epoch     6: reducing learning rate of group 0 to 1.0000e-02.
+2023-01-25 13:39:05,299 BAD EPOCHS (no improvement): 4
+2023-01-25 13:39:05,886 ----------------------------------------------------------------------------------------------------
+2023-01-25 13:39:05,890 loading file few-shot-model-2\best-model.pt
+2023-01-25 13:39:20,119 Evaluating as a multi-label problem: True
+2023-01-25 13:39:20,135 0.9286	0.975	0.9512	0.925
+2023-01-25 13:39:20,139 
+Results:
+- F-score (micro) 0.9512
+- F-score (macro) 0.9368
+- Accuracy 0.925
+
+By class:
+                                precision    recall  f1-score   support
+
+speech_and_language_assessment     1.0000    1.0000    1.0000        14
+                 no_assessment     1.0000    1.0000    1.0000        10
+            medical_assessment     0.9000    1.0000    0.9474         9
+        psychiatric_assessment     0.7500    0.8571    0.8000         7
+
+                     micro avg     0.9286    0.9750    0.9512        40
+                     macro avg     0.9125    0.9643    0.9368        40
+                  weighted avg     0.9338    0.9750    0.9532        40
+                   samples avg     0.9500    0.9750    0.9583        40
+
+2023-01-25 13:39:20,142 ----------------------------------------------------------------------------------------------------

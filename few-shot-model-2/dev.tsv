@@ -1,0 +1,162 @@
+no assessments have been performed to determine the patient's physical abilities.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+administered bronchodilators or corticosteroids as needed.
+ - Gold: medical_assessment
+ - Pred: medical_assessment
+
+evaluated the patient's ability to use language in a functional way.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+assessed the patient's ability to use language in a subtle way.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+administered nutrition therapy to the patient as needed.
+ - Gold: medical_assessment
+ - Pred: medical_assessment
+
+no imaging tests have been performed to determine the patient's condition.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+dedicated cook who creates healthy meals for their family.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+evaluated the patient's ability to use language in a monocultural context.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+skilled painter who creates abstract art.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+assessed the patient's ability to use language in a playful way.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+performed a dermatological examination to evaluate the patient's skin condition.
+ - Gold: medical_assessment
+ - Pred: medical_assessment
+
+skilled craftsman who creates intricate jewelry.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+no assessments have been performed to determine the patient's needs.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+provided patient education on proper exercise and physical therapy for their condition.
+ - Gold: medical_assessment
+ - Pred: medical_assessment
+
+has not been assessed for any cognitive or developmental disorders.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+ordered imaging studies such as x-rays or mri to evaluate the patient's organs and bones.
+ - Gold: medical_assessment
+ - Pred: medical_assessment
+
+assessed the patient's ability to use language in a spoken context.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+assessed the patient's ability to use language in a qualitative assessment setting.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+prescribed a course of schema therapy to help the patient understand and change negative patterns in their relationships and emotions.
+ - Gold: psychiatric_assessment
+ - Pred: psychiatric_assessment
+
+performed a diagnostic interview to determine the patient's specific mental health diagnosis.
+ - Gold: psychiatric_assessment
+ - Pred: psychiatric_assessment
+
+conducted a diagnostic interview to determine if the patient met criteria for a specific mental disorder.
+ - Gold: psychiatric_assessment
+ - Pred: psychiatric_assessment
+
+assessed the patient's ability to use language in an impolite way.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+assessed the patient's level of motivation for self-improvement and personal growth.
+ - Gold: psychiatric_assessment
+ - Pred: psychiatric_assessment
+
+avid traveler who has visited several continents.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+used solution-focused therapy to help the patient identify and achieve their goals.
+ - Gold: psychiatric_assessment
+ - Pred: psychiatric_assessment
+
+skilled musician who plays several instruments.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+performed a cardiovascular examination to evaluate the patient's heart and blood vessels.
+ - Gold: medical_assessment
+ - Pred: medical_assessment
+
+provided patient education on stress management and coping strategies.
+ - Gold: medical_assessment
+ - Pred: psychiatric_assessment
+ -> MISMATCH!
+
+evaluated the patient's level of emotional regulation and ability to manage their emotions.
+ - Gold: psychiatric_assessment
+ - Pred: psychiatric_assessment
+
+enthusiastic traveler who has visited several countries.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+no diagnostic tests or screenings have been performed on the patient.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+no assessments have been performed to determine the patient's needs.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+administered vaccinations and immunizations to children according to schedule.
+ - Gold: medical_assessment
+ - Pred: medical_assessment
+
+administered preventive screenings such as mammograms or colonoscopies.
+ - Gold: medical_assessment
+ - Pred: medical_assessment
+
+evaluated the patient's ability to use language in a formal assessment setting.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+assessed the patient's level of self-esteem and self-worth.
+ - Gold: psychiatric_assessment
+ - Pred: psychiatric_assessment
+
+assessed the patient's ability to use language in an individual setting.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+evaluated the patient's risk for self-harm or harming others.
+ - Gold: psychiatric_assessment
+ - Pred: psychiatric_assessment
+
+evaluated the patient's ability to use language in a confident way.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+performed a functional assessment to evaluate the patient's ability to perform daily activities.
+ - Gold: psychiatric_assessment
+ - Pred: 
+ -> MISMATCH!
+

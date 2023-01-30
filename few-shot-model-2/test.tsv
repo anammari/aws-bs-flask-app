@@ -1,0 +1,163 @@
+assessed the patient's ability to use language in a non-digital context.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+dedicated cyclist who participates in long-distance rides.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+no assessment of any kind has been done on the patient.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+assessed the patient's ability to use language in a technical way.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+used motivational interviewing (mi) to help the patient overcome resistance and change negative behaviors.
+ - Gold: psychiatric_assessment
+ - Pred: psychiatric_assessment
+
+used emotion-focused therapy (eft) to help the patient understand and regulate their emotions.
+ - Gold: psychiatric_assessment
+ - Pred: psychiatric_assessment
+
+no diagnostic tests have been performed to determine the patient's condition.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+performed an otolaryngological examination to evaluate the patient's ears nose and throat.
+ - Gold: medical_assessment
+ - Pred: medical_assessment
+
+evaluated the patient's ability to use language in a formal way.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+prescribed a course of psychopharmacological treatment to manage symptoms of borderline personality disorder.
+ - Gold: psychiatric_assessment
+ - Pred: psychiatric_assessment
+
+assessed the patient's ability to use language in a humorous way.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+performed an ophthalmological examination to evaluate the patient's eyes and vision.
+ - Gold: medical_assessment
+ - Pred: psychiatric_assessment, medical_assessment
+ -> MISMATCH!
+
+evaluated the patient's ability to use language in a complex way.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+no assessments have been performed to evaluate the patient's mental health.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+evaluated the patient's ability to use language in a formal way.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+evaluated the patient's ability to understand and use language in a functional way.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+passionate chef who caters for local events.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+assessed the patient's ability to use language in an disrespectful way.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+assessed the patient's ability to use language in a expository way.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+assessed the patient's ability to use language in an informal context.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+performed a rheumatological examination to evaluate the patient's joints bones and muscles.
+ - Gold: medical_assessment
+ - Pred: psychiatric_assessment, medical_assessment
+ -> MISMATCH!
+
+provided patient education on proper nutrition and diet for their condition.
+ - Gold: medical_assessment
+ - Pred: medical_assessment
+
+evaluated the patient's level of self-esteem and self-worth.
+ - Gold: psychiatric_assessment
+ - Pred: psychiatric_assessment
+
+has not been assessed for any speech or language impairments.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+performed an infectious disease examination to evaluate the patient for any signs of an infectious disease and provide appropriate treatment.
+ - Gold: medical_assessment
+ - Pred: medical_assessment
+
+evaluated the patient's ability to use language in a polite way.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+assessed the patient's ability to use language in an inconsistent way.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+prescribed a course of electroconvulsive therapy (ect) for the patient's treatment-resistant depression.
+ - Gold: psychiatric_assessment
+ - Pred: medical_assessment
+ -> MISMATCH!
+
+performed a dental examination to evaluate the patient's teeth and gums.
+ - Gold: medical_assessment
+ - Pred: medical_assessment
+
+administered non-steroidal anti-inflammatory drugs (nsaids) or disease-modifying antirheumatic drugs (dmards) as needed.
+ - Gold: medical_assessment
+ - Pred: medical_assessment
+
+performed a rheumatological examination to evaluate the patient for any signs of rheumatoid arthritis or other rheumatological conditions.
+ - Gold: medical_assessment
+ - Pred: medical_assessment
+
+assessed the patient's ability to use language in an informal way.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+evaluated the patient's ability to use language in a scientific way.
+ - Gold: speech_and_language_assessment
+ - Pred: speech_and_language_assessment
+
+has not been assessed for any developmental disorders.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+administered antiepileptic drugs or muscle relaxants as needed.
+ - Gold: medical_assessment
+ - Pred: medical_assessment
+
+assessed the patient's level of adaptability and ability to cope with change.
+ - Gold: psychiatric_assessment
+ - Pred: psychiatric_assessment
+
+skilled mechanic who restores vintage cars.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+skilled crafter who creates unique home decor.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
+evaluated the patient's family and social support systems.
+ - Gold: psychiatric_assessment
+ - Pred: psychiatric_assessment
+
+has not been assessed for any behavioral disorders.
+ - Gold: no_assessment
+ - Pred: no_assessment
+
