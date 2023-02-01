@@ -38,7 +38,8 @@ vector_dim = 384
 sim_threshold = 0.5
 
 # Load the SpaCy model
-nlp = spacy.load(os.path.abspath('en_core_web_sm-3.3.0'))
+#nlp = spacy.load(os.path.abspath('en_core_web_sm-3.3.0'))   #when running in local machine
+nlp = spacy.load(os.path.abspath('en_core_web_sm-3.5.0'))    #when running in UoM VM
 
 # Load the LDA topic model
 model = models.ldamodel.LdaModel.load(temp_file)
@@ -91,6 +92,18 @@ sf_cons_model = SetFitModel.from_pretrained(f"aammari/{sf_cons_model_name}")
 sf_func_model_name = "setfit-zero-shot-classification-pbsp-p3-func"
 sf_func_model = SetFitModel.from_pretrained(f"aammari/{sf_func_model_name}")
 
+# Load the SetFit models for PBSP Page 4 (S.M.A.R.T. Goals)
+model_s_name = "setfit-zero-shot-classification-pbsp-p4-specific"
+model_s = SetFitModel.from_pretrained(f"aammari/{model_s_name}")
+model_m_name = "setfit-zero-shot-classification-pbsp-p4-meas"
+model_m = SetFitModel.from_pretrained(f"aammari/{model_m_name}")
+model_a_name = "setfit-zero-shot-classification-pbsp-p4-achiev"
+model_a = SetFitModel.from_pretrained(f"aammari/{model_a_name}")
+model_r_name = "setfit-zero-shot-classification-pbsp-p4-rel"
+model_r = SetFitModel.from_pretrained(f"aammari/{model_r_name}")
+model_t_name = "setfit-zero-shot-classification-pbsp-p4-time"
+model_t = SetFitModel.from_pretrained(f"aammari/{model_t_name}")
+
 # Load the SetFit models for PBSP Page 1
 sf_p1_model_name = "setfit-zero-shot-classification-pbsp-p1"
 sf_p1_model = SetFitModel.from_pretrained(f"aammari/{sf_p1_model_name}")
@@ -136,6 +149,11 @@ def ping():
         sf_p1_comm_model
         sf_p1_life_model
         sf_p1_likes_model
+        model_s
+        model_m
+        model_a
+        model_r
+        model_t
         status = 200
         result = json.dumps({'status': 'OK'})
     except:
@@ -1674,6 +1692,152 @@ def get_topics_p1_likes():
         agg_df = agg_df.sort_values(by='score', ascending=False)
         agg_df['topic'] = agg_df.index
         rem_topics = [ind_topic_dict[i] for i in range(0, 2) if not ind_topic_dict[i] in agg_df.topic.tolist()]
+        if len(rem_topics) > 0:
+            rem_agg_df = pd.DataFrame({'topic': rem_topics, 'score': 0.0, 'Total Score': 0.0})
+            agg_df = pd.concat([agg_df, rem_agg_df])
+        # Set the score column to 0 or 1 based on final_passing
+        if resp_output == 'topic_scores':
+            agg_df['score'] = [1 if score > final_passing else 0 for score in agg_df['score']]
+
+        predictions = agg_df[['topic', 'score']]
+        return predictions
+
+    if resp_output != 'phrase':
+        predictions = topic_output(predictions, resp_output)
+    
+    # Transform predictions to JSON
+    result = {'output': []}
+    list_out = predictions.to_dict(orient="records")
+    result['output'] = list_out
+    result = json.dumps(result)
+    return flask.Response(response=result, status=200, mimetype='application/json')
+
+@application.route('/topics_p4_q1', methods=['POST'])
+def get_topics_p4_q1():
+    # Get input JSON data and convert it to a DF
+    input_json = flask.request.get_json()
+    input_json = json.dumps(input_json['input'])
+    input_df = pd.read_json(input_json,orient='list')
+
+    # Get the query parameter value corresponsing to the output type: phrase | topic_agg | topic_scores
+    resp_output = flask.request.args.get("output")
+
+    # Text preprocessing
+    sw_lst = text.ENGLISH_STOP_WORDS
+    def preprocess(onto_lst):
+        cleaned_onto_lst = []
+        pattern = re.compile(r'^[a-z ]*$')
+        for document in onto_lst:
+            text = []
+            doc = nlp(document)
+            person_tokens = []
+            for w in doc:
+                if w.ent_type_ == 'PERSON':
+                    person_tokens.append(w.lemma_)
+            for w in doc:
+                if not w.is_stop and not w.is_punct and not w.like_num and not len(w.text.strip()) == 0 and not w.lemma_ in person_tokens:
+                    text.append(w.lemma_.lower())
+            texts = [t for t in text if len(t) > 1 and pattern.search(t) is not None and t not in sw_lst]
+            cleaned_onto_lst.append(" ".join(texts))
+        return cleaned_onto_lst
+
+    #sentence extraction
+    def extract_sentences(paragraph):
+        symbols = ['\\.', '!', '\\?', ';', ':', ',', '\\_', '\n', '\\-']
+        pattern = '|'.join([f'{symbol}' for symbol in symbols])
+        sentences = re.split(pattern, paragraph)
+        sentences = [sentence.strip() for sentence in sentences if sentence.strip()]
+        return sentences
+
+    #query and get predicted topic
+    def get_topic(model, sentences):
+        preds = list(model(sentences))
+        return preds
+    def get_topic_scores(model, sentences):
+        preds = model.predict_proba(sentences)
+        preds = [max(list(x)) for x in preds]
+        return preds
+
+    # format output
+    ind_s_topic_dict = {
+            0: 'NONE',
+            1: 'SPECIFIC',
+        }
+
+    ind_m_topic_dict = {
+            0: 'NONE',
+            1: 'MEASURABLE',
+        }
+
+    ind_a_topic_dict = {
+            0: 'NONE',
+            1: 'ACHIEVABLE',
+        }
+
+    ind_r_topic_dict = {
+            0: 'NONE',
+            1: 'RELEVANT',
+        }
+
+    ind_t_topic_dict = {
+            0: 'NONE',
+            1: 'TIMELY',
+        }
+
+    passing_score = 0.70
+
+    # Detect topics in the text
+    documents = input_df['text'].tolist()
+    document = documents[0]    # Currently this endpoint expects a single text input
+
+    # required if resp_output == 'phrase'
+    sentences = extract_sentences(document)
+    cl_sentences = preprocess(sentences)
+    #specific
+    topic_inds = get_topic(model_s, cl_sentences)
+    topics_s = [ind_s_topic_dict[i] for i in topic_inds]
+    scores_s = get_topic_scores(model_s, cl_sentences)
+    #measurable
+    topic_inds = get_topic(model_m, cl_sentences)
+    topics_m = [ind_m_topic_dict[i] for i in topic_inds]
+    scores_m = get_topic_scores(model_m, cl_sentences)
+    #achievable
+    topic_inds = get_topic(model_a, cl_sentences)
+    topics_a = [ind_a_topic_dict[i] for i in topic_inds]
+    scores_a = get_topic_scores(model_a, cl_sentences)
+    #relevant
+    topic_inds = get_topic(model_r, cl_sentences)
+    topics_r = [ind_r_topic_dict[i] for i in topic_inds]
+    scores_r = get_topic_scores(model_r, cl_sentences)
+    #timely
+    topic_inds = get_topic(model_t, cl_sentences)
+    topics_t = [ind_t_topic_dict[i] for i in topic_inds]
+    scores_t = get_topic_scores(model_t, cl_sentences)
+    all_sentences = sentences * 5
+    topics = topics_s + topics_m + topics_a + topics_r + topics_t
+    scores = scores_s + scores_m + scores_a + scores_r + scores_t
+    result_df = pd.DataFrame({'phrase': all_sentences, 'topic': topics, 'score': scores})
+    topic_list = ['SPECIFIC', 'MEASURABLE', 'ACHIEVABLE', 'RELEVANT', 'TIMELY']
+    sub_result_df = result_df[(result_df['score'] >= passing_score) & (result_df['topic'].isin(topic_list))].reset_index(drop=True)
+    # Identify duplicate phrases and keep the record with the highest score
+    agg_df = sub_result_df.groupby(sub_result_df.phrase).max()
+    agg_df['phrase'] = agg_df.index
+    agg_df = agg_df.reset_index(drop=True)
+    agg_df = agg_df.drop(columns=['topic'])
+    predictions = pd.merge(sub_result_df, agg_df, 'inner', ['phrase', 'score'])
+
+    # required if resp_output is either 'topic_agg' or 'topic_scores'
+    final_passing = 0.0
+    def topic_output(predictions, resp_output):
+        agg_df = predictions.groupby('topic')['score'].sum()
+        agg_df = agg_df.to_frame()
+        agg_df.columns = ['Total Score']
+        agg_df = agg_df.assign(
+            score=lambda x: x['Total Score'] / x['Total Score'].sum()
+        )
+        agg_df = agg_df.sort_values(by='score', ascending=False)
+        agg_df['topic'] = agg_df.index
+        rem_topics = [x for x in topic_list if not x in agg_df.topic.tolist()]
         if len(rem_topics) > 0:
             rem_agg_df = pd.DataFrame({'topic': rem_topics, 'score': 0.0, 'Total Score': 0.0})
             agg_df = pd.concat([agg_df, rem_agg_df])
