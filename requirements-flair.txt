@@ -18,3 +18,4 @@ segtok>=1.5.7
 tabulate
 transformers>=4.0.0
 wikipedia-api
+flair==0.11.3
