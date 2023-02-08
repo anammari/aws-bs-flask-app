@@ -1,0 +1,19 @@
+Given the paragraph below in a behaviour support plan written by a disability practitioner, identify the phrases that represent other strategies to be used before the restrictive practice performed by the person with disability:
+
+Paragraph:
+{query}
+
+All the following requirements must be met:
+- Provide your answer in a numbered list. 
+- All the phrases in your answer must be exact substrings in the original paragraph. without changing any characters.
+- All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the original paragraph.
+- Start numbering the phrases from number 1. 
+- For each phrase in your answer, provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 indicates you are very weakly confident that the phrase represent other strategies are to be used before the restrictive practice, whereas a score of 1.00 indicates you are very strongly confident that the phrase represent other strategies are to be used before the restrictive practice.
+- If there is not any phrase in the paragraph that represent other strategies are to be used before the restrictive practice performed, write: 'No Phrase has been detected'.
+
+Example Paragraph:
+When Taylor is unsure of what is happening next, he may start doing full body slam and also start hitting his head. If Taylor begins to engage in this behaviour, immediately encourage him to take deep breaths and instruct him to imagine that he is going to the beach.
+
+Example answer:    
+1. encourage him to take deep breaths. (Confidence Score: 0.97)
+2. instruct him to imagine that he is going to the beach. (Confidence Score: 0.90)
