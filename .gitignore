@@ -12,3 +12,6 @@ setfit-zero-shot-classification-pbsp-p4-quality/pytorch_model.bin
 
 # Azure OpenAI API Key file
 .env
+
+# Spacy model on disk
+en_core_web_sm-3.5.0
