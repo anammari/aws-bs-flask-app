@@ -2061,6 +2061,90 @@ def get_topics_p4_q5():
     result = json.dumps(result)
     return flask.Response(response=result, status=200, mimetype='application/json')
 
+@application.route('/topics_p4_q6', methods=['POST'])
+def get_topics_p4_q6():
+    # Get input JSON data and convert it to a DF
+    input_json = flask.request.get_json()
+    input_json = json.dumps(input_json['input'])
+    input_df = pd.read_json(input_json,orient='list')
+
+    # Get the query parameter value corresponsing to the output type: phrase | topic_agg | topic_scores
+    resp_output = flask.request.args.get("output")
+
+    def process_response(response):
+        sentences = []
+        topics = []
+        scores = []
+        lines = response.strip().split("\n")
+        topic = "SAFETY STRATEGY"
+        for line in lines:
+            try:
+                phrase = line.split("(Confidence Score:")[0].strip()
+                score = float(line.split("(Confidence Score:")[1].strip().replace(")", ""))
+                sentences.append(phrase)
+                topics.append(topic)
+                scores.append(score)
+            except:
+                pass
+        result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'score': scores})
+        if len(result_df) > 0:
+            result_df['phrase'] = result_df['phrase'].str.replace('\d+\.', '', regex=True)
+            result_df['phrase'] = result_df['phrase'].str.replace('^\s', '', regex=True)
+        return result_df
+    
+    def get_prompt(query):
+        with open("data/p4_q6_prompt.txt", "r") as file:
+            static_prompt = file.read()
+        prompt = static_prompt.format(query=query)
+        return prompt
+    
+    def get_response(prompt):
+        response = openai.Completion.create(engine=deployment_id, 
+                                        prompt=prompt, 
+                                        temperature=1, 
+                                        max_tokens=2048,
+                                        top_p=0.5,
+                                        frequency_penalty=0,
+                                        presence_penalty=0,
+                                        best_of=1,
+                                        stop=None)
+        text = response['choices'][0]['text']
+        return text
+
+    # format output
+    passing_score = 0.75
+
+    # Detect topics in the text
+    documents = input_df['text'].tolist()
+    document = documents[0]    # Currently this endpoint expects a single text input
+
+    # required if resp_output == 'phrase'
+    prompt = get_prompt(document)
+    response = get_response(prompt)
+    result_df = process_response(response)
+    if len(result_df) > 0:
+        predictions = result_df[result_df['score'] >= passing_score]
+    else:
+        predictions = pd.DataFrame({'phrase': [], 'topic': [], 'score': []})
+
+    # required if resp_output is 'topic_scores'
+    def topic_output(predictions):
+        if len(predictions) > 0:
+            predictions = pd.DataFrame({'topic': ["SAFETY STRATEGY"], 'score': [1.0]})
+        else:
+            predictions = pd.DataFrame({'topic': ["SAFETY STRATEGY"], 'score': [0.0]})
+        return predictions
+
+    if resp_output != 'phrase':
+        predictions = topic_output(predictions)
+    
+    # Transform predictions to JSON
+    result = {'output': []}
+    list_out = predictions.to_dict(orient="records")
+    result['output'] = list_out
+    result = json.dumps(result)
+    return flask.Response(response=result, status=200, mimetype='application/json')
+
 # run the application.
 if __name__ == "__main__":
     os.environ['SOCKET_TIMEOUT'] = '120'
