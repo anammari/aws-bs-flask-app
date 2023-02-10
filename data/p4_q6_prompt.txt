@@ -1,0 +1,22 @@
+Given the paragraph below in a behaviour support plan written by a disability practitioner, identify the phrases that represent strategies the practitioner creates to ensure the safety of the person with disability and/or others.
+
+Paragraph:
+{query}
+
+All the following requirements must be met:
+- Provide your answer in a numbered list. 
+- All the phrases in your answer must be exact substrings in the original paragraph. without changing any characters.
+- All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the original paragraph.
+- Start numbering the phrases from number 1. 
+- For each phrase in your answer, provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 indicates you are very weakly confident that the phrase represents strategies the practitioner creates to ensure the safety of the person with disability and/or others, whereas a score of 1.00 indicates you are very strongly confident that the phrase represents strategies the practitioner creates to ensure the safety of the person with disability and/or others.
+- If there is no phrase in the paragraph that represents strategies the practitioner creates to ensure the safety of the person with disability and/or others, write: 'No Phrase has been detected'.
+
+Example Paragraph:
+If Taylor continues to escalate, ensure the safety of all by telling other people in the room to leave immediately, keeping Taylor in your line of sight, position your back to the door and continue to speak. If Taylor begins to attempt to hit staff with his head, commence seclusion protocol. If Taylor does not stop his aggresive behaviour, do not change him.
+
+Example answer:    
+1. telling other people in the room to leave immediately. (Confidence Score: 0.97)
+2. keeping Taylor in your line of sight. (Confidence Score: 0.85)
+3. position your back to the door and continue to speak. (Confidence Score: 0.87)
+4. commence seclusion protocol. (Confidence Score: 0.93)
+5. do not change him. (Confidence Score: 0.50)
