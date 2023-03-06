@@ -39,17 +39,21 @@ collection_name = "my_collection"
 vector_dim = 384
 sim_threshold = 0.5
 
-#Azure OpenAI parameters
+#Azure OpenAI parameters (NOT IN USE)
 load_dotenv()
-api_key = os.getenv("API_KEY")
-api_base = os.getenv("API_BASE")
-api_type = os.getenv("API_TYPE")
-api_version = os.getenv("API_VERSION")
-deployment_id=os.getenv("DEPLOYMENT_ID")
+# api_key = os.getenv("API_KEY")
+# api_base = os.getenv("API_BASE")
+# api_type = os.getenv("API_TYPE")
+# api_version = os.getenv("API_VERSION")
+# deployment_id=os.getenv("DEPLOYMENT_ID")
+# openai.api_key = api_key
+# openai.api_base = api_base
+# openai.api_type = api_type
+# openai.api_version = api_version
+
+#OpenAI parameters
+api_key = os.getenv("OPENAI_API_KEY")
 openai.api_key = api_key
-openai.api_base = api_base
-openai.api_type = api_type
-openai.api_version = api_version
 
 # Load the SpaCy model
 #nlp = spacy.load(os.path.abspath('en_core_web_sm-3.3.0'))   #when running in local machine
@@ -2137,6 +2141,127 @@ def get_topics_p4_q6():
 
     if resp_output != 'phrase':
         predictions = topic_output(predictions)
+    
+    # Transform predictions to JSON
+    result = {'output': []}
+    list_out = predictions.to_dict(orient="records")
+    result['output'] = list_out
+    result = json.dumps(result)
+    return flask.Response(response=result, status=200, mimetype='application/json')
+
+@application.route('/topics_p3_warning', methods=['POST'])
+def get_topics_p3_warning():
+    # Get input JSON data and convert it to a DF
+    input_json = flask.request.get_json()
+    input_json = json.dumps(input_json['input'])
+    input_df = pd.read_json(input_json,orient='list')
+
+    # Get the query parameter value corresponsing to the output type: phrase | topic_agg | topic_scores
+    resp_output = flask.request.args.get("output")
+
+    passing_score = 0.8
+    def process_response(response):
+        sentences = []
+        topics = []
+        scores = []
+        lines = response.strip().split("\n")
+        for line in lines:
+            if "Physical signs:" in line:
+                topic = "PHYSICAL SIGNS"
+            elif "Verbal signs:" in line:
+                topic = "VERBAL SIGNS"
+            elif "Environmental signs:" in line:
+                topic = "ENVIRONMENTAL SIGNS"
+            elif "Emotional signs:" in line:
+                topic = "EMOTIONAL SIGNS"
+            elif "Behavioural signs:" in line:
+                topic = "BEHAVIOURAL SIGNS"
+            elif "None:" in line:
+                topic = "NONE"
+            else:
+                try:
+                    phrase = line.split("(Confidence Score:")[0].strip()
+                    score = float(line.split("(Confidence Score:")[1].strip().replace(")", ""))
+                    sentences.append(phrase)
+                    topics.append(topic)
+                    scores.append(score)
+                except:
+                    pass
+        result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'score': scores})
+        result_df['phrase'] = result_df['phrase'].str.replace('\d+\.', '', regex=True)
+        result_df['phrase'] = result_df['phrase'].str.replace('^\s', '', regex=True)
+        sub_result_df = result_df[result_df['score'] >= passing_score]
+        null_df = result_df[result_df['topic'] == "NONE"]
+        if len(null_df) > 0:
+            result_df = pd.concat([sub_result_df, null_df]).drop_duplicates().reset_index(drop=True)
+        else:
+            result_df = sub_result_df.reset_index(drop=True)
+        return result_df
+    
+    def get_prompt(query):
+        with open("data/p3_warning_prompt.txt", "r") as file:
+            static_prompt = file.read()
+        prompt = static_prompt.format(query=query)
+        return prompt
+    
+    def get_response_chatgpt(prompt):
+        response=openai.ChatCompletion.create(   
+            model="gpt-3.5-turbo",   
+            messages=[         
+            {"role": "system", "content": "You are a helpful assistant."},                  
+            {"role": "user", "content": prompt}     
+            ],
+            temperature=0
+        )
+        reply = response["choices"][0]["message"]["content"]
+        return reply
+
+    # format output
+    ind_topic_dict = {
+                0: 'PHYSICAL SIGNS',
+                1: 'VERBAL SIGNS',
+                2: 'ENVIRONMENTAL SIGNS',
+                3: 'EMOTIONAL SIGNS',
+                4: 'BEHAVIOURAL SIGNS'
+                }
+    
+    # Detect topics in the text
+    documents = input_df['text'].tolist()
+    document = documents[0]    # Currently this endpoint expects a single text input
+
+    # required if resp_output == 'phrase'
+    prompt = get_prompt(document)
+    response = get_response_chatgpt(prompt)
+    result_df = process_response(response)
+    if len(result_df) > 0:
+        predictions = result_df[(result_df['score'] >= passing_score) & (result_df['topic'] != 'NONE')]
+    else:
+        predictions = pd.DataFrame({'phrase': [], 'topic': [], 'score': []})
+
+   # required if resp_output is either 'topic_agg' or 'topic_scores'
+    final_passing = 0.0
+    def topic_output(predictions, resp_output):
+        agg_df = predictions.groupby('topic')['score'].sum()
+        agg_df = agg_df.to_frame()
+        agg_df.columns = ['Total Score']
+        agg_df = agg_df.assign(
+            score=lambda x: x['Total Score'] / x['Total Score'].sum()
+        )
+        agg_df = agg_df.sort_values(by='score', ascending=False)
+        agg_df['topic'] = agg_df.index
+        rem_topics = [ind_topic_dict[i] for i in range(0, 5) if not ind_topic_dict[i] in agg_df.topic.tolist()]
+        if len(rem_topics) > 0:
+            rem_agg_df = pd.DataFrame({'topic': rem_topics, 'score': 0.0, 'Total Score': 0.0})
+            agg_df = pd.concat([agg_df, rem_agg_df])
+        # Set the score column to 0 or 1 based on final_passing
+        if resp_output == 'topic_scores':
+            agg_df['score'] = [1 if score > final_passing else 0 for score in agg_df['score']]
+
+        predictions = agg_df[['topic', 'score']]
+        return predictions
+
+    if resp_output != 'phrase':
+        predictions = topic_output(predictions, resp_output)
     
     # Transform predictions to JSON
     result = {'output': []}
