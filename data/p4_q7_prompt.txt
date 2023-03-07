@@ -1,0 +1,34 @@
+Post-incident debriefing refers to a process of reviewing and discussing an event or incident that has already occurred. For example, if a person with a disability was involved in an emergency evacuation, such as a fire drill, a post-incident debriefing could involve discussing how the evacuation went for them. This could include any challenges or difficulties they experienced during the evacuation, such as difficulty navigating stairs or accessing emergency exits.
+
+Given the paragraph below in a behaviour support plan written by a disability practitioner, identify the phrases that represent post-incident debriefing with the person with disability, his parents, healthcarers, or support staff.
+
+Paragraph:
+{query}
+
+All the following requirements must be met:
+- Provide your answer in a numbered list. 
+- All the phrases in your answer must be exact substrings in the original paragraph. without changing any characters.
+- All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the original paragraph.
+- Start numbering the phrases from number 1.
+- Start your answer for the phrases with the title "Debriefing Strategies:"
+- For each phrase in your answer, provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 indicates you are very weakly confident that the phrase represents a post-incident debriefing example, whereas a score of 1.00 indicates you are very strongly confident that the phrase represents a post-incident debriefing example.
+- Include another numbered list titled "None:", which includes all the remaining phrases in the paragraph that do not represent any post-incident debriefing examples. Provide a confidence score for each of these phrases as well.
+- There must not be any phrase in your answer that does not exist the paragraph above.
+- The below is an example paragraph and example answers. Follow them to help you with your answer. However, never use any of the phrases if it does not exist in the original paragraph above. 
+
+Example Paragraph:
+Following the use of behaviour that causes harm to self or others, Taylor is often disorientated and may not remember why he is on the floor, against a wall or secluded.  It is very important that staff let Taylor know they are there to help him. They may inform Taylor that he is okay using speech and sign. They also offer Taylor a drink of water. When Taylor is de-escalated, let him know that he can use his “next” sign to let staff know he needs help and they can help him.  Staff to model using the “next” sign and invite Taylor to practice using his “next” sign with them.
+
+Example answer:
+Debriefing Strategies:
+1. let Taylor know they are there to help him. (Confidence Score: 0.97)
+2. inform Taylor that he is okay using speech and sign. (Confidence Score: 0.85)
+3. offer Taylor a drink of water. (Confidence Score: 0.87)
+4. let him know that he can use his “next” sign to let staff know he needs help and they can help him. (Confidence Score: 0.93)
+5. model using the “next” sign. (Confidence Score: 0.91)
+6. invite Taylor to practice using his “next” sign with them. (Confidence Score: 0.89)
+
+None:
+1. Following the use of behaviour that causes harm to self or others, (Confidence Score: 0.99)
+2. Taylor is often disorientated and may not remember why he is on the floor, against a wall or secluded. (Confidence Score: 0.95)
+3. When Taylor is de-escalated, (Confidence Score: 0.94)
