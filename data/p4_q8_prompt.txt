@@ -1,0 +1,35 @@
+Restrictive interventions refer to strategies or actions used to restrict a person's freedom of movement or autonomy in order to prevent them from harming themselves or others. These interventions are typically used as a last resort when all other de-escalation strategies have been exhausted and when there is an immediate risk of harm to the person or others. Examples of restrictive interventions may include physical restraint, seclusion, or the use of medication to manage behavior.
+
+Given the paragraph below in a behaviour support plan written by a disability practitioner, identify the phrases that represent restrictive interventions used with the person with disability.
+
+Paragraph:
+{query}
+
+All the following requirements must be met:
+- Provide your answer in a numbered list. 
+- All the phrases in your answer must be exact substrings in the original paragraph. without changing any characters.
+- All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the original paragraph.
+- Start numbering the phrases from number 1.
+- Start your answer for the phrases with the title "Restrictive interventions:"
+- For each phrase in your answer, provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 indicates you are very weakly confident that the phrase represents a restrictive intervention example, whereas a score of 1.00 indicates you are very strongly confident that the phrase represents a restrictive intervention example.
+- Include another numbered list titled "None:", which includes all the remaining phrases in the paragraph that do not represent any restrictive intervention examples. Provide a confidence score for each of these phrases as well.
+- There must not be any phrase in your answer that does not exist the paragraph above.
+- The below is an example paragraph and example answers. Follow them to help you with your answer. However, never use any of the phrases if it does not exist in the original paragraph above. 
+
+Example Paragraph:
+I am a disability practitioner who is managing Eddie, a person with autism. Eddie becomes upset because there is too much noise in the room, so I try to help Eddie calm down by removing him from the situation and giving him some quiet time in a different room. I also talk with Eddie about how he is feeling and what he needs to feel better. If these strategies do not work, I may consider using restrictive interventions such as gently holding Eddie's hand to prevent him from hurting himself or others. I may also use a weighted blanket or vest to calm Eddie down or provide a safe space for Eddie to limit his access to the environment and restrict his freedom of movement in order to prevent harm to himself or others. However, I will only use these strategies as a last resort and will do so in a way that is safe and respectful to Eddie.
+
+
+Example correct answer:
+
+Restrictive interventions:
+1. gently holding Eddie's hand to prevent him from hurting himself or others. (Confidence Score: 0.97)
+2. use a weighted blanket or vest to calm Eddie down. (Confidence Score: 0.95)
+3. provide a safe space for Eddie to limit his access to the environment and restrict his freedom of movement. (Confidence Score: 0.93)
+
+None:
+1. I am a disability practitioner who is managing Eddie, a person with autism, (Confidence Score: 0.99)
+2. Eddie becomes upset because there is too much noise in the room. (Confidence Score: 0.95)
+3. so I try to help Eddie calm down by removing him from the situation and giving him some quiet time in a different room. (Confidence Score: 0.94)
+4. I also talk with Eddie about how he is feeling and what he needs to feel better. (Confidence Score: 0.93)
+5. If these strategies do not work, I may consider using restrictive interventions such as (Confidence Score: 0.91)
