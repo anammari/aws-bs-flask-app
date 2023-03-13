@@ -1,0 +1,38 @@
+Given the paragraph below, identify the phrases that describe the strategies that address the identified setting events and the phrases that describe the strategies that address the triggers/antecendents, and the phrases that describe other strategies (e.g. specific support strategies, strategies to improve independence, coping or tolerance):
+
+Paragraph:
+{query}
+
+Guidelines:
+The strategies that address the identified setting events are focused on reactively responding to specific negative interactions that may occur between the person with disability and co-tenants or staff members, and providing additional information and reminders to the person with disability after the situation has been de-escalated and he is open to communication. The purpose of these strategies is to help prevent future negative interactions and provide the person with disability with the necessary support to manage his behavior in challenging situations. The strategies that address the triggers/antecedents are focused on proactively addressing the underlying causes of the person with disability's behavior, such as changes in his daily schedule or sleep disturbances. These strategies aim to create a stable and predictable environment for the person with disability, where he can feel comfortable and secure, and provide him with clear communication and choices throughout his day to help him manage his behavior more effectively. There are other strategies such as specific support strategies as well as strategies to improve independence, coping or tolerance.
+
+Requirements:
+- Provide your answer in numbered lists. 
+- All the phrases in your answer must be exact substrings in the original paragraph. without changing any characters.
+- All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the original paragraph.
+- Start numbering the phrases under the setting event strategies from number 1. 
+- Start numbering the phrases under the trigger strategies from number 1.
+- Start numbering the phrases under the other strategies from number 1.
+- Start each list of phrases with these titles: "Setting event strategies:", "Trigger strategies:", "Other strategies:"
+- For each phrase that belongs to any of the above group (Setting event strategies, Trigger strategies, Other strategies), provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 means you are very weakly confident that the phrase belongs to that specific group, whereas a score of 1.00 means you are very strongly confident that the phrase belongs to that specific group.
+- Never include any phrase that does not exist in the paragraph above. 
+- Never change the wording on any phrase in the paragraph above.
+- Include a final numbered list titled "None:", which include all the remaining phrases from the paragraph above that do not belong to any of the groups above. Provide a confidence score for each of these phrases as well.
+    
+Example answer:
+
+Setting event strategies:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Trigger strategies:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Other strategies:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+None:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
