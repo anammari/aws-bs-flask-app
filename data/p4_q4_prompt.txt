@@ -1,0 +1,56 @@
+The paragraph below is written by a disability practitioner in a behaviour support plan to describe the teaching strategy and materials needed in order to teach the person with disability a new skill, an alternative behaviour or a functionally equivalent replacement behaviour:
+
+Paragraph:
+{query}
+
+Requirement:
+- Identify the phrases from the paragraph above that represent each of the following teaching strategy elements: "What", "How", "Who", "When", "Where", "Materials".
+
+Guidelines:
+- The "What" phrases refer to the content, learning objectives, or subject matter that is being taught.
+- The "How" phrases refer to the methods and techniques used to teach the content. This includes things like lectures, discussions, hands-on activities, group work, and multimedia presentations.
+- The "Who" phrases refer to the person or group of people who will be delivering the instruction. This includes the teacher, instructor, or facilitator, as well as any co-teachers or assistants.
+- The "When" phrases refer to the timing and pacing of the lessons. It is important to consider the amount of time available for each lesson and to break up the content into manageable chunks.
+- The "Where" phrases refer to the physical and virtual environment in which the teaching will take place. This includes things like the classroom layout, the availability of technology, and the use of online learning platforms.
+- The "Materials" phrases refer to the resources that will be used to support the teaching and learning process. This includes textbooks, handouts, multimedia resources, and technology tools.
+
+Specifications of a correct answer:
+- Provide your answer in numbered lists. 
+- All the phrases in your answer must be exact substrings in the original paragraph. without changing any characters.
+- All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the original paragraph.
+- Start numbering the phrases under each teaching strategy element from number 1. 
+- Start each list of phrases with these titles: "What", "How", "Who", "When", "Where", "Materials".
+- For each phrase that belongs to any of the above teaching strategy elements, provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 means you are very weakly confident that the phrase belongs to that specific element, whereas a score of 1.00 means you are very strongly confident that the phrase belongs to that specific element.
+- Never include any phrase in your answer that does not exist in the paragraph above.
+- If there are not any phrases that belong to one or more of the elements, then do not include these elements in your answer. 
+- Include a final numbered list titled "None:", which include all the remaining phrases from the paragraph above that do not belong to any of the elements above. Provide a confidence score for each of these phrases as well.
+
+Example answer:
+
+What:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+How:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Who:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+When:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Where:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Materials:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+None:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
