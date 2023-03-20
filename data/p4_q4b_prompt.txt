@@ -1,0 +1,56 @@
+The paragraph below is written by a disability practitioner in a behaviour support plan to describe the reinforcement strategies that will be used as a reward for completing work or demonstrating desired behavior while teaching the person with disability a new skill, an alternative behaviour or a functionally equivalent replacement behaviour.
+
+Paragraph:
+{query}
+
+Requirement:
+- Identify the phrases from the paragraph above that represent each of the following reinforcement strategies: "Privileges", "Breaks", "Verbal Praise", "Social Interaction", "Physical Rewards", "Attention".
+
+Guidelines:
+- "privileges": refers to allowing access to preferred activities such as dancing, singing, or playing, or access to preferred locations such as parks or gardens, as a reward for completing work or demonstrating desired behavior.
+- "breaks": refers to allowing breaks between lessons as a reward for completing work or demonstrating desired behavior.
+- "verbal praise": refers to providing verbal praise as a reward for completing work or demonstrating desired behavior, such as "great job!" or "i'm proud of you!"
+- "social interaction": refers to providing social interaction with preferred individuals, such as meeting with peers, parents, relatives, friends, as a reward for completing work or demonstrating desired behavior.
+- "physical rewards": refers to providing physical and tangible presents and gifts as a reward for completing work or demonstrating desired behavior, such as a lollipops, chocolates etc. 
+- "attention": refers to providing a form of positive interaction or engagement with the student as a reward for completing work or demonstrating desired behavior, such as sitting next to the student, offering help or guidance, or simply engaging in conversation with the student.
+
+Specifications of a correct answer:
+- Provide your answer in numbered lists. 
+- All the phrases in your answer must be exact substrings in the original paragraph. without changing any characters.
+- All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the original paragraph.
+- Start numbering the phrases under each reinforcement strategy from number 1. 
+- Start each list of phrases with these titles: "Privileges", "Breaks", "Verbal Praise", "Social Interaction", "Physical Rewards", "Attention".
+- For each phrase that belongs to any of the above reinforcement strategies, provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 means you are very weakly confident that the phrase belongs to that specific reinforcement strategy, whereas a score of 1.00 means you are very strongly confident that the phrase belongs to that specific reinforcement strategy.
+- Never include any phrase in your answer that does not exist in the paragraph above.
+- If there are not any phrases that belong to one or more of the reinforcement strategies, then do not include these strategies in your answer. 
+- Include a final numbered list titled "None:", which include all the remaining phrases from the paragraph above that do not belong to any of the reinforcement strategies above. Provide a confidence score for each of these phrases as well.
+
+Example answer:
+
+Privileges:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Breaks:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Verbal Praise:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Social Interaction:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Physical Rewards:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Attention:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+None:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
