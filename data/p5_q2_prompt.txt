@@ -1,0 +1,52 @@
+The paragraph below is written by a disability practitioner to outline the implementation of his positive behaviour support plan, where he is expected to describe the approaches and methodologies used to implement the plan. 
+
+Paragraph:
+{query}
+
+Requirement:
+- Identify the phrases from the paragraph above that represent each of the following plan implementation topics: "Implementors & Roles", "Training Strategies", "Implementation Support", "Communication Strategies", "Treatment Fidelity".
+
+Guidelines:
+- "Implementors & Roles": refers to the individuals who will implement the plan and their specific roles. Example keywords to look for: "implement", "roles", "responsibility", "support staff", "parents", and "caregivers".
+- "Training Strategies": refers to proposed strategies to train relevant plan implementers and who will deliver the training. Example keywords to look for: "workshops", "training sessions", "online resources", and "coaching".
+- "Implementation Support": refers to whether the proposed strategies to support the implementation of the plan in relevant settings. Example keywords to look for: "mentoring", "support", "assistance", and "ongoing".
+- "Communication Strategies": refers to proposed strategies for plan implementers to communicate relevant information about the plan and its implementation with one another. Example keywords to look for: "meetings", "reports", "progress", and "sharing".
+- "Treatment Fidelity": refers to the proposed strategies to ensure the fidelity of the plan implementation and set a criterion level of achievement. Example keywords to look for: "monitoring", "assessment", "outcomes", and "feedback".
+
+Specifications of a correct answer:
+- Please provide a response that closely matches the information in the paragraph and does not deviate significantly from it.
+- Provide your answer in numbered lists. 
+- All the phrases in your answer must be exact substrings in the original paragraph. without changing any characters.
+- All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the original paragraph.
+- Start numbering the phrases under each implementation topic from number 1. 
+- Start each list of phrases with these titles: "Implementors & Roles", "Training Strategies", "Implementation Support", "Communication Strategies", "Treatment Fidelity".
+- For each phrase that belongs to any of the above implementation topics, provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 means you are very weakly confident that the phrase belongs to that specific implementation topic, whereas a score of 1.00 means you are very strongly confident that the phrase belongs to that specific implementation topic.
+- Never include any phrase in your answer that does not exist in the paragraph above.
+- If there are not any phrases that belong to one or more of the implementation topics, then do not include these strategies in your answer. 
+- Include a final numbered list titled "None:", which include all the remaining phrases from the paragraph above that do not belong to any of the implementation topics above. Provide a confidence score for each of these phrases as well.
+
+Example answer:
+
+Implementors & Roles:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Training Strategies:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Implementation Support:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Communication Strategies:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Treatment Fidelity:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+None:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
