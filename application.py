@@ -3210,6 +3210,7 @@ def get_topics_p5_q3a():
     # Get the query parameter value corresponsing to the output type: phrase | topic_agg | topic_scores
     resp_output = flask.request.args.get("output")
 
+    # Passing score to filter the model output
     passing_score = 0.85
 
     #sentence extraction
