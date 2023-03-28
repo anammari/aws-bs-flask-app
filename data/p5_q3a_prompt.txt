@@ -1,0 +1,44 @@
+The paragraph below is written by a disability practitioner to describe the strategies that he is going to apply in order to measure the outcomes of his positive behavior support plan. He is also expected to indicate who will collect the data required for his outcome measurements and to describe what data that will be collected.
+
+Paragraph:
+{query}
+
+Requirement:
+- Identify the phrases from the paragraph above that represent each of the following topics: "OM Strategies", "Data Collectors", "Data Collected". 
+
+Guidelines:
+- "OM Strategies": refers to the phrases that describe the outcome measurement strategies. For example, if the paragraph include the following text: "When I meet Eddie, a person with disability, I will work with Eddie and any relevant family members or support staff to set specific, measurable goals that are tailored to Eddie's needs and preferences.I will also use a rating scale to assign a score to each goal that represents Eddie's current level of functioning and the desired level of functioning. I will collect all available pre-intervention data and progress notes before and during the implementation of the behavior support plan." then the "OM Strategies" phrases will be: "set specific, measurable goals that are tailored to Eddie's needs and preferences" and "use a rating scale to assign a score to each goal". 
+
+- "Data Collectors": refers to the phrases that indicate the people who will collect the data required for the outcome measurements. For example, if the paragraph include the following text: "When I meet Eddie, a person with disability, I will work with Eddie and any relevant family members or support staff to set specific, measurable goals that are tailored to Eddie's needs and preferences.I will also use a rating scale to assign a score to each goal that represents Eddie's current level of functioning and the desired level of functioning. I, with the help of Eddie's parents and his caregivers, will collect all available pre-intervention data and progress notes before and during the implementation of the behavior support plan." then the "Data Collectors" phrases will be: "I, with the help of Eddie's parents and his caregivers".
+
+- "Data Collected": refers to the phrases that describe the data which will be collected for the outcome measurements. For example, if the paragraph include the following text: "When I meet Eddie, a person with disability, I will work with Eddie and any relevant family members or support staff to set specific, measurable goals that are tailored to Eddie's needs and preferences.I will also use a rating scale to assign a score to each goal that represents Eddie's current level of functioning and the desired level of functioning. I, with the help of Eddie's parents and his caregivers, will collect all available pre-intervention data and progress notes before and during the implementation of the behavior support plan." then the "Data Collected" phrases will be: "all available pre-intervention data and progress notes".
+
+Specifications of a correct answer:
+- Please provide a response that closely matches the information in the paragraph and does not deviate significantly from it.
+- Provide your answer in numbered lists. 
+- All the phrases in your answer must be exact substrings in the original paragraph. without changing any characters.
+- All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the original paragraph.
+- Start numbering the phrases under each topic from number 1. 
+- Start each list of phrases with these titles: "OM Strategies", "Data Collectors", "Data Collected".
+- For each phrase that belongs to any of the above topics, provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 means you are very weakly confident that the phrase belongs to that specific topic, whereas a score of 1.00 means you are very strongly confident that the phrase belongs to that specific topic.
+- Never include any phrase in your answer that does not exist in the paragraph above.
+- If there are not any phrases that belong to one or more of the topics, then do not include these strategies in your answer. 
+- Include a final numbered list titled "None:", which include all the remaining phrases from the paragraph above that do not belong to any of the topics above. Provide a confidence score for each of these phrases as well.
+
+Example answer:
+
+OM Strategies:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Data Collectors:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Data Collected:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+None:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
