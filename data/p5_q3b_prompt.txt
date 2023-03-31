@@ -1,0 +1,51 @@
+The paragraph below is written by a disability practitioner to outline a plan for reviewing the positive behavior support plan. In his answer, the practitioner is  expected to write in the paragraph about who will review the data collected, whom they will report the collated data to, any review meetings planned, and any specific date or timeframe indicating when the plan will be reviewed.
+
+Paragraph:
+{query}
+
+Requirement:
+- Identify the phrases from the paragraph above that represent each of the following plan review topics: "Data Reviewer", "Reported To", "Review Meeting", "Review Timeframe". 
+
+Guidelines:
+- "Data Reviewer": refers to the phrases that indicate the person or people who will review the data collected. For example, if the paragraph includes the following text: "Data will be reviewed and analysed by the teacher and myself, including graphing the scatterplot data, and provide a review report to the stakeholder during the stakeholder meetings. The First review meeting will happen in March 2021; the six-month review meeting will happen in May 2021, and the end-of-year review meeting will happen in November 2021". In this example, there is only one "Data Reviewer" phrase, which is "teacher and myself". 
+
+- "Reported To": refers to the phrases that indicate whom the data reviewers will report the collated data to. For example, if the paragraph includes the following text: "Data will be reviewed and analysed by the teacher and myself, including graphing the scatterplot data, and provide a review report to the stakeholder during the stakeholder meetings. The First review meeting will happen in March 2021; the six-month review meeting will happen in May 2021, and the end-of-year review meeting will happen in November 2021". In this example, there is only one "Reported To" phrase, which is "the stakeholder".
+
+- "Review Meeting": refers to the phrases that indicate any review meetings planned. For example, if the paragraph includes the following text: "Data will be reviewed and analysed by the teacher and myself, including graphing the scatterplot data, and provide a review report to the stakeholder during the stakeholder meetings. The First review meeting will happen in March 2021; the six-month review meeting will happen in May 2021, and the end-of-year review meeting will happen in November 2021". In this example, there are four "Review Meeting" phrases, which are "the stakeholder meetings", "First review meeting", "six-month review meeting", "end-of-year review meeting".
+
+- "Review Timeframe": refers to the phrases that indicate any date or timeframe for when the plan will be reviewed. For example, if the paragraph includes the following text: "Data will be reviewed and analysed by the teacher and myself, including graphing the scatterplot data, and provide a review report to the stakeholder during the stakeholder meetings. The First review meeting will happen in March 2021; the six-month review meeting will happen in May 2021, and the end-of-year review meeting will happen in November 2021". In this example, there are three "Review Timeframe" phrases, which are "March 2021", "May 2021", "November 2021".
+
+Specifications of a correct answer:
+- Please provide a response that closely matches the information in the paragraph and does not deviate significantly from it.
+- Provide your answer in numbered lists. 
+- All the phrases in your answer must be exact substrings in the original paragraph. without changing any characters.
+- All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the original paragraph.
+- Start numbering the phrases under each topic from number 1. 
+- Start each list of phrases with these titles: "Data Reviewer", "Reported To", "Review Meeting", "Review Timeframe".
+- None of the phrases which have been classified into "Review Timeframe" in your response should be classified into "Review Meeting". Remove any phrase from "Review Meeting" in your answer if you have also assigned it to "Review Timeframe".
+- For each phrase that belongs to any of the above plan review topics, provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 means you are very weakly confident that the phrase belongs to that specific plan review topic, whereas a score of 1.00 means you are very strongly confident that the phrase belongs to that specific plan review topic.
+- Never include any phrase in your answer that does not exist in the paragraph above.
+- If there are not any phrases that belong to one or more of the plan review topics, then do not include these strategies in your answer. 
+- Include a final numbered list titled "None:", which include all the remaining phrases from the paragraph above that do not belong to any of the plan review topics above. Provide a confidence score for each of these phrases as well.
+
+Example answer:
+
+Data Reviewer:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Reported To:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Review Meeting:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Review Timeframe:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+None:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
