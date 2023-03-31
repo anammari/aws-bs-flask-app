@@ -3329,6 +3329,165 @@ def get_topics_p5_q3a():
     result = json.dumps(result)
     return flask.Response(response=result, status=200, mimetype='application/json')
 
+@application.route('/topics_p5_q3b', methods=['POST'])
+def get_topics_p5_q3b():
+    # Get input JSON data and convert it to a DF
+    input_json = flask.request.get_json()
+    input_json = json.dumps(input_json['input'])
+    input_df = pd.read_json(input_json,orient='list')
+
+    # Get the query parameter value corresponsing to the output type: phrase | topic_agg | topic_scores
+    resp_output = flask.request.args.get("output")
+
+    # Passing score to filter the model output
+    passing_score = 0.7
+
+    #sentence extraction
+    def extract_sentences(paragraph):
+        symbols = ['\\.', '!', '\\?', ';', ':', ',', '\\_', '\n', '\\-']
+        pattern = '|'.join([f'{symbol}' for symbol in symbols])
+        sentences = re.split(pattern, paragraph)
+        sentences = [sentence.strip() for sentence in sentences if sentence.strip()]
+        return sentences
+
+    def filter_dataframe(result_df, paragraph):
+        filtered_df = pd.DataFrame(columns=result_df.columns)
+        last_end = 0
+        for index, row in result_df.iterrows():
+            phrase = row['phrase'].lower()
+            if phrase in paragraph.lower()[last_end:]:
+                filtered_df = filtered_df.append(row)
+                last_end = paragraph.lower().find(phrase, last_end) + len(phrase)
+            else:
+                phrase_words = []
+                for word in phrase.split():
+                    if word in paragraph.lower()[last_end:]:
+                        phrase_words.append(word)
+                filtered_phrase = " ".join(phrase_words)
+                if len(filtered_phrase) / len(phrase) >= 0.9:
+                    filtered_row = row.copy()
+                    filtered_row['phrase'] = filtered_phrase
+                    filtered_df = filtered_df.append(filtered_row)
+                    last_end = paragraph.lower().find(filtered_phrase, last_end) + len(filtered_phrase)
+        return filtered_df
+    
+    def process_response(response, query):
+        sentences = []
+        topics = []
+        scores = []
+        lines = response.strip().split("\n")
+        topic = None
+        for line in lines:
+            if "Data Reviewer:" in line:
+                topic = "DATA REVIEWER"
+            elif "Reported To:" in line:
+                topic = "REPORTED TO"
+            elif "Review Meeting:" in line:
+                topic = "REVIEW MEETING"
+            elif "Review Timeframe:" in line:
+                topic = "REVIEW TIMEFRAME"
+            elif "None:" in line:
+                topic = "NONE"
+            else:
+                try:
+                    if len(line.strip()) == 0:
+                        continue
+                    if "(Confidence Score:" not in line:
+                        line = line.strip()+' (Confidence Score: 0.70)'
+                    parts = line.split("(Confidence Score:")
+                    if len(parts) == 2:
+                        phrase = parts[0].strip()
+                        score = float(parts[1].strip().replace(")", ""))
+                        sentences.append(phrase)
+                        topics.append(topic)
+                        scores.append(score)
+                except:
+                    pass
+        result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'score': scores})
+        result_df = result_df[result_df['phrase'].str.strip() != ""]
+        try:
+            result_df['phrase'] = result_df['phrase'].str.replace('^\d+\.', '', regex=True)
+            result_df['phrase'] = result_df['phrase'].str.replace('^\s', '', regex=True)
+            result_df['phrase'] = result_df['phrase'].str.strip('"')
+            result_df = filter_dataframe(result_df, query)
+        except:
+            sentences = extract_sentences(query)
+            topics = ['NONE'] * len(sentences)
+            scores = [0.9] * len(sentences)
+            result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'score': scores})
+        return result_df
+        
+    def get_prompt(query):
+        with open("data/p5_q3b_prompt.txt", "r") as file:
+            static_prompt = file.read()
+        prompt = static_prompt.format(query=query)
+        return prompt
+    
+    def get_response_chatgpt(prompt):
+        response=openai.ChatCompletion.create(   
+            model="gpt-3.5-turbo",   
+            messages=[         
+            {"role": "system", "content": "You are a helpful assistant."},                  
+            {"role": "user", "content": prompt}     
+            ],
+            temperature=0
+        )
+        reply = response["choices"][0]["message"]["content"]
+        return reply
+
+    # format output
+    ind_topic_dict = {
+                    0: 'DATA REVIEWER',
+                    1: 'REPORTED TO',
+                    2: 'REVIEW MEETING',
+                    3: 'REVIEW TIMEFRAME'
+                }
+    
+    # Detect topics in the text
+    documents = input_df['text'].tolist()
+    document = documents[0]    # Currently this endpoint expects a single text input
+
+    # required if resp_output == 'phrase'
+    prompt = get_prompt(document)
+    response = get_response_chatgpt(prompt)
+    result_df = process_response(response, document)
+    if len(result_df) > 0:
+        predictions = result_df[(result_df['score'] >= passing_score) & (result_df['topic'] != 'NONE')]
+    else:
+        predictions = pd.DataFrame({'phrase': [], 'topic': [], 'score': []})
+
+   # required if resp_output is either 'topic_agg' or 'topic_scores'
+    final_passing = 0.0
+    def topic_output(predictions, resp_output):
+        agg_df = predictions.groupby('topic')['score'].sum()
+        agg_df = agg_df.to_frame()
+        agg_df.columns = ['Total Score']
+        agg_df = agg_df.assign(
+            score=lambda x: x['Total Score'] / x['Total Score'].sum()
+        )
+        agg_df = agg_df.sort_values(by='score', ascending=False)
+        agg_df['topic'] = agg_df.index
+        rem_topics = [ind_topic_dict[i] for i in range(0, 4) if not ind_topic_dict[i] in agg_df.topic.tolist()]
+        if len(rem_topics) > 0:
+            rem_agg_df = pd.DataFrame({'topic': rem_topics, 'score': 0.0, 'Total Score': 0.0})
+            agg_df = pd.concat([agg_df, rem_agg_df])
+        # Set the score column to 0 or 1 based on final_passing
+        if resp_output == 'topic_scores':
+            agg_df['score'] = [1 if score > final_passing else 0 for score in agg_df['score']]
+
+        predictions = agg_df[['topic', 'score']]
+        return predictions
+
+    if resp_output != 'phrase':
+        predictions = topic_output(predictions, resp_output)
+    
+    # Transform predictions to JSON
+    result = {'output': []}
+    list_out = predictions.to_dict(orient="records")
+    result['output'] = list_out
+    result = json.dumps(result)
+    return flask.Response(response=result, status=200, mimetype='application/json')
+
 # run the application.
 if __name__ == "__main__":
     os.environ['SOCKET_TIMEOUT'] = '120'
