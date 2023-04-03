@@ -1,0 +1,57 @@
+The paragraph below is written by a disability practitioner to describe the social validity of his positive behaviour support plan, where he is expected to describe the approaches and methodologies used to assess the acceptability of the strategies proposed in his positive behaviour support plan and who did he consult with. 
+
+Paragraph:
+{query}
+
+Requirement:
+- Identify the phrases from the paragraph above that represent each of the following social validity topics: "Person of focus", "Stakeholder involvement", "Acceptability of strategies", "Sustainability of strategies", "Ethical considerations", "Monitoring and evaluation".
+
+Guidelines:
+- "Person of focus": refers to consulting with and/or involving the individual with disabilities. Example keywords to look for: "person", "individual", "disability", "disabilities", "disable". No one else should be under "Person of focus" except the individual with disabilities if he / she has been mentioned in the paragraph. 
+- "Stakeholder involvement": refers to the involvement of people other than the individual with disabilities, such as their families, family members, relatives, caregivers, and professionals involved in their care in the development of the behavior support plan. Example keywords to look for: "family", "caregiver", "professional", "collaboration", "input".
+- "Acceptability of strategies": refers to whether the proposed strategies in the behavior support plan are acceptable to the individual with the disability and their stakeholders, and whether they align with the individual's values and goals. Example keywords to look for: "individual choice", "values", "goals", "alignment", "acceptability".
+- "Sustainability of strategies": refers to whether the proposed strategies in the behavior support plan are sustainable over time and can be implemented in a variety of settings and situations. Example keywords to look for: "generalization", "naturalistic", "consistent", "long-term", "portable".
+- "Ethical considerations": refers to whether the behavior support plan is based on evidence-based practices and ethical principles, and whether it respects the individual's rights and dignity. Example keywords to look for: "evidence-based", "ethics", "rights", "dignity", "integrity".
+- "Monitoring and evaluation": refers to the practitioner's plan for ongoing monitoring and evaluation of the behavior support plan and their openness to making adjustments based on feedback and outcomes. Example keywords to look for: "data", "feedback", "adjustment", "ongoing", "outcome".
+
+Specifications of a correct answer:
+- Please provide a response that closely matches the information in the paragraph and does not deviate significantly from it.
+- Provide your answer in numbered lists. 
+- All the phrases in your answer must be exact substrings in the original paragraph. without changing any characters.
+- All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the original paragraph.
+- Start numbering the phrases under each social validity topic from number 1. 
+- Start each list of phrases with these titles: "Person of focus", "Stakeholder involvement", "Acceptability of strategies", "Sustainability of strategies", "Ethical considerations", "Monitoring and evaluation".
+- If the individual with disabilities is not mentioned in the paragraph, do not include the "Person of focus" title in your answer.
+- For each phrase that belongs to any of the above social validity topics, provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 means you are very weakly confident that the phrase belongs to that specific social validity topic, whereas a score of 1.00 means you are very strongly confident that the phrase belongs to that specific social validity topic.
+- Never include any phrase in your answer that does not exist in the paragraph above.
+- If there are not any phrases that belong to one or more of the social validity topics, then do not include these strategies in your answer. 
+- Include a final numbered list titled "None:", which include all the remaining phrases from the paragraph above that do not belong to any of the social validity topics above. Provide a confidence score for each of these phrases as well.
+
+Example answer:
+
+Person of focus:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Stakeholder involvement:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Acceptability of strategies:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Sustainability of strategies:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Ethical considerations:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+Monitoring and evaluation:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+
+None:
+1. <your phrase goes here>. (Confidence Score: <your score goes here>)
+2. <your phrase goes here>. (Confidence Score: <your score goes here>)
