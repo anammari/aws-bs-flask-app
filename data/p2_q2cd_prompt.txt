@@ -1,0 +1,43 @@
+The paragraph below is written by a disability practitioner to describe the direct and/or indirect data collection approaches which has been undertaken to prepare the positive behaviour support plan. 
+
+Paragraph:
+{query}
+
+Requirement:
+- Identify the phrases from the paragraph above that represent each of the following data collection categories: "Direct data collection", "Indirect data collection".
+
+Guidelines:
+- "Direct data collection": To detect any phrases from the paragraph that might represent direct data collection approaches, look for phrases that mention direct observation of the person with disability by either the practitioner or a relevant stakeholder (e.g., support worker). Example phrases include: "we conducted direct observations of the person with disability", "we implemented a functional assessment that involved direct observation by both myself and the support worker". Also look for phrases that mention completion of behavioural data collection tools like ABC note cards and scatter plots, completed by the practitioner or relevant stakeholder. Example phrases include: "I conducted direct observation using ABC note cards to capture antecedents, behaviors, and consequences in the individual's natural environment.", "I completed scatter plots to visually represent the frequency, duration, and intensity of the targeted behaviors over time.".
+
+- "Indirect data collection": To detect any phrases from the paragraph that might represent indirect data collection approaches, look for phrases that mention the use of standardised tools completed by the practitioner in consultation with relevant stakeholders who know the person of focus well, such as Contextual Assessment Inventory, Functional Assessment Interview. Example phrases include: "I conducted a Contextual Assessment Inventory with input from relevant stakeholders", "I utilized the Functional Assessment Interview to gather information from individuals who know the person best". Also look for phrases that mention interviews, phone calls or any other form of communication with relevant stakeholders who know the person of focus well. Example phrases include: "We conducted several phone interviews with family members who have known the person for several years", "We spoke with the person's support workers to gain insight into their daily routines and any challenges they may be experiencing". Also look for phrases that mention consultation of relevant reports (e.g., previous positive behaviour support plans, incident report, previous assessment reports from health and allied health professionals). Example phrases include: "We have consulted relevant reports, such as previous positive behavior support plans, incident reports", "Our team has reviewed previous assessment reports from health and allied health professionals to gather information about any underlying medical or psychological conditions that may be influencing the individual's behavior."
+
+Specifications of a correct answer:
+- Please provide a response that closely matches the information in the paragraph and does not deviate significantly from it.
+- Provide your answer in numbered lists. 
+- All the phrases in your answer must be exact substrings in the original paragraph. without changing any characters.
+- All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the original paragraph.
+- Start numbering the phrases under each social validity topic from number 1. 
+- Start each list of phrases with these titles: "Direct data collection", "Indirect data collection".
+- For each phrase that belongs to any of the above data collection categories, provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 means you are very weakly confident that the phrase belongs to that specific data collection category, whereas a score of 1.00 means you are very strongly confident that the phrase belongs to that specific data collection category.
+- Never include any phrase in your answer that does not exist in the paragraph above.
+- Include a final numbered list titled "None:", which include all the remaining phrases from the paragraph above that do not belong to any of the data collection categories above. Provide a confidence score for each of these phrases as well.
+
+Example answer:
+
+Direct data collection:
+1. we conducted direct observations of the person with disability. (Confidence Score: 1.00)
+2. we implemented a functional assessment that involved direct observation by both myself and the support worker. (Confidence Score: 0.95)
+3. I conducted direct observation using ABC note cards to capture antecedents, behaviors, and consequences in the individual's natural environment. (Confidence Score: 1.00)
+4. I completed scatter plots to visually represent the frequency, duration, and intensity of the targeted behaviors over time. (Confidence Score: 0.92)
+
+Indirect data collection:
+1. I conducted a Contextual Assessment Inventory with input from relevant stakeholders. (Confidence Score: 1.00)
+2. I utilized the Functional Assessment Interview to gather information from individuals who know the person best. (Confidence Score: 1.00)
+3. We conducted several phone interviews with family members who have known the person for several years. (Confidence Score: 0.94)
+4. We spoke with the person's support workers to gain insight into their daily routines and any challenges they may be experiencing (Confidence Score: 0.92)
+5. We have consulted relevant reports, such as previous positive behavior support plans, incident reports. (Confidence Score: 0.89)
+6. Our team has reviewed previous assessment reports from health and allied health professionals to gather information about any underlying medical or psychological conditions that may be influencing the individual's behavior. (Confidence Score: 0.87)
+
+None:
+1. <remaining phrase from the paragraph goes here>. (Confidence Score: <your score goes here>)
+2. <remaining phrase from the paragraph goes here>. (Confidence Score: <your score goes here>)
