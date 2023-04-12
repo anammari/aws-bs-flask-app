@@ -1,0 +1,50 @@
+The paragraph below is written in a positive behaviour support plan by a disability practitioner to present a formulation regarding the target behaviours of the person with disability. This formulation summarises the functional behavioural assessment and provides a summary of the contextual factors impacting the target behaviours of the person with disability.
+
+Paragraph:
+{query}
+
+Requirement:
+- Identify the phrases from the paragraph above that represent each of the following contextual factors: "Background factors", "Contributing factors", "Sustaining factors", "Strength factors". 
+
+Guidelines:
+- "Background factors": The background (predisposing) factors refer to the factors that make the person with disability more likely to exhibit the target behaviours. Examples of background factors include: diagnosed disabilities, a diagnosed health conditions, previous history of trauma, previous history of mental health issues, aspects of family and relationships, inappropriate service delivery, and alike. 
+
+- "Contributing factors": The contributing (precipitating) factors refer to the factors that contribute to why is the person with disability is exhibiting the target behaviours now. Example of a contributing factor: a child with autism who engages in self-injurious behavior may be triggered by a noisy and crowded environment, such as a busy shopping mall, which can lead to the behavior occurring. Another example is a person with sensory processing disorder who engages in repetitive behaviors may do so in response to sensory overload, such as bright lights, loud noises, or certain textures.
+
+- "Sustaining factors": The sustaining (perpetuating) factors refer to the factors that support the continuation of the target behaviours exhibited by the person with disability. Example of a sustaining factor: a child who throws tantrums to gain attention from caregivers may be inadvertently reinforced by the attention they receive, leading to the behavior persisting. Another example is a student who engages in disruptive behavior in the classroom may do so to avoid a task they find challenging or aversive, and this avoidance may reinforce the behavior, making it more likely to continue.
+
+- "Strength factors": The strength (protective) factors refer to the factors within the person with disability’s context that set them up to succeed. Examples of strength factors include: skills which the person with disability possesses, having skilled and stable support team, having family supports, having friendships, education, employment, and alike. 
+
+Specifications of a correct answer:
+- Please provide a response that closely matches the information in the paragraph and does not deviate significantly from it.
+- Provide your answer in numbered lists. 
+- All the phrases in your answer must be exact substrings in the original paragraph. without changing any characters.
+- All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the original paragraph.
+- Start numbering the phrases under each contextual factor from number 1. 
+- Start each list of phrases with these titles: "Background factors", "Contributing factors", "Sustaining factors", "Strength factors".
+- For each phrase that belongs to any of the above contextual factors, provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 means you are very weakly confident that the phrase belongs to that specific contextual factor, whereas a score of 1.00 means you are very strongly confident that the phrase belongs to that specific contextual factor.
+- Never include any phrase in your answer that does not exist in the paragraph above.
+- If none of the phrases in the paragraph belongs to a contextual factor, do not include this contextual factor in your answer.
+- Include a final numbered list titled "None:", which include all the remaining phrases from the paragraph above that do not belong to any of the contextual factors above. Provide a confidence score for each of these phrases as well.
+
+Example answer:
+
+Background factors:
+1. Eddie's genetic condition, Down syndrome, which has genetic predispositions that influence Eddie's behavior and communication abilities. (Confidence Score: 1.00)
+2. Taylor has experienced past trauma, abuse, and neglect, which may have underlying emotional factors that have impacted his behavior. (Confidence Score: 0.95)
+
+Contributing factors:
+1. Eddie's self-injurious behavior is triggered by a noisy and crowded environment, such as a busy shopping mall, which can lead to the behavior occurring. (Confidence Score: 1.00)
+2. Taylor's aggression behavior is triggered when feeling overwhelmed or threatened, such as during a confrontational situation with a peer or authority figure. (Confidence Score: 0.92)
+
+Sustaining factors:
+1. Eddie's disruptive behavior in the classroom may occur to avoid a task he finds challenging, and his avoidance may reinforce his behavior, making it more likely to continue. (Confidence Score: 0.94)
+2. When Taylor throws tantrums to gain attention from caregivers, his behaviour is inadvertently reinforced by the attention he receives from them, leading to the behavior persisting. (Confidence Score: 0.90)
+
+Strength factors:
+1. Eddie has strong and nurturing relationship with his caregiver. This can foster a sense of trust, security, and stability, which may contribute to his positive behavior. (Confidence Score: 1.00)
+2. Taylor has a consistent daily schedule, visual supports and social stories, which can help in better understanding his autism expectations and in navigating his environment more effectively.
+
+None:
+1. <remaining phrase from the paragraph goes here>. (Confidence Score: <your score goes here>)
+2. <remaining phrase from the paragraph goes here>. (Confidence Score: <your score goes here>)
