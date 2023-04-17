@@ -1,0 +1,62 @@
+The paragraph below is written in a positive behaviour support plan by a disability practitioner to outline a set of strategies to implement that aim to enhance the person with disability's quality of life. These strategies are not related to the person with disability's target behaviours; but they are strategies related to their likes/dislikes, interests, hobbies, relationships, employment, health, and education.
+
+Practitioner Paragraph:
+{query}
+
+Requirement:
+- Identify the phrases from the practitioner paragraph above that represent each of the following quality of life strategies: "Likes/Dislikes", "Interests", "Hobbies", "Relationships", "Employment", "Health", and "Education". 
+
+Guidelines:
+- "Likes/Dislikes": One strategy to enhance the quality of life of a person with a disability is to provide him with experiences that he enjoys and avoid experiences that he finds unpleasant. For example, if the person with a disability likes music, then encourage him to attend concerts or music festivals. On the other hand, if he dislikes crowded places, then discourage him from attending such events.
+
+- "Interests": One strategy to enhance the quality of life of a person with a disability is to provide opportunities for him to pursue his interests. For example, if the person with a disability is interested in animals, then encourage him to visit a zoo or volunteer at an animal shelter.
+
+- "Hobbies": One strategy to enhance the quality of life of a person with a disability is to facilitate access to materials or equipment needed for practicing his hobbies, or to arrange for him to participate in hobby-related events. For example, if the person with a disability enjoys painting, then provide him with art supplies or arrange for him to attend art classes.
+
+- "Relationships": One strategy to enhance the quality of life of a person with a disability is to support his existing relationships or facilitate the development of new relationships. For example, if the person with a disability enjoys spending time with a particular friend or family member, then support and encourage that relationship. 
+
+- "Employment": One strategy to enhance the quality of life of a person with a disability is to identify potential job opportunities, provide job training or coaching, or modify job duties to better suit the person with a disability's abilities. For example, if the person with a disability has an interest in gardening, then find for him employment at a nursery or garden center.
+
+- "Health": One strategy to enhance the quality of life of a person with a disability is to facilitate access to healthcare services, encourage healthy lifestyle choices, and support the person with a disability's physical and mental well-being. For example, if the person with a disability enjoys outdoor activities, then facilitate opportunities for him to engage in those activities.
+
+- "Education": One strategy to enhance the quality of life of a person with a disability is to identify educational resources or programs that align with the person with a disability's interests or abilities, or provide support to pursue educational goals. For example, if the person with a disability has an interest in history, then provide him with access to historical books, documentaries, or lectures.
+
+Specifications of a correct answer:
+- Please provide a response that closely matches the information in the practitioner paragraph and does not deviate significantly from it.
+- Provide your answer in numbered lists. 
+- All the phrases in your answer must be exact substrings in the original practitioner paragraph. without changing any characters.
+- All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the original practitioner paragraph.
+- Start numbering the phrases under each quality of life strategy from number 1. 
+- Start each list of phrases with these titles: "Likes/Dislikes", "Interests", "Hobbies", "Relationships", "Employment", "Health", "Education".
+- For each phrase that belongs to any of the above quality of life strategies, provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 means you are very weakly confident that the phrase belongs to that specific strategy, whereas a score of 1.00 means you are very strongly confident that the phrase belongs to that specific strategy.
+- Never include any phrase in your answer that does not exist in the practitioner paragraph.
+- If none of the phrases in the practitioner paragraph belongs to a quality of life strategy, do not include this quality of life strategy in your answer.
+- Include a final numbered list titled "None:", which include all the remaining phrases from the practitioner paragraph that do not belong to any of the quality of life strategies above. Provide a confidence score for each of these phrases as well.
+
+Example answer:
+
+Likes/Dislikes:
+1. I have encouraged Eddie to attend the theatre as he enjoys watching movies. (Confidence Score: 1.00)
+2. I have discouraged Taylor from attending theatres as watching loud movies disturbes him. (Confidence Score: 0.95)
+
+Interests:
+1. I always urge Eddie to visit a butterfly house as I've noticed his big interest in butterflies. (Confidence Score: 0.97)
+
+Hobbies:
+1. I've arranged for Taylor to attend dancing classes as he told me that dancing is his greatest hobby. (Confidence Score: 0.94)
+
+Relationships:
+1. I always encourage Eddie to gather with his school friends at cafes or restaurants as he enjoys spending time with them. (Confidence Score: 0.99)
+
+Employment:
+1. I have been searching for librarian role at a local library for Taylor to undertake since he has shown a great interest in books. (Confidence Score: 0.94)
+
+Health:
+1. I have encouraged Eddie to participate in local Marathons to improve his physical well-being. (Confidence Score: 0.99)
+
+Education:
+1. I have provided Taylor with free access to fiction and drama books as he is a big fan of literature. (Confidence Score: 0.96)
+
+None:
+1. I support Eddie, who is a 25-year old man with a disability. (Confidence Score: 0.96)
+2. Taylor has a plenty of likes, interests and hobbies. In the following lines, I will expain the strategies I am using these to enhance his quality of life.  (Confidence Score: 0.94)
