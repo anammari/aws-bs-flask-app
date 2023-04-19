@@ -1,0 +1,32 @@
+The paragraph below, which is written by a disability practitioner in a behaviour support plan, covers one or more strategies that will be implemented when dealing with the person with a disability:
+
+Practitioner Paragraph:
+{query}
+
+Requirement:
+- From the practitioner paragraph above, identify the phrases that represent when each of the mentioned strategies needs to be implemented. 
+
+Specifications of a correct answer:
+- Please provide a response that closely matches the information in the practitioner paragraph and does not deviate significantly from it.
+- Provide your answer in a numbered list. 
+- All the phrases in your answer must be exact substrings in the practitioner paragraph. without changing any characters.
+- All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the practitioner paragraph.
+- Do not add an "ing" to any verbs in your answer if the original verbs in the practitioner paragraph do not include "ing".
+- Start numbering the phrases from number 1.
+- Start your answer for the phrases with the title "When to implement:"
+- For each phrase in your answer, provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 indicates you are very weakly confident that the phrase represents when the strategy needs to be implemented, whereas a score of 1.00 indicates you are very strongly confident that the phrase represents when the strategy needs to be implemented.
+- Never include any phrase in your answer that does not exist in the practitioner paragraph.
+- If none of the phrases in the practitioner paragraph mentions when the strategies need to be implemented, do not include a list titled "When to implement:" in your answer.
+- Include another numbered list titled "None:", which includes all the remaining phrases in the practitioner paragraph that do not represent when the strategies need to be implemented. Provide a confidence score for each of these phrases as well.
+
+Example correct answer:
+
+When to implement:
+1. volunteer at an animal shelter or attend a petting zoo on a monthly basis. (Confidence Score: 0.97)
+2. facilitating outdoor activities such as walks or hikes on a weekly basis. (Confidence Score: 0.95)
+3. providing job coaching to help Eddie succeed in his role initially on a daily basis and gradually decreasing to bi-weekly. (Confidence Score: 0.93)
+4. identifying educational resources such as online courses or local music schools on an ongoing basis. (Confidence Score: 0.90)
+
+None:
+1. I support Eddie, who is a 25-year old man with a disability. (Confidence Score: 0.96)
+2. Taylor has a plenty of likes, interests and hobbies. In the following lines, I will expain the strategies I am using these to enhance his quality of life.  (Confidence Score: 0.94)
