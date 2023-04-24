@@ -1,0 +1,48 @@
+The paragraph below is written by a support worker dealing with a person with disability in order to outline his implementation plan, including training, specific strategies, implementation fidelity and communication with relevant stakeholders. 
+
+Worker Paragraph:
+{query}
+
+Requirement:
+- Identify the phrases from the worker paragraph above that represent any type of high-risk restrictive practices, which fall into two categories: "Physical restraint" and "Punitive approaches".
+
+Guidelines:
+- "Physical restraint": To detect any phrases from the worker paragraph that might represent physical restraint, look for phrases that mention the names of specific physical restraint techniques that are associated with high-risk practices, such as prone restraint, supine restraint, and restraint by a single limb. Also look for phrases that mention verbs and adjectives that are often associated with physical restraint, such as "restrain," "hold down," "pin," "tight," and "constrict". Also look for phrases that mention adverse outcomes that are associated with physical restraint, such as "trauma," "injury," "death," "sudden cardiac event," "postural asphyxiation," "asphyxiation by choking or vomiting," "obstruction of airways," "bruising," "tissue damage," "fractures," "broken bones," "concussions," "long-term injury," "poorer quality of life," "adverse relational impacts," "trauma," and "post-traumatic stress disorder".
+
+- "Punitive approaches": To detect any phrases from the worker paragraph that might represent punitive approaches, look for phrases that mention physical force, such as grabbing or twisting the participant's skin. Also look for phrases that mention the use of substances, such as chilli powder, to cause physical discomfort or pain. Also look for phrases that mention threats of harm, such as throwing away the participant's family photos or denying them access to their family. Also look for phrases that mention punitive consequences, such as limiting the participant's access to community or pocket money. Also look for phrases that mention denial of access to basic needs, such as sanitary items or medication. Also look for phrases that mention the use of humiliation or degradation, such as forcing a participant to wear clothing or perform actions that they are uncomfortable with. Also look for phrases that mention language that implies punitive intent, such as a support worker using harsh language or derogatory terms towards a participant.
+
+Specifications of a correct answer:
+- Please provide a response that closely matches the information in the worker paragraph and does not deviate significantly from it.
+- Provide your answer in numbered lists. 
+- All the phrases in your answer must be exact substrings in the worker paragraph. without changing any characters.
+- All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the worker paragraph.
+- Start numbering the phrases under each high-risk restrictive practice categories from number 1. 
+- Start each list of phrases with these titles: "Physical restraint", "Punitive approaches".
+- For each phrase that belongs to any of the high-risk restrictive practice categories, provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 means you are very weakly confident that the phrase belongs to that specific high-risk restrictive practice category, whereas a score of 1.00 means you are very strongly confident that the phrase belongs to that specific high-risk restrictive practice category.
+- Never include any phrase in your answer that does not exist in the worker paragraph.
+- Include a final numbered list titled "None:", which include all the remaining phrases from the paragraph above that do not belong to any of the high-risk restrictive practice categories above. Provide a confidence score for each of these phrases as well.
+
+Example answer:
+
+Physical restraint:
+1. I hug Taylor from behind, wrapping my arms around him, to prevent him from engaging in self-harm. (Confidence Score: 1.00)
+2. In response to Eddie's damaging property, I hold the Eddie’s arms down along my body and a second support worker moves him onto his stomach on the floor, then we hold our legs down while the other support worker continues to hold Eddie’s arms down. (Confidence Score: 0.95)
+3. While one support worker administers a COVID rapid antigen test on Taylor, I hold the his arms down, and a third support worker places his hands on the Taylor’s thighs applying pressure to prevent him from moving. (Confidence Score: 1.00)
+4. To stop Eddie from continuing to engage in property damage, I run at him and tackle him onto the floor. (Confidence Score: 0.92)
+5. I place my both palms onto Taylor’s chest and apply pressure, pushing him against a wall, to prevent him from moving closer to another participant. (Confidence Score: 0.91)
+6. Eddie is biting onto a pillow. I place my hand on his head and push his head towards my chest in attempt to have him release the bite.  (Confidence Score: 0.90)
+7. Taylor is grabbing at the TV remote that is in my hand. I grab his hand and bend his hand back from his wrist towards the arm, causing pain.  (Confidence Score: 1.00)
+
+Punitive approaches:
+1. I apply chilli powder to a Eddie’s nails so that he will stop biting their nails. (Confidence Score: 1.00)
+2. To prevent Taylor from running away from staff, I grab the Taylor’s shoulder and twist the skin slightly to inflict pain which causes him to stop running. (Confidence Score: 1.00)
+3. I tell Eddie that I will throw his family photos out, and that he won’t be able to see his family again if he continue to scream. (Confidence Score: 0.94)
+4. Taylor’s support worker cancels his outing to attend a barbeque with friends and family because he refused to brush his teeth as part of their morning routine. (Confidence Score: 0.92)
+5. Eddie speaks Anindilyakwa fluently, and some English. Eddie is being supported by me as a new worker and I do not speak Anindilyakwa and I am not sure how to access an interpreter. Eddie expresses that he wishes to access an interpreter. However I tell Eddie that he will just have to get by with English. (Confidence Score: 0.89)
+6. Taylor resides in supported independent living arrangement. He independently accesses the community and one day, he returns home with some alcohol and proceeds to drink it. The next day I found him intoxicated in the bedroom. In response, I make Eddie clean the bedroom and the entire apartment. (Confidence Score: 0.87)
+7. Eddie requests support to access an advocacy service. I refuse to facilitate access to an advocacy service, telling Eddie that I do not think he requires an advocate. (Confidence Score: 0.92)
+8. I force Taylor, who is male, to wear a dress, women’s shoes and makeup and dance around in the backyard, as I consider this entertaining. (Confidence Score: 0.93)
+
+None:
+1. I support Eddie, who is a 25-year old man with a disability. (Confidence Score: 0.96)
+2. Taylor has a plenty of likes, interests and hobbies. In the following lines, I will expain the strategies I am using these to enhance his quality of life.  (Confidence Score: 0.94)
