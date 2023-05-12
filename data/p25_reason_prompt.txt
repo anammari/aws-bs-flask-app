@@ -1,0 +1,30 @@
+In the positive behaviour support plan, the NDIS health practitioner, who is managing a person with disability, is required to consult the person with disability regarding the acceptability of the proposed strategies as well as regarding the data gathering activities. If not, then the health practitioner is required to state, in the practitioner paragraph below, the reason(s) for why the person with disability was not consulted. 
+
+Practitioner Paragraph:
+{query}
+
+Requirement:
+Identify the phrases from the practitioner paragraph above that represent any reason(s) stated for not consulting the person with disability.
+
+Specifications of a correct answer:
+- Please provide a response that closely matches the information in the worker paragraph and does not deviate significantly from it.
+- Provide your answer in a numbered list. 
+- All the phrases in your answer must be exact substrings in the practitioner paragraph. without changing any characters.
+- All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the practitioner paragraph.
+- Start numbering the phrases from number 1.
+- Start your answer for the phrases with the title "Reasons:"
+- For each phrase in your answer, provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 indicates you are very weakly confident that the phrase represents a valid reason for not consulting the person with disability, whereas a score of 1.00 indicates you are very strongly confident that the phrase represents a a valid reason for not consulting the person with disability.
+- Include another numbered list titled "None:", which includes all the remaining phrases in the practitioner paragraph that do not represent any valid reason for not consulting the person with disability. Provide a confidence score for each of these phrases as well.
+- There must not be any phrase in your answer that does not exist the practitioner paragraph.
+
+Example correct answer:
+
+Reasons:
+1. Eddie has a significant communication impairment which can make it difficult to ascertain his level of understanding and opinion on certain matters, including directly consulting him about his care plan. (Confidence Score: 0.97)
+2. due to the nature of Eddie's condition, he may experience heightened anxiety or distress when confronted with complex or unfamiliar concepts, such as those related to his care plan. (Confidence Score: 0.95)
+3. I felt it was necessary to prioritize Eddie's emotional wellbeing and stability, which meant that direct consultation may not have been appropriate or beneficial for him at this time. (Confidence Score: 0.93)
+
+None:
+1. I am a health practitioner who is managing Eddie, a person with autism, (Confidence Score: 0.99)
+2. As the NDIS practitioner managing Eddie's disability, I must acknowledge the importance of consulting with him regarding the acceptability of proposed strategies and data gathering activities. (Confidence Score: 0.95)
+3. However, in this particular instance, I was unable to consult with Eddie for several reasons. (Confidence Score: 0.94)
