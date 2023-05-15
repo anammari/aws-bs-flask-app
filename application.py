@@ -4430,6 +4430,119 @@ def get_topics_p25_reason():
     result = json.dumps(result)
     return flask.Response(response=result, status=200, mimetype='application/json')
 
+@application.route('/topics_p4_q10', methods=['POST'])
+def get_topics_p4_q10():
+    # Get input JSON data and convert it to a DF
+    input_json = flask.request.get_json()
+    input_json = json.dumps(input_json['input'])
+    input_df = pd.read_json(input_json,orient='list')
+
+    # Get the query parameter value corresponsing to the output type: phrase | topic_agg | topic_scores
+    resp_output = flask.request.args.get("output")
+
+    #sentence extraction
+    def extract_sentences(paragraph):
+        symbols = ['\\.', '!', '\\?', ';', ':', ',', '\\_', '\n', '\\-']
+        pattern = '|'.join([f'{symbol}' for symbol in symbols])
+        sentences = re.split(pattern, paragraph)
+        sentences = [sentence.strip() for sentence in sentences if sentence.strip()]
+        return sentences
+
+    def filter_dataframe(result_df, paragraph):
+        filtered_df = result_df[result_df['phrase'].apply(lambda x: x.lower().translate(str.maketrans("", "", string.punctuation)) in paragraph.lower().translate(str.maketrans("", "", string.punctuation)) or 
+                                                                    x.lower().translate(str.maketrans("", "", string.punctuation)).replace("’s","s'") in paragraph.lower().translate(str.maketrans("", "", string.punctuation)))]
+        filtered_df['Match_Percentage'] = filtered_df.apply(lambda row: len(set(row['phrase'].lower()) & set(paragraph.lower())) / len(set(row['phrase'].lower())), axis=1)
+        filtered_df = filtered_df[filtered_df['Match_Percentage'] >= 0.2]
+        filtered_df = filtered_df.drop(['Match_Percentage'], axis=1)
+        if len(filtered_df) == 0:
+            filtered_df = result_df
+        filtered_df = filtered_df.drop_duplicates()
+        return filtered_df
+    
+    def process_response(response, query):
+        sentences = []
+        topics = []
+        scores = []
+        lines = response.strip().split("\n")
+        for line in lines:
+            if "Reasons:" in line:
+                topic = "REASON"
+            elif "None:" in line:
+                topic = "NO REASON"
+            else:
+                try:
+                    phrase = line.split("(Confidence Score:")[0].strip()
+                    score = float(line.split("(Confidence Score:")[1].strip().replace(")", ""))
+                    sentences.append(phrase)
+                    topics.append(topic)
+                    scores.append(score)
+                except:
+                    pass
+        result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'score': scores})
+        try:
+            result_df['phrase'] = result_df['phrase'].str.replace('\d+\.', '', regex=True)
+            result_df['phrase'] = result_df['phrase'].str.replace('^\s', '', regex=True)
+            result_df['phrase'] = result_df['phrase'].str.strip('"')
+            result_df = filter_dataframe(result_df, query)
+        except:
+            sentences = extract_sentences(query)
+            topics = ['NO REASON'] * len(sentences)
+            scores = [0.9] * len(sentences)
+            result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'score': scores})
+        return result_df
+        
+    def get_prompt(query):
+        with open("data/p4_q10_prompt.txt", "r", encoding="utf-8") as file:
+            static_prompt = file.read()
+        prompt = static_prompt.format(query=query)
+        return prompt
+    
+    def get_response_chatgpt(prompt):
+        response=openai.ChatCompletion.create(   
+            model="gpt-3.5-turbo",   
+            messages=[         
+            {"role": "system", "content": "You are a helpful assistant."},                  
+            {"role": "user", "content": prompt}     
+            ],
+            temperature=0
+        )
+        reply = response["choices"][0]["message"]["content"]
+        return reply
+
+    # format output
+    passing_score = 0.75
+
+    # Detect topics in the text
+    documents = input_df['text'].tolist()
+    document = documents[0]    # Currently this endpoint expects a single text input
+
+    # required if resp_output == 'phrase'
+    prompt = get_prompt(document)
+    response = get_response_chatgpt(prompt)
+    result_df = process_response(response, document)
+    if len(result_df) > 0:
+        predictions = result_df[(result_df['score'] >= passing_score) & (result_df['topic'] != 'NO REASON')]
+    else:
+        predictions = pd.DataFrame({'phrase': [], 'topic': [], 'score': []})
+
+    # required if resp_output is 'topic_scores'
+    def topic_output(predictions):
+        if len(predictions) > 0:
+            predictions = pd.DataFrame({'topic': ["REASON"], 'score': [1.0]})
+        else:
+            predictions = pd.DataFrame({'topic': ["REASON"], 'score': [0.0]})
+        return predictions
+
+    if resp_output != 'phrase':
+        predictions = topic_output(predictions)
+    
+    # Transform predictions to JSON
+    result = {'output': []}
+    list_out = predictions.to_dict(orient="records")
+    result['output'] = list_out
+    result = json.dumps(result)
+    return flask.Response(response=result, status=200, mimetype='application/json')
+
 # run the application.
 if __name__ == "__main__":
     os.environ['SOCKET_TIMEOUT'] = '120'
