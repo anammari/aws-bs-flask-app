@@ -1,0 +1,32 @@
+In the positive behaviour support plan, the NDIS health practitioner, who is managing a person with disability, is required to teach the person with disability a new skill, an alternative behaviour or a functionally equivalent replacement behaviour. If not, then the health practitioner is required to state, in the practitioner paragraph below, the reason(s) for why teaching the person with disability any of the above skills or behaviours was not needed. 
+
+Practitioner Paragraph:
+{query}
+
+Requirement:
+Identify the phrases from the practitioner paragraph above that represent any reason(s) stated for why teaching the person with disability any skill or behaviour was not needed.
+
+Specifications of a correct answer:
+- Please provide a response that closely matches the information in the practitioner paragraph and does not deviate significantly from it.
+- Provide your answer in a numbered list. 
+- All the phrases in your answer must be exact substrings in the practitioner paragraph. without changing any characters.
+- All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the practitioner paragraph.
+- Start numbering the phrases from number 1.
+- Start your answer for the phrases with the title "Reasons:"
+- For each phrase in your answer, provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 indicates you are very weakly confident that the phrase represents a valid reason for why teaching the person with disability any skill or behaviour was not needed, whereas a score of 1.00 indicates you are very strongly confident that the phrase represents a valid reason for why teaching the person with disability any skill or behaviour was not needed..
+- Include another numbered list titled "None:", which includes all the remaining phrases in the practitioner paragraph that do not represent any valid reason for why teaching the person with disability any skill or behaviour was not needed. Provide a confidence score for each of these phrases as well.
+- There must not be any phrase in your answer that does not exist the practitioner paragraph.
+
+Example correct answer:
+
+Reasons:
+1. Eddie's autism is profound and restricts his ability to acquire new knowledge. (Confidence Score: 0.97)
+2. Eddie's current behaviors do not cause harm to himself or others, and have minimal impact on his daily activities. (Confidence Score: 0.95)
+3. Eddie finds comfort in his current routines and any modifications may provoke feelings of distress or anxiety. (Confidence Score: 0.93)
+4. Teaching Eddie new skills or behaviors necessitates a substantial investment of time and resources. (Confidence Score: 0.90)
+5. The advantages of teaching Eddie new skills or behaviors may not be significant or worthwhile in enhancing his quality of life. (Confidence Score: 0.88)
+
+None:
+1. I am a health practitioner who is managing Eddie, a person with autism, (Confidence Score: 0.99)
+2. As the NDIS practitioner managing Eddie's disability, I must acknowledge the importance of teaching him new skills. (Confidence Score: 0.95)
+3. However, in this particular instance, I was unable to teach Eddie for several reasons. (Confidence Score: 0.94)
