@@ -1,0 +1,80 @@
+sarah finds a calm, quiet library to read or relax without excessive sensory input.
+ - Gold: avoid_sensory
+ - Pred: avoid_sensory
+
+squeezing stress balls is one of the ways jacob seeks sensory stimulation
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+when sarah wants to avoid sensory stimulation, she avoids areas with strong cleaning agents.
+ - Gold: avoid_sensory
+ - Pred: avoid_sensory
+
+when sarah wants to avoid sensory stimulation, she avoids crowded amusement parks.
+ - Gold: avoid_sensory
+ - Pred: avoid_sensory
+
+when sarah wants to avoid sensory stimulation, she uses earplugs.
+ - Gold: avoid_sensory
+ - Pred: avoid_sensory
+
+when sarah wants to avoid sensory stimulation, she avoids areas with strong chemical smells.
+ - Gold: avoid_sensory
+ - Pred: avoid_sensory
+
+jacob seeks sensory stimulation by watching calming waterfalls
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+when jacob needs sensory input, he uses sensory tunnels with different textures
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+sarah uses sunglasses to reduce visual sensory input.
+ - Gold: avoid_sensory
+ - Pred: avoid_sensory
+
+when sarah wants to avoid sensory stimulation, she avoids crowded places.
+ - Gold: avoid_sensory
+ - Pred: avoid_sensory
+
+jacob seeks sensory stimulation by exploring tactile surfaces
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+jacob seeks sensory stimulation by watching gentle, slow-motion videos
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+jacob seeks sensory stimulation by listening to calming sounds
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+when jacob needs sensory input, he uses sensory discs for balancing
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+playing with textured blocks is one of the ways jacob seeks sensory input
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+spinning tops are used by jacob to stimulate his senses
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+jacob seeks sensory stimulation by using weighted blankets
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+jacob seeks sensory stimulation by engaging in bouncing activities
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+using sensory brushes is one of the ways jacob seeks sensory input
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+sarah wears soft, non-restrictive clothing to prevent tactile discomfort.
+ - Gold: avoid_sensory
+ - Pred: avoid_sensory
+

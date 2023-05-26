@@ -1,0 +1,80 @@
+jacob seeks sensory stimulation by engaging in hand massages
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+when sarah wants to avoid sensory stimulation, she avoids places with loud, repetitive background noises.
+ - Gold: avoid_sensory
+ - Pred: avoid_sensory
+
+jacob seeks sensory stimulation by watching bubbles float
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+sarah uses a sensory fidget bracelet to redirect tactile input.
+ - Gold: avoid_sensory
+ - Pred: avoid_sensory
+
+jacob seeks sensory stimulation by exploring scented candles
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+sarah uses a sensory timer or countdown app to manage and limit her exposure to sensory stimuli.
+ - Gold: avoid_sensory
+ - Pred: avoid_sensory
+
+rocking in a chair is one of the ways jacob seeks sensory input
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+jacob seeks sensory stimulation by looking at bright lights
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+playing with kinetic sand is one of the ways jacob seeks sensory input
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+playing with textured puzzles is one of the ways jacob seeks sensory stimulation
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+vibrating toys are used by jacob to stimulate his senses
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+when sarah wants to avoid sensory stimulation, she dims the lights in her surroundings.
+ - Gold: avoid_sensory
+ - Pred: avoid_sensory
+
+when sarah wants to avoid sensory stimulation, she avoids crowded concerts or music festivals with bright, flashing lights and loud music.
+ - Gold: avoid_sensory
+ - Pred: avoid_sensory
+
+when jacob needs sensory input, he engages in deep pressure activities
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+when sarah wants to avoid sensory stimulation, she avoids crowded sports events.
+ - Gold: avoid_sensory
+ - Pred: avoid_sensory
+
+jacob seeks sensory stimulation by listening to white noise or ambient sounds
+ - Gold: gain_sensory
+ - Pred: gain_sensory
+
+sarah uses a sensory filter to reduce overwhelming visual input.
+ - Gold: avoid_sensory
+ - Pred: avoid_sensory
+
+when sarah wants to avoid sensory stimulation, she avoids places with strong cooking smells.
+ - Gold: avoid_sensory
+ - Pred: avoid_sensory
+
+sarah uses a sensory swing to regulate her vestibular system.
+ - Gold: avoid_sensory
+ - Pred: avoid_sensory
+
+sarah avoids fluorescent lighting to minimize sensory overload.
+ - Gold: avoid_sensory
+ - Pred: avoid_sensory
+
