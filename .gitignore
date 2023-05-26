@@ -8,6 +8,7 @@
 few-shot-model-1/best-model.pt
 few-shot-model-2/best-model.pt
 few-shot-model-gain-avoid/best-model.pt
+few-shot-model-gain-avoid-sensory/best-model.pt
 setfit-zero-shot-classification-pbsp-p4-quality/pytorch_model.bin
 
 # Azure OpenAI API Key file
