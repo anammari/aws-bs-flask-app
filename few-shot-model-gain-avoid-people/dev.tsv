@@ -1,0 +1,80 @@
+sarah avoids waiting in lines or queues to reduce interactions with others.
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+jacob seeks social support from disability advocacy centers
+ - Gold: gain_people
+ - Pred: gain_people
+
+jacob seeks companionship by attending inclusive cooking demonstrations
+ - Gold: gain_people
+ - Pred: gain_people
+
+sarah prefers to have meals delivered to her home to avoid dining in crowded restaurants.
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+jacob seeks social engagement through participating in inclusive dance classes
+ - Gold: gain_people
+ - Pred: gain_people
+
+jacob seeks social interaction by joining disability inclusion initiatives
+ - Gold: gain_people
+ - Pred: gain_people
+
+sarah uses video conferencing or teleconferencing for business meetings to avoid in-person gatherings.
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+sarah stays away from crowded waiting rooms to reduce interactions with other patients.
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+sarah uses online booking platforms to reserve appointments or services without the need for face-to-face interactions.
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+sarah chooses less crowded restaurants or eateries to enjoy a quieter dining experience.
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+sarah avoids crowded lecture halls or classrooms to maintain personal space during educational sessions.
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+sarah chooses less busy hours for visiting cultural institutions or art galleries to enjoy the exhibits without large crowds.
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+jacob seeks friendship by joining online disability forums
+ - Gold: gain_people
+ - Pred: gain_people
+
+jacob seeks social contact through attending inclusive fashion shows
+ - Gold: gain_people
+ - Pred: gain_people
+
+sarah avoids crowded office spaces or coworking areas to minimize interactions with colleagues.
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+sarah selects less busy airports or travel times to minimize interactions with large crowds.
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+jacob seeks companionship through attending inclusive music jam sessions
+ - Gold: gain_people
+ - Pred: gain_people
+
+sarah opts for online ticket purchases to avoid queues and interactions at ticket
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+sarah avoids crowded job interviews or recruitment events to minimize interactions with potential employers.
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+sarah chooses less crowded times to visit museums or exhibitions for a quieter experience.
+ - Gold: avoid_people
+ - Pred: avoid_people
+

@@ -1,0 +1,80 @@
+jacob seeks friendship by attending inclusive music festivals
+ - Gold: gain_people
+ - Pred: gain_people
+
+sarah selects less busy trails or hiking routes to enjoy nature without encountering many people.
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+sarah arranges virtual playdates or online interactions for her children to avoid crowded play areas.
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+jacob seeks people who share similar interests at inclusive technology meetups
+ - Gold: gain_people
+ - Pred: gain_people
+
+sarah chooses less busy times to visit post offices or mail service centers to minimize interactions with others.
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+jacob seeks social contact by participating in inclusive sports teams
+ - Gold: gain_people
+ - Pred: gain_people
+
+jacob seeks companionship through attending inclusive film screenings
+ - Gold: gain_people
+ - Pred: gain_people
+
+jacob seeks companionship through attending inclusive cooking classes
+ - Gold: gain_people
+ - Pred: gain_people
+
+sarah avoids crowded waiting areas in hospitals or clinics to reduce contact with other patients.
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+jacob seeks people to interact with at inclusive support centers
+ - Gold: gain_people
+ - Pred: gain_people
+
+sarah avoids crowded public restrooms or facilities to maintain privacy.
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+sarah opts for online shopping to avoid crowded stores and interactions with salespeople.
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+sarah prefers to visit museums or exhibitions during less busy hours to avoid crowds.
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+jacob seeks people to interact with at adaptive sports events
+ - Gold: gain_people
+ - Pred: gain_people
+
+jacob seeks social support from disability advocacy organizations
+ - Gold: gain_people
+ - Pred: gain_people
+
+jacob seeks people who share similar experiences at disability retreats
+ - Gold: gain_people
+ - Pred: gain_people
+
+jacob seeks companionship through attending inclusive cooking competitions
+ - Gold: gain_people
+ - Pred: gain_people
+
+sarah schedules appointments during off-peak hours to minimize contact with others.
+ - Gold: avoid_people
+ - Pred: avoid_people
+
+jacob seeks social interaction by joining disability awareness campaigns
+ - Gold: gain_people
+ - Pred: gain_people
+
+jacob seeks people to talk to through disability advocacy hotlines
+ - Gold: gain_people
+ - Pred: gain_people
+
