@@ -91,6 +91,8 @@ tars_gain_avoid_sensory_model_path = 'few-shot-model-gain-avoid-sensory'
 tars_gain_avoid_sensory = TARSClassifier().load(tars_gain_avoid_sensory_model_path+'/best-model.pt')
 tars_gain_avoid_people_model_path = 'few-shot-model-gain-avoid-people'
 tars_gain_avoid_people = TARSClassifier().load(tars_gain_avoid_people_model_path+'/best-model.pt')
+tars_gain_avoid_social_model_path = 'few-shot-model-gain-avoid-social'
+tars_gain_avoid_social = TARSClassifier().load(tars_gain_avoid_social_model_path+'/best-model.pt')
 
 # Load the Sentence Transformer model
 st_model = SentenceTransformer('multi-qa-MiniLM-L6-cos-v1')
@@ -166,6 +168,7 @@ def ping():
         tars_gain_avoid
         tars_gain_avoid_sensory
         tars_gain_avoid_people
+        tars_gain_avoid_social
         st_model
         sf_bhvr_model
         sf_freq_model
@@ -1453,6 +1456,10 @@ def topics_p3_function():
                 'avoid_people': 1,
                 'unknown': 2
                 }
+    pppp_classes = {'avoid_social': 0,
+                'gain_social': 1,
+                'unknown': 2
+                }
     ind_topic_dict = {
             0: 'GAIN-ATTENTION',
             1: 'AVOID-ATTENTION',
@@ -1468,9 +1475,15 @@ def topics_p3_function():
             1: 'AVOID-PEOPLE',
             2: 'UNKNOWN'
         }
+    ind_social_topic_dict = {
+            0: 'AVOID-SOCIAL',
+            1: 'GAIN-SOCIAL',
+            2: 'UNKNOWN'
+        }
     valid_topics = [ind_topic_dict[i] for i in range(0, 2)]
     valid_sensory_topics = [ind_sensory_topic_dict[i] for i in range(0, 2)]
     valid_people_topics = [ind_people_topic_dict[i] for i in range(0, 2)]
+    valid_social_topics = [ind_social_topic_dict[i] for i in range(0, 2)]
     passing_score = 0.25
     final_passing = 0.0
 
@@ -1597,6 +1610,30 @@ def topics_p3_function():
                 pred = 0.75
             preds.append(pred)
         return preds
+    
+    #Compute the TARS  model (Gain / Avoid Social Interactions)
+    def get_social_topic(sentences):
+        preds = []
+        for t in sentences:
+            sentence = Sentence(t)
+            tars_gain_avoid_social.predict(sentence)
+            try:
+                pred = pppp_classes[sentence.tag]
+            except:
+                pred = 2
+            preds.append(pred)
+        return preds
+    def get_social_topic_scores(sentences):
+        preds = []
+        for t in sentences:
+            sentence = Sentence(t)
+            tars_gain_avoid_social.predict(sentence)
+            try:
+                pred = sentence.score
+            except:
+                pred = 0.75
+            preds.append(pred)
+        return preds
 
     if resp_output == 'detect':
         sentences = extract_sentences(query)
@@ -1611,7 +1648,7 @@ def topics_p3_function():
         else:
             predictions = pd.DataFrame({'phrase': [], 'topic': [], 'subtopic': [], 'score': []})
     
-    elif resp_output == 'attention':
+    elif resp_output.startswith('attention'):
         sentences = extract_sentences(document)
         cl_sentences = preprocess(sentences)
         topic_inds = get_topic(cl_sentences)
@@ -1646,7 +1683,7 @@ def topics_p3_function():
         else:
             pass
 
-    elif resp_output == 'sensory':
+    elif resp_output.startswith('sensory'):
         sentences = extract_sentences(document)
         cl_sentences = preprocess(sentences)
         topic_inds = get_sensory_topic(cl_sentences)
@@ -1681,7 +1718,7 @@ def topics_p3_function():
         else:
             pass
 
-    else:
+    elif resp_output.startswith('people'):
         sentences = extract_sentences(document)
         cl_sentences = preprocess(sentences)
         topic_inds = get_people_topic(cl_sentences)
@@ -1713,6 +1750,41 @@ def topics_p3_function():
 
         if len(predictions) > 0 and resp_output != 'people':
             predictions = people_topic_output(predictions, resp_output)
+        else:
+            pass
+
+    else:
+        sentences = extract_sentences(document)
+        cl_sentences = preprocess(sentences)
+        topic_inds = get_social_topic(cl_sentences)
+        topics = [ind_social_topic_dict[i] for i in topic_inds]
+        scores = get_social_topic_scores(cl_sentences)
+        result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'score': scores})
+        predictions = result_df[(result_df['score'] >= passing_score) & (result_df['topic'] != 'UNKNOWN')]
+        
+        # required if resp_output is either 'social_agg' or 'social_scores'
+        def social_topic_output(predictions, resp_output):
+            agg_df = predictions.groupby('topic')['score'].sum()
+            agg_df = agg_df.to_frame()
+            agg_df.columns = ['Total Score']
+            agg_df = agg_df.assign(
+                score=lambda x: x['Total Score'] / x['Total Score'].sum()
+            )
+            agg_df = agg_df.sort_values(by='score', ascending=False)
+            agg_df['topic'] = agg_df.index
+            rem_topics = [vt for vt in valid_social_topics if not vt in agg_df.topic.tolist()]
+            if len(rem_topics) > 0:
+                rem_agg_df = pd.DataFrame({'topic': rem_topics, 'score': 0.0, 'Total Score': 0.0})
+                agg_df = pd.concat([agg_df, rem_agg_df])
+            # Set the score column to 0 or 1 based on final_passing
+            if resp_output == 'social_scores':
+                agg_df['score'] = [1 if score > final_passing else 0 for score in agg_df['score']]
+
+            predictions = agg_df[['topic', 'score']]
+            return predictions
+
+        if len(predictions) > 0 and resp_output != 'social':
+            predictions = social_topic_output(predictions, resp_output)
         else:
             pass
         
