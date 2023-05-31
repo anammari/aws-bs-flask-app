@@ -1,0 +1,80 @@
+john uses communication boards or alternative communication methods to express needs and engage in social interactions.
+ - Gold: avoid_social
+ - Pred: avoid_social
+
+john opts for remote volunteering or online community service opportunities to contribute without engaging in crowded social environments.
+ - Gold: avoid_social
+ - Pred: avoid_social
+
+jacob wants to participate in inclusive art therapy sessions and engage with fellow artists
+ - Gold: gain_social
+ - Pred: gain_social
+
+jacob wants to engage in conversations with peers at disability support groups
+ - Gold: gain_social
+ - Pred: gain_social
+
+jacob wants to attend accessible hiking groups and socialize with nature enthusiasts
+ - Gold: gain_social
+ - Pred: gain_social
+
+jacob wants to make new friends at inclusive cultural festivals
+ - Gold: gain_social
+ - Pred: gain_social
+
+jacob wants to join a disability mentorship program and build relationships with mentors
+ - Gold: gain_social
+ - Pred: gain_social
+
+john avoids crowded airports or travel during peak times to minimize sensory overload and social interactions.
+ - Gold: avoid_social
+ - Pred: avoid_social
+
+john avoids crowded social gatherings with limited accessibility or inadequate accommodations to manage sensory sensitivities and reduce social interactions.
+ - Gold: avoid_social
+ - Pred: avoid_social
+
+jacob wants to join inclusive cooking classes and interact with fellow cooking enthusiasts
+ - Gold: gain_social
+ - Pred: gain_social
+
+jacob wants to participate in inclusive dance classes and socialize with fellow dancers
+ - Gold: gain_social
+ - Pred: gain_social
+
+john uses virtual reality (vr) or augmented reality (ar) experiences for social interactions to control sensory input.
+ - Gold: avoid_social
+ - Pred: avoid_social
+
+john avoids crowded classrooms or educational settings with excessive noise or distractions to manage sensory sensitivities and reduce social interactions.
+ - Gold: avoid_social
+ - Pred: avoid_social
+
+jacob wants to connect with others through disability advocacy hotlines
+ - Gold: gain_social
+ - Pred: gain_social
+
+jacob wants to join adaptive sports events and interact with fellow athletes
+ - Gold: gain_social
+ - Pred: gain_social
+
+jacob wants to engage in conversations with peers at disability support centers
+ - Gold: gain_social
+ - Pred: gain_social
+
+john utilizes accessibility features in digital communication tools to facilitate social interactions and ensure effective communication.
+ - Gold: avoid_social
+ - Pred: avoid_social
+
+jacob wants to attend accessible outdoor fitness classes and meet fitness enthusiasts
+ - Gold: gain_social
+ - Pred: gain_social
+
+jacob wants to attend inclusive support centers and connect with staff and visitors
+ - Gold: gain_social
+ - Pred: gain_social
+
+john avoids crowded workspaces or environments with excessive visual stimuli or distractions to manage sensory sensitivities and reduce social interactions.
+ - Gold: avoid_social
+ - Pred: avoid_social
+

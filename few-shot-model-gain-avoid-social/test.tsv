@@ -1,0 +1,80 @@
+john prefers virtual meetings or conference calls to avoid in-person interactions.
+ - Gold: avoid_social
+ - Pred: avoid_social
+
+jacob wants to attend inclusive theater performances and discuss them with others
+ - Gold: gain_social
+ - Pred: gain_social
+
+john selects less crowded times for appointments or errands to minimize sensory overload and social interactions.
+ - Gold: avoid_social
+ - Pred: avoid_social
+
+john uses social support networks or online communities specifically designed for individuals with disabilities to engage in social interactions.
+ - Gold: avoid_social
+ - Pred: avoid_social
+
+jacob wants to join an online disability blog community and engage in conversations
+ - Gold: gain_social
+ - Pred: gain_social
+
+john selects less crowded times to visit public attractions or tourist destinations to minimize sensory overload and social interactions.
+ - Gold: avoid_social
+ - Pred: avoid_social
+
+jacob wants to join an inclusive theater group and actively participate in performances
+ - Gold: gain_social
+ - Pred: gain_social
+
+jacob wants to meet people who share similar passions at accessible art galleries
+ - Gold: gain_social
+ - Pred: gain_social
+
+jacob wants to meet people who share similar experiences at inclusive art retreats
+ - Gold: gain_social
+ - Pred: gain_social
+
+jacob wants to join disability empowerment workshops and connect with others
+ - Gold: gain_social
+ - Pred: gain_social
+
+jacob wants to connect with others through disability mentorship programs
+ - Gold: gain_social
+ - Pred: gain_social
+
+john utilizes personal communication devices or apps for social interactions to control the pace and volume of communication.
+ - Gold: avoid_social
+ - Pred: avoid_social
+
+jacob wants to connect with others through disability advocacy organizations
+ - Gold: gain_social
+ - Pred: gain_social
+
+john schedules breaks or alone time during social gatherings to manage sensory overload and recharge.
+ - Gold: avoid_social
+ - Pred: avoid_social
+
+jacob wants to participate in inclusive music workshops and collaborate with musicians of diverse abilities
+ - Gold: gain_social
+ - Pred: gain_social
+
+john opts for online forums or chat rooms to connect with people and avoid in-person interactions.
+ - Gold: avoid_social
+ - Pred: avoid_social
+
+jacob wants to meet people who understand his challenges at disability support helplines
+ - Gold: gain_social
+ - Pred: gain_social
+
+john selects less crowded seating areas or quiet corners in public spaces to avoid overwhelming sensory stimuli.
+ - Gold: avoid_social
+ - Pred: avoid_social
+
+john uses social navigation apps or tools to identify less crowded routes or locations for social interactions.
+ - Gold: avoid_social
+ - Pred: avoid_social
+
+john prefers to communicate through written notes or communication apps to express thoughts and engage in social interactions.
+ - Gold: avoid_social
+ - Pred: avoid_social
+
