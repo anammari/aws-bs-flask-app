@@ -1,0 +1,160 @@
+i avoid activities that involve repetitive loud noises to prevent aggravating my hyperacusis.
+ - Gold: avoid_stimuli
+ - Pred: avoid_stimuli
+
+sarah avoids attending crowded conferences or conventions with packed schedules and busy exhibit halls to minimize stress and sensory overload.
+ - Gold: avoid_situations
+ - Pred: avoid_situations
+
+john avoids activities that involve exposure to extreme physical exertion or strenuous physical activity due to physical limitations or health conditions.
+ - Gold: avoid_activities
+ - Pred: avoid_activities
+
+sarah avoids using crowded public swimming pools or beaches without designated accessible entry points or lifeguard assistance to maintain personal safety and reduce sensory stimulation.
+ - Gold: avoid_situations
+ - Pred: avoid_situations
+
+i avoid participating in activities that involve jumping or sudden movements to prevent joint pain and discomfort.
+ - Gold: avoid_stimuli
+ - Pred: avoid_stimuli
+
+john prefers to read text in a font size and style that is comfortable for his visual needs to prevent visual strain.
+ - Gold: avoid_others
+ - Pred: avoid_others
+
+john avoids busy shopping malls with bright and flashing advertisements to prevent sensory overload.
+ - Gold: avoid_others
+ - Pred: avoid_others
+
+john limits his exposure to online forums or social media platforms with overwhelming amounts of information.
+ - Gold: avoid_others
+ - Pred: avoid_others
+
+i avoid strong fragrances to prevent allergic reactions and respiratory discomfort.
+ - Gold: avoid_stimuli
+ - Pred: avoid_stimuli
+
+i stay away from bright lights to prevent migraines and eye strain.
+ - Gold: avoid_stimuli
+ - Pred: avoid_stimuli
+
+i stay away from wearing high heels to prevent foot pain and discomfort.
+ - Gold: avoid_stimuli
+ - Pred: avoid_stimuli
+
+sarah avoids using crowded public restrooms to minimize anxiety and sensory triggers.
+ - Gold: avoid_situations
+ - Pred: avoid_situations
+
+sarah avoids going to crowded movie theaters due to difficulties with sitting for long periods and sensory sensitivities.
+ - Gold: avoid_situations
+ - Pred: avoid_situations
+
+john avoids long and dense written reports or documents to manage information overload.
+ - Gold: avoid_others
+ - Pred: avoid_others
+
+john stays away from environments with intense heat or cold temperatures to prevent sensory discomfort.
+ - Gold: avoid_others
+ - Pred: avoid_others
+
+i avoid using certain cleaning chemicals to prevent triggering my allergies and respiratory discomfort.
+ - Gold: avoid_stimuli
+ - Pred: avoid_stimuli
+
+john avoids tasks that involve working with animals or pets, such as veterinary care or animal shelters, due to allergies, fear, or physical limitations.
+ - Gold: avoid_activities
+ - Pred: avoid_activities
+
+sarah avoids participating in crowded outdoor activities or sports without clear instructions and adaptations for individuals with sensory processing challenges and mobility limitations.
+ - Gold: avoid_situations
+ - Pred: avoid_situations
+
+john avoids assignments that require frequent use of written communication or extensive written reports due to difficulties with written expression or literacy challenges.
+ - Gold: avoid_activities
+ - Pred: avoid_activities
+
+sarah avoids attending crowded graduation ceremonies or award events due to social anxiety and sensory sensitivities.
+ - Gold: avoid_situations
+ - Pred: avoid_situations
+
+sarah avoids attending crowded amusement parks or water parks due to difficulties with standing in long lines and sensory sensitivities.
+ - Gold: avoid_situations
+ - Pred: avoid_situations
+
+john avoids jobs that require frequent travel or long commutes due to transportation accessibility limitations.
+ - Gold: avoid_activities
+ - Pred: avoid_activities
+
+john avoids using computer applications with complex and overwhelming user interfaces to reduce cognitive load.
+ - Gold: avoid_others
+ - Pred: avoid_others
+
+john avoids tasks that involve working in environments with high levels of background noise or distractions, such as open-plan offices or busy call centers, due to difficulties with focus or concentration.
+ - Gold: avoid_activities
+ - Pred: avoid_activities
+
+john chooses to work in clutter-free and organized spaces to minimize sensory distractions.
+ - Gold: avoid_others
+ - Pred: avoid_others
+
+john avoids virtual reality experiences with rapid and unpredictable movements to prevent motion-related sensory sensitivities.
+ - Gold: avoid_others
+ - Pred: avoid_others
+
+john prefers to have conversations in smaller groups to reduce social interaction overload.
+ - Gold: avoid_others
+ - Pred: avoid_others
+
+john avoids environments with strong and overpowering cleaning agents or chemical smells to prevent sensory discomfort.
+ - Gold: avoid_others
+ - Pred: avoid_others
+
+i stay away from intense physical activities to prevent joint pain and discomfort.
+ - Gold: avoid_stimuli
+ - Pred: avoid_stimuli
+
+sarah avoids using crowded elevators or escalators during emergencies or evacuations to minimize anxiety and sensory triggers.
+ - Gold: avoid_situations
+ - Pred: avoid_situations
+
+i avoid consuming foods with high levels of caffeine to prevent heart palpitations and restlessness.
+ - Gold: avoid_stimuli
+ - Pred: avoid_stimuli
+
+i stay away from wearing tight hats or headwear to prevent headaches and discomfort.
+ - Gold: avoid_stimuli
+ - Pred: avoid_stimuli
+
+john avoids jobs that involve working in positions of authority or leadership roles that require making critical decisions or managing others due to difficulties with decision-making or executive functioning.
+ - Gold: avoid_activities
+ - Pred: avoid_activities
+
+john prefers to read articles or news in a quiet and distraction-free environment to prevent cognitive overload.
+ - Gold: avoid_others
+ - Pred: avoid_others
+
+sarah avoids going to crowded public parks or hiking trails to maintain personal space and reduce sensory input.
+ - Gold: avoid_situations
+ - Pred: avoid_situations
+
+sarah avoids going to crowded hospitals or medical facilities to minimize exposure to germs and sensory overload.
+ - Gold: avoid_situations
+ - Pred: avoid_situations
+
+sarah avoids attending crowded theaters or performance venues with limited accessibility for individuals with disabilities to prevent discomfort and sensory triggers.
+ - Gold: avoid_situations
+ - Pred: avoid_situations
+
+sarah avoids going to crowded daycare centers or playgroups to maintain personal space and reduce sensory stimulation.
+ - Gold: avoid_situations
+ - Pred: avoid_situations
+
+i avoid high-intensity workouts to prevent joint pain and discomfort.
+ - Gold: avoid_stimuli
+ - Pred: avoid_stimuli
+
+john prefers to have conversations in well-lit and quiet areas to minimize sensory distractions.
+ - Gold: avoid_others
+ - Pred: avoid_others
+
