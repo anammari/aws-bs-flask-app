@@ -95,6 +95,8 @@ tars_gain_avoid_social_model_path = 'few-shot-model-gain-avoid-social'
 tars_gain_avoid_social = TARSClassifier().load(tars_gain_avoid_social_model_path+'/best-model.pt')
 tars_avoid_multi_model_path = 'few-shot-model-avoid-multi'
 tars_avoid_multi = TARSClassifier().load(tars_avoid_multi_model_path+'/best-model.pt')
+tars_gain_multi_model_path = 'few-shot-model-gain-multi'
+tars_gain_multi = TARSClassifier().load(tars_gain_multi_model_path+'/best-model.pt')
 
 # Load the Sentence Transformer model
 st_model = SentenceTransformer('multi-qa-MiniLM-L6-cos-v1')
@@ -172,6 +174,7 @@ def ping():
         tars_gain_avoid_people
         tars_gain_avoid_social
         tars_avoid_multi
+        tars_gain_multi
         st_model
         sf_bhvr_model
         sf_freq_model
@@ -1469,38 +1472,51 @@ def topics_p3_function():
                 'avoid_stimuli': 3,
                 'unknown': 4
                 }
+    pppppp_classes = {'gain_activities': 0,
+                'gain_items': 1,
+                'gain_others': 2,
+                'unknown': 3
+                }
     ind_topic_dict = {
             0: 'GAIN-ATTENTION',
             1: 'AVOID-ATTENTION',
             2: 'UNKNOWN'
-        }
+            }
     ind_sensory_topic_dict = {
             0: 'AVOID-SENSORY',
             1: 'GAIN-SENSORY',
             2: 'UNKNOWN'
-        }
+            }
     ind_people_topic_dict = {
             0: 'GAIN-PEOPLE',
             1: 'AVOID-PEOPLE',
             2: 'UNKNOWN'
-        }
+            }
     ind_social_topic_dict = {
             0: 'AVOID-SOCIAL',
             1: 'GAIN-SOCIAL',
             2: 'UNKNOWN'
-        }
+            }
     ind_avoid_multi_topic_dict = {
             0: 'AVOID-ACTIVITIES',
             1: 'AVOID-OTHERS',
             2: 'AVOID-SITUATIONS',
             3: 'AVOID-STIMULI',
             4: 'UNKNOWN'
+            }
+    ind_gain_multi_topic_dict = {
+            0: 'GAIN-ACTIVITIES',
+            1: 'GAIN-ITEMS',
+            2: 'GAIN-OTHERS',
+            3: 'UNKNOWN'
         }
+
     valid_topics = [ind_topic_dict[i] for i in range(0, 2)]
     valid_sensory_topics = [ind_sensory_topic_dict[i] for i in range(0, 2)]
     valid_people_topics = [ind_people_topic_dict[i] for i in range(0, 2)]
     valid_social_topics = [ind_social_topic_dict[i] for i in range(0, 2)]
     valid_avoid_multi_topics = [ind_avoid_multi_topic_dict[i] for i in range(0, 4)]
+    valid_gain_multi_topics = [ind_gain_multi_topic_dict[i] for i in range(0, 3)]
     passing_score = 0.25
     final_passing = 0.0
 
@@ -1676,6 +1692,30 @@ def topics_p3_function():
             preds.append(pred)
         return preds
 
+    #Compute the TARS  model (Gain Multi)
+    def get_gain_multi_topic(sentences):
+        preds = []
+        for t in sentences:
+            sentence = Sentence(t)
+            tars_gain_multi.predict(sentence)
+            try:
+                pred = pppppp_classes[sentence.tag]
+            except:
+                pred = 3
+            preds.append(pred)
+        return preds
+    def get_gain_multi_topic_scores(sentences):
+        preds = []
+        for t in sentences:
+            sentence = Sentence(t)
+            tars_gain_multi.predict(sentence)
+            try:
+                pred = sentence.score
+            except:
+                pred = 0.75
+            preds.append(pred)
+        return preds
+
     if resp_output == 'detect':
         sentences = extract_sentences(query)
         cl_sentences = preprocess(sentences)
@@ -1829,7 +1869,7 @@ def topics_p3_function():
         else:
             pass
 
-    else:
+    elif resp_output.startswith('avoid_multi'):
         sentences = extract_sentences(document)
         cl_sentences = preprocess(sentences)
         topic_inds = get_avoid_multi_topic(cl_sentences)
@@ -1861,6 +1901,41 @@ def topics_p3_function():
 
         if len(predictions) > 0 and resp_output != 'avoid_multi':
             predictions = avoid_multi_topic_output(predictions, resp_output)
+        else:
+            pass
+
+    else:
+        sentences = extract_sentences(document)
+        cl_sentences = preprocess(sentences)
+        topic_inds = get_gain_multi_topic(cl_sentences)
+        topics = [ind_gain_multi_topic_dict[i] for i in topic_inds]
+        scores = get_gain_multi_topic_scores(cl_sentences)
+        result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'score': scores})
+        predictions = result_df[(result_df['score'] >= passing_score) & (result_df['topic'] != 'UNKNOWN')]
+        
+        # required if resp_output is either 'gain_multi_agg' or 'gain_multi_scores'
+        def gain_multi_topic_output(predictions, resp_output):
+            agg_df = predictions.groupby('topic')['score'].sum()
+            agg_df = agg_df.to_frame()
+            agg_df.columns = ['Total Score']
+            agg_df = agg_df.assign(
+                score=lambda x: x['Total Score'] / x['Total Score'].sum()
+            )
+            agg_df = agg_df.sort_values(by='score', ascending=False)
+            agg_df['topic'] = agg_df.index
+            rem_topics = [vt for vt in valid_gain_multi_topics if not vt in agg_df.topic.tolist()]
+            if len(rem_topics) > 0:
+                rem_agg_df = pd.DataFrame({'topic': rem_topics, 'score': 0.0, 'Total Score': 0.0})
+                agg_df = pd.concat([agg_df, rem_agg_df])
+            # Set the score column to 0 or 1 based on final_passing
+            if resp_output == 'gain_multi_scores':
+                agg_df['score'] = [1 if score > final_passing else 0 for score in agg_df['score']]
+
+            predictions = agg_df[['topic', 'score']]
+            return predictions
+
+        if len(predictions) > 0 and resp_output != 'gain_multi':
+            predictions = gain_multi_topic_output(predictions, resp_output)
         else:
             pass
         
