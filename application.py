@@ -104,8 +104,6 @@ st_model = SentenceTransformer('multi-qa-MiniLM-L6-cos-v1')
 # Load the SetFit models for PBSP Page 3 (Behaviours, Frequency, Duration, Severity)
 sf_bhvr_model_name = "setfit-zero-shot-classification-pbsp-p3-bhvr"
 sf_bhvr_model = SetFitModel.from_pretrained(f"aammari/{sf_bhvr_model_name}")
-sf_freq_model_name = "setfit-zero-shot-classification-pbsp-p3-freq"
-sf_freq_model = SetFitModel.from_pretrained(f"aammari/{sf_freq_model_name}")
 sf_dur_model_name = "setfit-zero-shot-classification-pbsp-p3-dur"
 sf_dur_model = SetFitModel.from_pretrained(f"aammari/{sf_dur_model_name}")
 sf_sev_model_name = "setfit-zero-shot-classification-pbsp-p3-sev"
@@ -148,7 +146,16 @@ sf_p1_likes_model_name = "setfit-zero-shot-classification-pbsp-p1-likes"
 sf_p1_likes_model = SetFitModel.from_pretrained(f"aammari/{sf_p1_likes_model_name}")
 
 # Connect to Qdrant
-client = QdrantClient(host="localhost", port=6333)
+# client = QdrantClient(host="localhost", port=6333) #when running in local machine
+#when running in UoM VM:
+qdrant_api_url = os.getenv("QDRANT_API_URL")
+qdrant_api_key = os.getenv("QDRANT_API_KEY")
+client = QdrantClient(
+    host=qdrant_api_url, 
+    api_key=qdrant_api_key,
+    timeout=60,
+    port=443
+)
 
 # The flask app for serving predictions
 application = flask.Flask(__name__)
@@ -177,7 +184,6 @@ def ping():
         tars_gain_multi
         st_model
         sf_bhvr_model
-        sf_freq_model
         sf_dur_model
         sf_sev_model
         sf_trig_model
@@ -925,7 +931,7 @@ def get_topics_p3():
     else:
         predictions = pd.DataFrame({'phrase': [], 'topic': [], 'subtopic': [], 'score': []})
  
-    # Compute the SetFit models (Behaviours, Frequency, Duration, Severity)
+    # Compute the SetFit models (Behaviours, Duration, Severity)
     #setfit sentence extraction
     def extract_sentences(nltk_query):
         sentences = sent_tokenize(nltk_query)
@@ -944,21 +950,6 @@ def get_topics_p3():
     ind_bhvr_topic_dict = {
             0: 'NO BEHAVIOUR',
             1: 'BEHAVIOUR',
-        }
-
-   #setfit freq query and get predicted topic
-    def get_sf_freq_topic(sentences):
-        preds = list(sf_freq_model(sentences))
-        return preds
-    def get_sf_freq_topic_scores(sentences):
-        preds = sf_freq_model.predict_proba(sentences)
-        preds = [max(list(x)) for x in preds]
-        return preds
-
-    # setfit freq format output
-    ind_freq_topic_dict = {
-            0: 'NO FREQUENCY',
-            1: 'FREQUENCY',
         }
 
     #setfit dur query and get predicted topic
@@ -991,6 +982,75 @@ def get_topics_p3():
             1: 'SEVERITY',
         }
     
+    #regex freq get predicted topic
+    def detect_frequency(sentences):
+        frequency_patterns = [
+            r"(\d+|(once|twice|thrice))\s*(time(s)?)?\s*(per)?\s*(a|an)?\s*((minute|hour|day|week|month|year)s?)\b",
+            r"(\b\d+\b)(\s*\btime(s)?\b)?\s*\b(a|an)?\s*\b(minute(s)?|hour(s)?|day(s)?|week(s)?|month(s)?|year(s)?|month(s)?\b)",
+            r"(\bhalf an hour\b|\ban hour\b|\btwo hours\b|\ba day\b|\btwo days\b|\bthree days\b|\ba week\b|\btwo weeks\b|\bthree weeks\b|\ba month\b|\btwo months\b|\bthree months\b|\ba year\b|\btwo years\b|\bthree years\b)",
+            r"\b(hourly|daily|weekly|fortnightly|monthly|yearly)\b",
+            r"(\d+(\.\d+)?(\s*\w+)?(\s+\w+)?\s*per\s*(hr|hour|day|fortnight|month|year))"
+        ]
+
+        sf_freq_result_df = pd.DataFrame(columns=['phrase', 'topic', 'score'])
+
+        for sentence in sentences:
+            freq_matches = []
+
+            for pattern in frequency_patterns:
+                match = re.search(pattern, sentence, flags=re.IGNORECASE)
+                if match:
+                    freq_matches.append(match.group(0))
+
+            if freq_matches:
+                sf_freq_result_df = pd.concat([sf_freq_result_df, pd.DataFrame({'phrase': ", ".join(freq_matches),
+                                                                        'topic': 'FREQUENCY',
+                                                                        'score': 0.75}, index=[0])], ignore_index=True)
+            else:
+                sf_freq_result_df = pd.concat([sf_freq_result_df, pd.DataFrame({'phrase': '',
+                                                                        'topic': 'NO FREQUENCY',
+                                                                        'score': 0.75}, index=[0])], ignore_index=True)
+
+            if len(sf_freq_result_df) > 0:
+                for i in range(len(sf_freq_result_df)):
+                    phrase = sf_freq_result_df.loc[i, 'phrase']
+                    if ',' in phrase:
+                        sf_freq_result_df.loc[i, 'phrase'] = phrase.split(',')[0]
+                        
+        duration_patterns = [
+            r"\b\d+\s*(minute(s)?|hour(s)?|day(s)?|week(s)?|month(s)?|year(s)?)\b",
+            r"\bhalf an hour\b|\ban hour\b|\btwo hours\b|\ba day\b|\btwo days\b|\bthree days\b|\ba week\b|\btwo weeks\b|\bthree weeks\b|\ba month\b|\btwo months\b|\bthree months\b|\ba year\b|\btwo years\b|\bthree years\b"
+        ]
+
+        sf_dur_result_df = pd.DataFrame(columns=['phrase', 'topic', 'score'])
+
+        for sentence in sentences:
+            dur_matches = []
+
+            for pattern in duration_patterns:
+                match = re.search(pattern, sentence, flags=re.IGNORECASE)
+                if match:
+                    dur_matches.append(match.group(0))
+
+            if dur_matches:
+                sf_dur_result_df = pd.concat([sf_dur_result_df, pd.DataFrame({'phrase': ", ".join(dur_matches),
+                                                                    'topic': 'DURATION',
+                                                                    'score': 0.75}, index=[0])], ignore_index=True)
+            else:
+                sf_dur_result_df = pd.concat([sf_dur_result_df, pd.DataFrame({'phrase': '',
+                                                                    'topic': 'NO DURATION',
+                                                                    'score': 0.75}, index=[0])], ignore_index=True)
+
+            if len(sf_dur_result_df) > 0:
+                for i in range(len(sf_dur_result_df)):
+                    phrase = sf_dur_result_df.loc[i, 'phrase']
+                    if ',' in phrase:
+                        sf_dur_result_df.loc[i, 'phrase'] = phrase.split(',')[0]
+            sf_dur_lst = sf_dur_result_df['phrase'].tolist()
+            sf_freq_result_df = sf_freq_result_df[~sf_freq_result_df['phrase'].isin(sf_dur_lst)] 
+
+        return sf_freq_result_df
+    
     #setfit behaviour
     sentences = extract_sentences(query)
     cl_sentences = preprocess(sentences)
@@ -1002,11 +1062,8 @@ def get_topics_p3():
     if len(sf_bhvr_sub_result_df) > 0:
         predictions = pd.concat([predictions, sf_bhvr_sub_result_df])
 
-    #setfit frequency
-    topic_inds = get_sf_freq_topic(cl_sentences)
-    topics = [ind_freq_topic_dict[i] for i in topic_inds]
-    scores = get_sf_freq_topic_scores(cl_sentences)
-    sf_freq_result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'subtopic': [''] * len(scores), 'score': scores})
+    #regex frequency
+    sf_freq_result_df = detect_frequency(sentences)
     sf_freq_sub_result_df = sf_freq_result_df[sf_freq_result_df['topic'] == 'FREQUENCY']
     if len(sf_freq_sub_result_df) > 0:
         predictions = pd.concat([predictions, sf_freq_sub_result_df])
