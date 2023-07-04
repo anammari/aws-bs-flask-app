@@ -989,7 +989,9 @@ def get_topics_p3():
             r"(\b\d+\b)(\s*\btime(s)?\b)?\s*\b(a|an)?\s*\b(minute(s)?|hour(s)?|day(s)?|week(s)?|month(s)?|year(s)?|month(s)?\b)",
             r"(\bhalf an hour\b|\ban hour\b|\btwo hours\b|\ba day\b|\btwo days\b|\bthree days\b|\ba week\b|\btwo weeks\b|\bthree weeks\b|\ba month\b|\btwo months\b|\bthree months\b|\ba year\b|\btwo years\b|\bthree years\b)",
             r"\b(hourly|daily|weekly|fortnightly|monthly|yearly)\b",
-            r"(\d+(\.\d+)?(\s*\w+)?(\s+\w+)?\s*per\s*(hr|hour|day|fortnight|month|year))"
+            r"(\d+(\.\d+)?(\s*\w+)?(\s+\w+)?\s*per\s*(hr|hour|day|fortnight|month|year))",
+            r"\b\d+(\s+or\s+\d+)?\s+\w+\s+(every|each|per)\s+(a\s+single\s+|single\s+|couple\s+of\s+|\d+\s+)?(minute(s)?|min(s)?|hour(s)?|hr(s)?|day(s)?|week(s)?|month(s)?|year(s)?|yr(s)?)\b",
+            r"\b(one|two|three|four|five|six|seven|eight|nine|ten)\s+(or\s+(one|two|three|four|five|six|seven|eight|nine|ten))?\s+\w+\s+(every|each|per)\s+(a\s+single\s+|single\s+|couple\s+of\s+|(one|two|three|four|five|six|seven|eight|nine|ten)\s+)?(minute(s)?|min(s)?|hour(s)?|hr(s)?|day(s)?|week(s)?|month(s)?|year(s)?|yr(s)?)\b"
         ]
 
         sf_freq_result_df = pd.DataFrame(columns=['phrase', 'topic', 'score'])
