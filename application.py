@@ -991,18 +991,21 @@ def get_topics_p3():
             r"\b(hourly|daily|weekly|fortnightly|monthly|yearly)\b",
             r"(\d+(\.\d+)?(\s*\w+)?(\s+\w+)?\s*per\s*(hr|hour|day|fortnight|month|year))",
             r"\b\d+(\s+or\s+\d+)?\s+\w+\s+(every|each|per)\s+(a\s+single\s+|single\s+|couple\s+of\s+|\d+\s+)?(minute(s)?|min(s)?|hour(s)?|hr(s)?|day(s)?|week(s)?|month(s)?|year(s)?|yr(s)?)\b",
-            r"\b(one|two|three|four|five|six|seven|eight|nine|ten)\s+(or\s+(one|two|three|four|five|six|seven|eight|nine|ten))?\s+\w+\s+(every|each|per)\s+(a\s+single\s+|single\s+|couple\s+of\s+|(one|two|three|four|five|six|seven|eight|nine|ten)\s+)?(minute(s)?|min(s)?|hour(s)?|hr(s)?|day(s)?|week(s)?|month(s)?|year(s)?|yr(s)?)\b"
+            r"\b(one|two|three|four|five|six|seven|eight|nine|ten)\s+(or\s+(one|two|three|four|five|six|seven|eight|nine|ten))?\s+\w+\s+(every|each|per)\s+(a\s+single\s+|single\s+|couple\s+of\s+|(one|two|three|four|five|six|seven|eight|nine|ten)\s+)?(minute(s)?|min(s)?|hour(s)?|hr(s)?|day(s)?|week(s)?|month(s)?|year(s)?|yr(s)?)\b",
+            r"((once|twice|thrice)\s*(every|each|per)?\s*(\d+)\s*((minute|hour|day|week|month|year)s?)\b)"
         ]
 
         sf_freq_result_df = pd.DataFrame(columns=['phrase', 'topic', 'score'])
 
         for sentence in sentences:
             freq_matches = []
-
+            temp_matches = []   
             for pattern in frequency_patterns:
                 match = re.search(pattern, sentence, flags=re.IGNORECASE)
                 if match:
-                    freq_matches.append(match.group(0))
+                    temp_matches.append(match.group(0))
+            if temp_matches:
+                freq_matches.append(max(temp_matches, key=len))
 
             if freq_matches:
                 sf_freq_result_df = pd.concat([sf_freq_result_df, pd.DataFrame({'phrase': ", ".join(freq_matches),
