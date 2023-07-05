@@ -101,11 +101,9 @@ tars_gain_multi = TARSClassifier().load(tars_gain_multi_model_path+'/best-model.
 # Load the Sentence Transformer model
 st_model = SentenceTransformer('multi-qa-MiniLM-L6-cos-v1')
 
-# Load the SetFit models for PBSP Page 3 (Behaviours, Frequency, Duration, Severity)
+# Load the SetFit models for PBSP Page 3 (Behaviours, Severity)
 sf_bhvr_model_name = "setfit-zero-shot-classification-pbsp-p3-bhvr"
 sf_bhvr_model = SetFitModel.from_pretrained(f"aammari/{sf_bhvr_model_name}")
-sf_dur_model_name = "setfit-zero-shot-classification-pbsp-p3-dur"
-sf_dur_model = SetFitModel.from_pretrained(f"aammari/{sf_dur_model_name}")
 sf_sev_model_name = "setfit-zero-shot-classification-pbsp-p3-sev"
 sf_sev_model = SetFitModel.from_pretrained(f"aammari/{sf_sev_model_name}")
 
@@ -184,7 +182,6 @@ def ping():
         tars_gain_multi
         st_model
         sf_bhvr_model
-        sf_dur_model
         sf_sev_model
         sf_trig_model
         sf_cons_model
@@ -931,7 +928,7 @@ def get_topics_p3():
     else:
         predictions = pd.DataFrame({'phrase': [], 'topic': [], 'subtopic': [], 'score': []})
  
-    # Compute the SetFit models (Behaviours, Duration, Severity)
+    # Compute the SetFit models (Behaviours, Severity)
     #setfit sentence extraction
     def extract_sentences(nltk_query):
         sentences = sent_tokenize(nltk_query)
@@ -950,21 +947,6 @@ def get_topics_p3():
     ind_bhvr_topic_dict = {
             0: 'NO BEHAVIOUR',
             1: 'BEHAVIOUR',
-        }
-
-    #setfit dur query and get predicted topic
-    def get_sf_dur_topic(sentences):
-        preds = list(sf_dur_model(sentences))
-        return preds
-    def get_sf_dur_topic_scores(sentences):
-        preds = sf_dur_model.predict_proba(sentences)
-        preds = [max(list(x)) for x in preds]
-        return preds
-
-    # setfit dur format output
-    ind_dur_topic_dict = {
-            0: 'NO DURATION',
-            1: 'DURATION',
         }
     
     #setfit sev query and get predicted topic
@@ -1055,6 +1037,64 @@ def get_topics_p3():
 
         return sf_freq_result_df
     
+    #regex dur get predicted topic
+    def detect_duration(sentences, sf_freq_result_df):
+        duration_patterns = [
+            r"\b\d+\s*(minute(s)?|hour(s)?|day(s)?|week(s)?|month(s)?|year(s)?)\b",
+            r"\bhalf an hour\b|\ban hour\b|\btwo hours\b|\bthree hours\b|\bfour hours\b|\bfive hours\b|\bsix hours\b|\bseven hours\b|\beight hours\b|\bnine hours\b|\bten hours\b|\ba minute\b|\btwo minutes\b|\bthree minutes\b|\bfour minutes\b|\bfive minutes\b|\bsix minutes\b|\bseven minutes\b|\beight minutes\b|\bnine minutes\b|\bten minutes\b|\ba day\b|\btwo days\b|\bthree days\b|\bfour days\b|\bfive days\b|\bsix days\b|\bseven days\b|\beight days\b|\bnine days\b|\bten days\b|\ba week\b|\btwo weeks\b|\bthree weeks\b|\bfour weeks\b|\bfive weeks\b|\bsix weeks\b|\bseven weeks\b|\beight weeks\b|\bnine weeks\b|\bten weeks\b|\ba month\b|\btwo months\b|\bthree months\b|\bfour months\b|\bfive months\b|\bsix months\b|\bseven months\b|\beight months\b|\bnine months\b|\bten months\b|\ba year\b|\btwo years\b|\bthree years\b|\bfour years\b|\bfive years\b|\bsix years\b|\bseven years\b|\beight years\b|\bnine years\b|\bten years\b",
+            r"\b\d+\s*(min|mins)\b",  # e.g., "5 mins"
+            r"\b\d+\s*(hr|hrs|hour|hours)\b",  # e.g., "2 hrs"
+            r"\b\d+\s*(d|day|days)\b",  # e.g., "3 days"
+            r"\b\d+\s*(w|week|weeks)\b",  # e.g., "4 weeks"
+            r"\b\d+\s*(m|month|months)\b",  # e.g., "6 months"
+            r"\b\d+\s*(y|yr|year|years)\b",  # e.g., "1 yr"
+            r"\b(\d+\s*(minute(s)?|hour(s)?|day(s)?|week(s)?|month(s)?|year(s)?)\s*,\s*){2,}\d+\s*(minute(s)?|hour(s)?|day(s)?|week(s)?|month(s)?|year(s)?)\b",  # e.g., "2 hours, 30 minutes"
+            r"\b(half|quarter)\s+an?\s+(hour|hr)\b",  # e.g., "half an hour"
+            r"\b(\d+(?:\.\d+)?|\d+(?:/\d+))\s*(hour|hr)s?\s*(and|&)\s*(\d+(?:\.\d+)?|\d+(?:/\d+))\s*(minute|min)s?\b",  # e.g., "1.5 hours & 30 mins"
+            r"\b(\d+)\s*-\s*(\d+)\s*(minute|min|hour|hr|day|week|month|year)s?\b",  # e.g., "5 - 10 mins"
+            r"\b(more than|less than)\s*\d+\s*(minute(s)?|hour(s)?|day(s)?|week(s)?|month(s)?|year(s)?)\b"  # e.g., "more than 3 hours"
+        ]
+
+        if len(sf_freq_result_df) > 0:
+            sf_freq_lst = sf_freq_result_df['phrase'].tolist()
+        else:
+            sf_freq_lst = []
+            
+        sf_dur_result_df = pd.DataFrame(columns=['phrase', 'topic', 'score'])
+
+        for sentence in sentences:
+            dur_matches = []
+            temp_matches = []
+            
+            for phrase in sf_freq_lst:
+                sentence = sentence.replace(phrase, "")
+            # Remove extra spaces
+            sentence = ' '.join(sentence.split())
+
+            for pattern in duration_patterns:
+                match = re.search(pattern, sentence, flags=re.IGNORECASE)
+                if match:
+                    temp_matches.append(match.group(0))
+            if temp_matches:
+                dur_matches.append(max(temp_matches, key=len))
+
+            if dur_matches:
+                sf_dur_result_df = pd.concat([sf_dur_result_df, pd.DataFrame({'phrase': ", ".join(dur_matches),
+                                                                    'topic': 'DURATION',
+                                                                    'score': 0.75}, index=[0])], ignore_index=True)
+            else:
+                sf_dur_result_df = pd.concat([sf_dur_result_df, pd.DataFrame({'phrase': '',
+                                                                    'topic': 'NO DURATION',
+                                                                    'score': 0.75}, index=[0])], ignore_index=True)
+
+            if len(sf_dur_result_df) > 0:
+                for i in range(len(sf_dur_result_df)):
+                    phrase = sf_dur_result_df.loc[i, 'phrase']
+                    if ',' in phrase:
+                        sf_dur_result_df.loc[i, 'phrase'] = phrase.split(',')[0]
+
+        return sf_dur_result_df
+    
     #setfit behaviour
     sentences = extract_sentences(query)
     cl_sentences = preprocess(sentences)
@@ -1072,11 +1112,8 @@ def get_topics_p3():
     if len(sf_freq_sub_result_df) > 0:
         predictions = pd.concat([predictions, sf_freq_sub_result_df])
 
-    #setfit duration
-    topic_inds = get_sf_dur_topic(cl_sentences)
-    topics = [ind_dur_topic_dict[i] for i in topic_inds]
-    scores = get_sf_dur_topic_scores(cl_sentences)
-    sf_dur_result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'subtopic': [''] * len(scores), 'score': scores})
+    #regex duration
+    sf_dur_result_df = detect_duration(sentences, sf_freq_sub_result_df)
     sf_dur_sub_result_df = sf_dur_result_df[sf_dur_result_df['topic'] == 'DURATION']
     if len(sf_dur_sub_result_df) > 0:
         predictions = pd.concat([predictions, sf_dur_sub_result_df])
