@@ -1119,9 +1119,9 @@ def get_topics_p3():
         predictions = pd.concat([predictions, sf_dur_sub_result_df])
 
     #setfit severity
-    topic_inds = get_sf_sev_topic(cl_sentences)
+    topic_inds = get_sf_sev_topic(sentences)
     topics = [ind_sev_topic_dict[i] for i in topic_inds]
-    scores = get_sf_sev_topic_scores(cl_sentences)
+    scores = get_sf_sev_topic_scores(sentences)
     sf_sev_result_df = pd.DataFrame({'phrase': sentences, 'topic': topics, 'subtopic': [''] * len(scores), 'score': scores})
     sf_sev_sub_result_df = sf_sev_result_df[sf_sev_result_df['topic'] == 'SEVERITY']
     if len(sf_sev_sub_result_df) > 0:
