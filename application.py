@@ -2774,12 +2774,6 @@ def get_topics_p3_warning():
                 topic = "PHYSICAL SIGNS"
             elif "Verbal signs:" in line:
                 topic = "VERBAL SIGNS"
-            elif "Environmental signs:" in line:
-                topic = "ENVIRONMENTAL SIGNS"
-            elif "Emotional signs:" in line:
-                topic = "EMOTIONAL SIGNS"
-            elif "Behavioural signs:" in line:
-                topic = "BEHAVIOURAL SIGNS"
             elif "None:" in line:
                 topic = "NONE"
             else:
@@ -2823,10 +2817,7 @@ def get_topics_p3_warning():
     # format output
     ind_topic_dict = {
                 0: 'PHYSICAL SIGNS',
-                1: 'VERBAL SIGNS',
-                2: 'ENVIRONMENTAL SIGNS',
-                3: 'EMOTIONAL SIGNS',
-                4: 'BEHAVIOURAL SIGNS'
+                1: 'VERBAL SIGNS'
                 }
     
     # Detect topics in the text
@@ -2853,7 +2844,7 @@ def get_topics_p3_warning():
         )
         agg_df = agg_df.sort_values(by='score', ascending=False)
         agg_df['topic'] = agg_df.index
-        rem_topics = [ind_topic_dict[i] for i in range(0, 5) if not ind_topic_dict[i] in agg_df.topic.tolist()]
+        rem_topics = [ind_topic_dict[i] for i in range(0, 2) if not ind_topic_dict[i] in agg_df.topic.tolist()]
         if len(rem_topics) > 0:
             rem_agg_df = pd.DataFrame({'topic': rem_topics, 'score': 0.0, 'Total Score': 0.0})
             agg_df = pd.concat([agg_df, rem_agg_df])
