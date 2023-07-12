@@ -1,63 +1,50 @@
-    Given the paragraph below, identify the phrases that describe the early warning signs the person with disability exhibits that indicate they are likely to display challenging behaviours:
+The practitioner paragraph below was found in a Behaviour Support Plan (BSP) and may contain one or more phrases that describe observable physical and/or verbal early warning signs, which the person with disability exhibits, and may indicate that he/she is likely to display challenging behaviours.
 
-    Paragraph:
-    {query}
+Practitioner Paragraph:
+{query}
 
-    Requirements:
-    - Provide your answer in numbered lists. 
-    - All the phrases in your answer must be exact substrings in the original paragraph. without changing any characters.
-    - All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the original paragraph.
-    - Start numbering the phrases under each early warning signs group from number 1. 
-    - Start each list of phrases with these group titles: Physical signs:, Verbal signs:, Environmental signs:, Emotional signs:, Behavioural signs:
-    - For each phrase that belongs to any of the above group, provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 means you are very weakly confident that the phrase belongs to that specific group, whereas a score of 1.00 means you are very strongly confident that the phrase belongs to that specific group.
-    - Never include any phrase that does not exist in the paragraph above. 
-    - Never change the wording on any phrase in the paragraph above.
-    - Include a final numbered list titled "None:", which include all the remaining phrases from the paragraph above that do not belong to any of the groups above. Provide a confidence score for each of these phrases as well.
-    
-    Guidelines:
-    There are several groups that can be used to classify early warning signs. Here are five groups along with examples of early warning signs that could be belong to each:
+Task:
+You are an expert Behaviour Support Practitioner. Your task is to use the practitioner paragraph above to find and extract the phrase(s), if any, that describe observable physical and/or verbal early warning signs, which the person with disability exhibits, and may indicate that he/she is likely to display challenging behaviours. 
 
-    Physical signs: These are the observable behaviours that the person displays with their body language. Some examples include:
-        Clenching fists
-        Pacing back and forth
-        Rapid breathing
-        Reddening of the face or neck
-        Stomping feet
-    Verbal signs: These are the things that the person says or the tone in which they say them. Some examples include:
-        Swearing or using inappropriate language
-        Yelling or screaming
-        Making threatening statements
-        Refusing to communicate
-        Crying or whimpering
-    Environmental signs: These are the things in the person's surroundings that may trigger the challenging behaviour(s). Some examples include:
-        Loud noises or sudden movements
-        Bright lights or flashing lights
-        Crowded or confined spaces
-        Interruptions to the person's routine
-        Presence of certain people or animals
-    Emotional signs: These are the changes in the person's mood or affect that may precede the challenging behaviour(s). Some examples include:
-        Becoming withdrawn or disengaged
-        Expressing frustration or anger
-        Feeling overwhelmed or anxious
-        Showing signs of depression or sadness
-        Becoming excessively hyperactive or excitable
-    Behavioural signs: These are the observable behaviours that are likely to escalate into challenging behaviour(s). Some examples include:
-        Refusing to follow instructions or requests
-        Making demands or exhibiting demanding behaviour
-        Showing signs of physical aggression, such as hitting or kicking
-        Engaging in self-injurious behaviour, such as biting or scratching
-        Engaging in repetitive or obsessive behaviours, such as rocking or spinning. 
+Requirements:
+You MUST follow all the requirements below: 
+- Provide phrases that exactly match the text in the practitioner paragraph and do not deviate from it.
+- There must not be any phrase in your answer that does not exist the practitioner paragraph.
+- Provide your answer in a numbered list. 
+- All the phrases in your answer must be exact substrings in the practitioner paragraph. without changing any characters.
+- All the upper case and lower case characters in the phrases in your answer must match the upper case and lower case characters in the practitioner paragraph.
+- Start numbering the phrases under each early warning signs group (Physical, Verbal) from number 1.
+- Start each list of phrases with these group titles: "Physical signs:", "Verbal signs:". 
+- For each phrase that belongs to any of the above group (Physical, Verbal), provide a confidence score that ranges between 0.50 and 1.00, where a score of 0.50 means you are very weakly confident that the phrase belongs to that specific group, whereas a score of 1.00 means you are very strongly confident that the phrase belongs to that specific group.
+- Never include any phrase that does not exist in the practitioner paragraph. 
+- Include a final numbered list titled "None:", which include all the remaining phrases from the practitioner paragraph above that do not represent any physical or verbal early warning signs. Provide a confidence score for each of these phrases as well.
 
-    Example answer:
 
-    Physical signs:
-    1. <your phrase goes here>. (Confidence Score: <your score goes here>)
-    2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+Useful Information:
+There are two main groups to classify early warning signs. Here are the two groups along with examples of early warning signs that could be belong to each:
+Physical signs: These are the observable behaviours that the person displays with their body language. Some examples include:
+    Clenching fists
+    Pacing back and forth
+    Rapid breathing
+    Reddening of the face or neck
+    Stomping feet
+Verbal signs: These are the observable things that the person says or the tone in which they say them. Some examples include:
+    Swearing or using inappropriate language
+    Yelling or screaming
+    Making threatening statements
+    Refusing to communicate
+    Crying or whimpering
 
-    Verbal signs:
-    1. <your phrase goes here>. (Confidence Score: <your score goes here>)
-    2. <your phrase goes here>. (Confidence Score: <your score goes here>)
-    
-    None:
-    1. <your phrase goes here>. (Confidence Score: <your score goes here>)
-    2. <your phrase goes here>. (Confidence Score: <your score goes here>)
+Example correct answer:
+
+Physical signs:
+1. may pick or flick at his fingernails/cuticles (Confidence Score: 0.95)
+2. biting his nails or pinching himself (Confidence Score: 0.93)
+
+Verbal signs:
+1. is screaming in a repetitive pattern (Confidence Score: 0.97)
+2. threats of harming staff, others or himself. (Confidence Score: 0.88)
+
+None:
+1. Eddie is a 22-year old man who may exhibit some early warning signs. (Confidence Score: 0.99)
+2. Eddie may sit on the coach whenever he wants to have a meal. (Confidence Score: 0.90)
