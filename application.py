@@ -133,6 +133,10 @@ model_t = SetFitModel.from_pretrained(f"aammari/{model_t_name}")
 model_q_name = "setfit-zero-shot-classification-pbsp-p4-quality"
 model_q = SetFitModel.from_pretrained(f"{model_q_name}")
 
+# Load the SetFit models for PBSP Page 4 (Quality Marker Q8a)
+model_q8a_name = "setfit-zero-shot-classification-pbsp-q8a-azure-gpt35"
+model_q8a = SetFitModel.from_pretrained(f"aammari/{model_q8a_name}")
+
 # Load the SetFit models for PBSP Page 1
 sf_p1_model_name = "setfit-zero-shot-classification-pbsp-p1"
 sf_p1_model = SetFitModel.from_pretrained(f"aammari/{sf_p1_model_name}")
@@ -196,6 +200,7 @@ def ping():
         model_r
         model_t
         model_q
+        model_q8a
         status = 200
         result = json.dumps({'status': 'OK'})
     except:
@@ -4987,6 +4992,66 @@ def get_topics_p4_q10():
             predictions = pd.DataFrame({'topic': ["REASON"], 'score': [1.0]})
         else:
             predictions = pd.DataFrame({'topic': ["REASON"], 'score': [0.0]})
+        return predictions
+
+    if resp_output != 'phrase':
+        predictions = topic_output(predictions)
+    
+    # Transform predictions to JSON
+    result = {'output': []}
+    list_out = predictions.to_dict(orient="records")
+    result['output'] = list_out
+    result = json.dumps(result)
+    return flask.Response(response=result, status=200, mimetype='application/json')
+
+@application.route('/topics_p4_q8a', methods=['POST'])
+def get_topics_p4_q8a():
+    # Get input JSON data and convert it to a DF
+    input_json = flask.request.get_json()
+    input_json = json.dumps(input_json['input'])
+    input_df = pd.read_json(input_json,orient='list')
+
+    # Get the query parameter value corresponsing to the output type: phrase | topic_agg | topic_scores
+    resp_output = flask.request.args.get("output")
+
+    #query and get predicted topic
+    def get_topic(sentences):
+        preds = list(model_q8a(sentences))
+        return preds
+    def get_topic_scores(sentences):
+        preds = model_q8a.predict_proba(sentences)
+        preds = [max(list(x)) for x in preds]
+        return preds
+
+    # format output
+    ind_topic_dict = {
+                0: 'NONE', 
+                1: 'EARLY WARNING'
+        }
+
+    # Detect topics in the text
+    documents = input_df['text'].tolist()
+    document = documents[0]    # Currently this endpoint expects a single text input
+
+    # required if resp_output == 'phrase'
+    fake_query = 'This is just a fake query to avoid ValueError'
+    topic_inds = get_topic([document, fake_query])
+    topics = [ind_topic_dict[i] for i in topic_inds]
+    scores = get_topic_scores([document, fake_query])
+    result_df = pd.DataFrame({'phrase': [document, fake_query], 'topic': topics, 'score': scores})
+    result_df = result_df[result_df['topic'] != 'NONE']
+
+    if len(result_df) > 0:
+        predictions = result_df
+    else:
+        predictions = pd.DataFrame({'phrase': [], 'topic': [], 'score': []})
+
+    # required if resp_output is 'topic_scores'
+    def topic_output(predictions):
+        if len(predictions) > 0:
+            predictions = pd.DataFrame({'topic': [ind_topic_dict[1]], 'score': [1.0]})
+        else:
+            predictions = pd.DataFrame({'topic': [ind_topic_dict[1]], 'score': [0.0]})
         return predictions
 
     if resp_output != 'phrase':
